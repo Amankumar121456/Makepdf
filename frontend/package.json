@@ -1,0 +1,7 @@
+{
+  "name": "makepdfs-frontend",
+  "private": true,
+  "scripts": {
+    "build": "node build-config.js"
+  }
+}

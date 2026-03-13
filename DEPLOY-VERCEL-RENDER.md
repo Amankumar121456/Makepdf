@@ -17,11 +17,11 @@ Recommended setup for this repo:
 1. Push the repo to GitHub.
 2. In Vercel, create a new project from the repo.
 3. Set the project Root Directory to `frontend`.
-4. No build command is required for this static site.
-5. After backend deploy, set this in [frontend-config.js](c:\Users\amank\Desktop\netlify-best-seo-package%20(1)\frontend\frontend-config.js):
+4. This repo now generates `frontend-config.js` from env during the Vercel build.
+5. In Vercel Project Settings, add:
 
-```js
-window.CONVERTER_API_BASE = "https://YOUR-RENDER-SERVICE.onrender.com";
+```text
+FRONTEND_CONVERTER_API_BASE=https://YOUR-RENDER-SERVICE.onrender.com
 ```
 
 6. Redeploy Vercel.

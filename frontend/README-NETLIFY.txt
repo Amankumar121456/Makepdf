@@ -1,17 +1,18 @@
 Netlify upload package
 
 1) Upload this whole folder or the zip to Netlify.
-2) Set `window.CONVERTER_API_BASE` in `frontend-config.js` to your live backend URL before final production deploy.
-3) Backend-required tools will not work on static hosting alone:
+2) For Vercel deploys, set `FRONTEND_CONVERTER_API_BASE` in env, or update `.env.production`.
+3) `frontend-config.js` is generated during build from that env value.
+4) Backend-required tools will not work on static hosting alone:
    - DOCX to PDF
    - PDF to Word
    - PDF to PowerPoint
    - PowerPoint to PDF
    - PDF to QR Code
-4) After Netlify gives you your final site URL, open robots.txt and sitemap.xml and replace:
+5) After Netlify gives you your final site URL, open robots.txt and sitemap.xml and replace:
    https://YOUR-NETLIFY-SITE.netlify.app
    with your real site URL.
-5) If you connect a custom domain, replace that URL again.
+6) If you connect a custom domain, replace that URL again.
 
 Recommended free production pairing:
 - Frontend: Netlify
