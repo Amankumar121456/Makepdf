@@ -103,22 +103,28 @@ const PROFILE_PRESETS = {
   "image-heavy": {
     label: "Image-heavy PDF",
     note: "Detected mostly scanned pages or images. Stronger compression will be used by default.",
-    maxScale: 0.95,
-    maxQuality: 0.48,
+    minScale: 0.72,
+    maxScale: 1.24,
+    minQuality: 0.38,
+    maxQuality: 0.84,
     targetRatio: 0.45
   },
   mixed: {
     label: "Mixed PDF",
     note: "Detected both text and images. Balanced defaults will be used.",
-    maxScale: 1.02,
-    maxQuality: 0.58,
+    minScale: 0.82,
+    maxScale: 1.28,
+    minQuality: 0.46,
+    maxQuality: 0.88,
     targetRatio: 0.62
   },
   "text-heavy": {
     label: "Text-heavy PDF",
     note: "Detected mostly text. Safer defaults will be used to protect readability, so size reduction may be limited.",
-    maxScale: 1.12,
-    maxQuality: 0.72,
+    minScale: 0.98,
+    maxScale: 1.34,
+    minQuality: 0.62,
+    maxQuality: 0.92,
     targetRatio: 0.82
   }
 };
@@ -215,24 +221,74 @@ async function buildCompressedPdf(pdf, pageCount, settings, attemptNumber, total
   setStatus(`Attempt ${attemptNumber} of ${totalAttempts}: generating PDF...`,`Target: ${formatBytes(targetBytes)} | Scale: ${settings.scale.toFixed(2)}x | JPEG: ${Math.round(settings.quality*100)}%`);
   return {blob:outputDoc.output("blob"),settings:{...settings}};
 }
-function createInitialSettings(targetBytes, originalBytes, profileKey){
+function getSettingsForStrength(profileKey, strength){
   const preset=PROFILE_PRESETS[profileKey]||PROFILE_PRESETS.mixed;
-  const ratio=originalBytes>0?clamp(targetBytes/originalBytes,0.08,1):1;
-  const ratioRoot=Math.sqrt(ratio);
+  const safeStrength=clamp(strength,0,1);
   return {
-    scale:clamp(preset.maxScale*(0.65+0.35*ratioRoot),MIN_SCALE,preset.maxScale),
-    quality:clamp(preset.maxQuality*(0.55+0.45*ratioRoot),MIN_QUALITY,preset.maxQuality)
+    scale:clamp(preset.minScale + ((preset.maxScale - preset.minScale) * safeStrength),MIN_SCALE,preset.maxScale),
+    quality:clamp(preset.minQuality + ((preset.maxQuality - preset.minQuality) * safeStrength),MIN_QUALITY,preset.maxQuality)
   };
 }
-function getNextSettings(previous, targetBytes, currentSize, profileKey){
-  const preset=PROFILE_PRESETS[profileKey]||PROFILE_PRESETS.mixed;
-  const overshootRatio=clamp(targetBytes/currentSize,0.08,0.98);
-  const qualityDrop=Math.max(0.75,Math.pow(overshootRatio,0.6));
-  const scaleDrop=Math.max(0.8,Math.pow(overshootRatio,0.35));
-  return {
-    scale:clamp(Math.min(previous.scale*scaleDrop,previous.scale-0.06),MIN_SCALE,preset.maxScale),
-    quality:clamp(Math.min(previous.quality*qualityDrop,previous.quality-0.05),MIN_QUALITY,preset.maxQuality)
-  };
+function chooseCloserResult(candidate, currentBest, targetBytes){
+  if(!candidate)return currentBest;
+  if(!currentBest)return candidate;
+  const candidateDiff=Math.abs(candidate.size-targetBytes);
+  const currentDiff=Math.abs(currentBest.size-targetBytes);
+  if(candidateDiff!==currentDiff)return candidateDiff<currentDiff?candidate:currentBest;
+  return candidate.size>currentBest.size?candidate:currentBest;
+}
+function chooseBetterUnderTarget(candidate, currentBest){
+  if(!candidate)return currentBest;
+  if(candidate.size<=0)return currentBest;
+  if(!currentBest)return candidate;
+  return candidate.size>currentBest.size?candidate:currentBest;
+}
+function chooseBetterOverTarget(candidate, currentBest){
+  if(!candidate)return currentBest;
+  if(!currentBest)return candidate;
+  return candidate.size<currentBest.size?candidate:currentBest;
+}
+async function findBestCompressionResult(pdf, pageCount, targetBytes, profileKey){
+  const lowerBound=Math.round(targetBytes*0.86);
+  const triedStrengths=new Set();
+  const attemptStrengths=[1,0];
+  let low=0;
+  let high=1;
+  let bestOverall=null;
+  let bestUnder=null;
+  let bestOver=null;
+  const attemptLimit=6;
+  for(let attemptNumber=1;attemptNumber<=attemptLimit;attemptNumber+=1){
+    let strength;
+    if(attemptStrengths.length){
+      strength=attemptStrengths.shift();
+    }else{
+      strength=Number(((low+high)/2).toFixed(4));
+    }
+    if(triedStrengths.has(strength)){
+      strength=Number((strength+0.0137).toFixed(4));
+    }
+    triedStrengths.add(strength);
+    const settings=getSettingsForStrength(profileKey,strength);
+    const attemptResult=await buildCompressedPdf(pdf,pageCount,settings,attemptNumber,attemptLimit,targetBytes);
+    attemptResult.size=attemptResult.blob.size;
+    attemptResult.strength=strength;
+    bestOverall=chooseCloserResult(attemptResult,bestOverall,targetBytes);
+    if(attemptResult.size<=targetBytes){
+      bestUnder=chooseBetterUnderTarget(attemptResult,bestUnder);
+      if(attemptResult.size>=lowerBound){
+        return attemptResult;
+      }
+      low=Math.max(low,strength);
+      continue;
+    }
+    bestOver=chooseBetterOverTarget(attemptResult,bestOver);
+    high=Math.min(high,strength);
+  }
+  if(bestUnder&&bestUnder.size>=Math.round(targetBytes*0.72)){
+    return bestUnder;
+  }
+  return bestOverall||bestUnder||bestOver;
 }
 async function compressPdf(){
   if(!currentFile||busy)return;
@@ -253,22 +309,8 @@ async function compressPdf(){
     loadingTask=pdfjsLib.getDocument({data:inputBytes});
     pdf=await loadingTask.promise;
     const pageCount=pdf.numPages;
-    const attemptLimit=4;
-    let settings=createInitialSettings(targetBytes,currentFile.size,currentProfileKey);
-    let bestResult=null;
     const preset=PROFILE_PRESETS[currentProfileKey]||PROFILE_PRESETS.mixed;
-    for(let attemptNumber=1;attemptNumber<=attemptLimit;attemptNumber+=1){
-      const attemptResult=await buildCompressedPdf(pdf,pageCount,settings,attemptNumber,attemptLimit,targetBytes);
-      attemptResult.size=attemptResult.blob.size;
-      if(!bestResult||Math.abs(attemptResult.size-targetBytes)<Math.abs(bestResult.size-targetBytes)||attemptResult.size<bestResult.size){
-        bestResult=attemptResult;
-      }
-      if(attemptResult.size<=targetBytes){
-        bestResult=attemptResult;
-        break;
-      }
-      settings=getNextSettings(settings,targetBytes,attemptResult.size,currentProfileKey);
-    }
+    const bestResult=await findBestCompressionResult(pdf,pageCount,targetBytes,currentProfileKey);
     if(!bestResult){
       throw new Error("Unable to generate compressed PDF.");
     }
@@ -279,10 +321,12 @@ async function compressPdf(){
     link.download=outputName;
     link.click();
     setTimeout(()=>URL.revokeObjectURL(link.href),1500);
-    if(bestResult.size<=targetBytes){
+    if(bestResult.size<=targetBytes&&bestResult.size>=Math.round(targetBytes*0.86)){
       setStatus("Compression complete.",`Detected: ${preset.label} | Original: ${formatBytes(currentFile.size)} | Target: ${formatBytes(targetBytes)} | Output: ${formatBytes(bestResult.size)}`);
+    }else if(bestResult.size<=targetBytes){
+      setStatus("Compression complete.",`Detected: ${preset.label} | Original: ${formatBytes(currentFile.size)} | Target: ${formatBytes(targetBytes)} | Output: ${formatBytes(bestResult.size)} | We kept the closest safe result below your target.`);
     }else{
-      setStatus("Closest result downloaded.",`Detected: ${preset.label} | Original: ${formatBytes(currentFile.size)} | Target: ${formatBytes(targetBytes)} | Output: ${formatBytes(bestResult.size)} | Lowering quality further would make pages too blurry.`);
+      setStatus("Closest result downloaded.",`Detected: ${preset.label} | Original: ${formatBytes(currentFile.size)} | Target: ${formatBytes(targetBytes)} | Output: ${formatBytes(bestResult.size)} | Going lower hurt quality too much, so the nearest result was downloaded.`);
     }
   }catch(error){
     console.error(error);
