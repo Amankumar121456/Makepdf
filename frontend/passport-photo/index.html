@@ -262,7 +262,10 @@
     overflow:hidden;
     box-shadow: 0 16px 40px rgba(15,23,42,.08);
     touch-action:none;
+    overscroll-behavior:contain;
     user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout:none;
   }
   .frameCanvas{
     position:absolute; inset:0;
@@ -464,42 +467,6 @@
 
     <!-- Controls -->
     <div class="controls">
-      <div class="row2">
-        <div class="field">
-          <div class="label">Passport Size</div>
-          <select class="select" id="sizeSelect">
-            <option value="35x45" selected>35x45 mm (India default)</option>
-            <option value="2x2">2x2 inch (USA)</option>
-            <option value="4x6">4x6 cm</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="label">DPI (Print quality)</div>
-          <select class="select" id="dpiSelect">
-            <option value="300" selected>300 (Best for print)</option>
-            <option value="200">200</option>
-            <option value="150">150</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row2">
-        <div class="field">
-          <div class="label">Background</div>
-          <select class="select" id="bgSelect">
-            <option value="#ffffff" selected>White</option>
-            <option value="#1e40af">Blue</option>
-            <option value="custom">Custom</option>
-          </select>
-        </div>
-
-        <div class="field" id="customBgWrap" style="display:none">
-          <div class="label">Custom Color</div>
-          <input class="color" id="bgColor" type="color" value="#ffffff" />
-        </div>
-      </div>
-
       <div class="field">
         <div class="label">Zoom</div>
         <input class="range" id="zoomRange" type="range" min="0.4" max="3.5" step="0.01" value="1" />
@@ -565,13 +532,8 @@ const imgInput = document.getElementById("imgInput");
 const dropZone = document.getElementById("dropZone");
 const clearBtn = document.getElementById("clearBtn");
 
-const sizeSelect = document.getElementById("sizeSelect");
-const bgSelect = document.getElementById("bgSelect");
-const bgColor = document.getElementById("bgColor");
-const customBgWrap = document.getElementById("customBgWrap");
 const zoomRange = document.getElementById("zoomRange");
 const copiesSelect = document.getElementById("copiesSelect");
-const dpiSelect = document.getElementById("dpiSelect");
 const formatSelect = document.getElementById("formatSelect"); // new
 
 const statusPill = document.getElementById("statusPill");
@@ -600,14 +562,23 @@ let scale = 1;
 let dragging = false;
 let lastX = 0, lastY = 0;
 let pointerId = null;
+let pinchDistance = 0;
+let pinchStartScale = 1;
+const activePointers = new Map();
+let touchDragging = false;
+let touchLastX = 0, touchLastY = 0;
+let touchPinchDistance = 0;
+let touchPinchStartScale = 1;
 let sourceImages = [];
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
+const DEFAULT_PASSPORT_SIZE = "35x45";
+const DEFAULT_PASSPORT_DPI = 300;
+const DEFAULT_BG = "#ffffff";
 
 function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
 function getBg(){
-  if(bgSelect.value === "custom") return bgColor.value;
-  return bgSelect.value;
+  return DEFAULT_BG;
 }
 
 function setEnabled(ok){
@@ -625,7 +596,7 @@ function setEnabled(ok){
 }
 
 function updateSizePill(){
-  const v = sizeSelect.value;
+  const v = DEFAULT_PASSPORT_SIZE;
   sizePill.textContent = (v==="2x2") ? "2x2 in" : (v==="4x6") ? "4x6 cm" : "35x45 mm";
 }
 
@@ -745,6 +716,16 @@ function resetAll(){
   imgW = imgH = 0;
   offsetX = offsetY = 0;
   scale = 1;
+  activePointers.clear();
+  dragging = false;
+  pointerId = null;
+  pinchDistance = 0;
+  pinchStartScale = 1;
+  touchDragging = false;
+  touchLastX = 0;
+  touchLastY = 0;
+  touchPinchDistance = 0;
+  touchPinchStartScale = 1;
   zoomRange.value = "1";
   setEnabled(false);
   draw();
@@ -843,6 +824,65 @@ function setZoom(newScale, anchorX, anchorY){
   draw();
 }
 
+function panImageBy(dx, dy){
+  offsetX += dx;
+  offsetY += dy;
+  keepInBounds();
+  draw();
+}
+
+function getActivePointerPair(){
+  const points = Array.from(activePointers.values());
+  return points.length >= 2 ? points.slice(0, 2) : [];
+}
+
+function getPointerDistance(a, b){
+  return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+}
+
+function getPointerAnchor(a, b){
+  const rect = frame.getBoundingClientRect();
+  return {
+    x: ((a.clientX + b.clientX) / 2) - rect.left,
+    y: ((a.clientY + b.clientY) / 2) - rect.top
+  };
+}
+
+function syncDragPointer(){
+  if (activePointers.size !== 1) {
+    dragging = false;
+    pointerId = null;
+    return;
+  }
+  const remainingPointer = Array.from(activePointers.values())[0];
+  dragging = true;
+  pointerId = remainingPointer.pointerId;
+  lastX = remainingPointer.clientX;
+  lastY = remainingPointer.clientY;
+}
+
+function releaseInteraction(pointerEvent){
+  if (
+    pointerEvent &&
+    typeof pointerEvent.pointerId === "number" &&
+    frame.hasPointerCapture(pointerEvent.pointerId)
+  ) {
+    frame.releasePointerCapture(pointerEvent.pointerId);
+  }
+  activePointers.delete(pointerEvent?.pointerId);
+  if (activePointers.size >= 2) {
+    const [first, second] = getActivePointerPair();
+    pinchDistance = getPointerDistance(first, second) || 1;
+    pinchStartScale = scale;
+    dragging = false;
+    pointerId = null;
+    return;
+  }
+  pinchDistance = 0;
+  pinchStartScale = scale;
+  syncDragPointer();
+}
+
 /* ========= Events ========= */
 imgInput.addEventListener("change", async () => {
   const files = imgInput.files;
@@ -856,12 +896,6 @@ clearBtn.addEventListener("click", (e) => {
   resetAll();
 });
 
-bgSelect.addEventListener("change", () => {
-  customBgWrap.style.display = (bgSelect.value === "custom") ? "block" : "none";
-  draw();
-});
-bgColor.addEventListener("input", draw);
-
 zoomRange.addEventListener("input", () => {
   if(!img) return;
   setZoom(parseFloat(zoomRange.value));
@@ -874,25 +908,78 @@ resetBtn.addEventListener("click", () => { if(img){ fitCover(); keepInBounds(); 
 
 frame.addEventListener("pointerdown", (e) => {
   if(!img) return;
-  dragging = true;
-  pointerId = e.pointerId;
-  frame.setPointerCapture(pointerId);
-  lastX = e.clientX;
-  lastY = e.clientY;
+  e.preventDefault();
+  activePointers.set(e.pointerId, {
+    pointerId: e.pointerId,
+    clientX: e.clientX,
+    clientY: e.clientY
+  });
+  if (typeof e.pointerId === "number") {
+    frame.setPointerCapture(e.pointerId);
+  }
+  if (activePointers.size === 1) {
+    dragging = true;
+    pointerId = e.pointerId;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    pinchDistance = 0;
+    pinchStartScale = scale;
+    return;
+  }
+  if (activePointers.size >= 2) {
+    const [first, second] = getActivePointerPair();
+    dragging = false;
+    pointerId = null;
+    pinchDistance = getPointerDistance(first, second) || 1;
+    pinchStartScale = scale;
+  }
 });
 frame.addEventListener("pointermove", (e) => {
-  if(!dragging || !img) return;
+  if(!img || !activePointers.has(e.pointerId)) return;
+  e.preventDefault();
+  activePointers.set(e.pointerId, {
+    pointerId: e.pointerId,
+    clientX: e.clientX,
+    clientY: e.clientY
+  });
+
+  if (activePointers.size >= 2) {
+    const [first, second] = getActivePointerPair();
+    const nextDistance = getPointerDistance(first, second);
+    const anchor = getPointerAnchor(first, second);
+    if (!pinchDistance) {
+      pinchDistance = nextDistance || 1;
+      pinchStartScale = scale;
+    }
+    if (nextDistance > 0) {
+      const pinchScale = pinchStartScale * (nextDistance / Math.max(pinchDistance, 1));
+      setZoom(pinchScale, anchor.x, anchor.y);
+    }
+    return;
+  }
+
+  if(!dragging || e.pointerId !== pointerId) return;
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
   lastX = e.clientX;
   lastY = e.clientY;
-  offsetX += dx;
-  offsetY += dy;
-  keepInBounds();
-  draw();
+  panImageBy(dx, dy);
 });
-frame.addEventListener("pointerup", () => { dragging = false; pointerId = null; });
-frame.addEventListener("pointercancel", () => { dragging = false; pointerId = null; });
+frame.addEventListener("pointerup", (e) => {
+  e.preventDefault();
+  releaseInteraction(e);
+});
+frame.addEventListener("pointercancel", (e) => {
+  e.preventDefault();
+  releaseInteraction(e);
+});
+frame.addEventListener("lostpointercapture", (e) => {
+  releaseInteraction(e);
+});
+frame.addEventListener("pointerleave", (e) => {
+  if (e.pointerType !== "mouse" || !activePointers.has(e.pointerId)) return;
+  releaseInteraction(e);
+});
 
 frame.addEventListener("wheel", (e) => {
   if(!img) return;
@@ -904,6 +991,82 @@ frame.addEventListener("wheel", (e) => {
   const ay = e.clientY - r.top;
   setZoom(scale * factor, ax, ay);
 }, { passive:false });
+
+if (!window.PointerEvent) {
+  frame.addEventListener("touchstart", (e) => {
+    if(!img) return;
+    e.preventDefault();
+    const touches = e.touches;
+    if (touches.length >= 2) {
+      const [first, second] = [touches[0], touches[1]];
+      touchDragging = false;
+      touchPinchDistance = getPointerDistance(first, second) || 1;
+      touchPinchStartScale = scale;
+      return;
+    }
+    if (touches.length === 1) {
+      touchDragging = true;
+      touchLastX = touches[0].clientX;
+      touchLastY = touches[0].clientY;
+      touchPinchDistance = 0;
+      touchPinchStartScale = scale;
+    }
+  }, { passive:false });
+
+  frame.addEventListener("touchmove", (e) => {
+    if(!img) return;
+    e.preventDefault();
+    const touches = e.touches;
+    if (touches.length >= 2) {
+      const [first, second] = [touches[0], touches[1]];
+      const nextDistance = getPointerDistance(first, second);
+      const anchor = getPointerAnchor(first, second);
+      if (!touchPinchDistance) {
+        touchPinchDistance = nextDistance || 1;
+        touchPinchStartScale = scale;
+      }
+      if (nextDistance > 0) {
+        const pinchScale = touchPinchStartScale * (nextDistance / Math.max(touchPinchDistance, 1));
+        setZoom(pinchScale, anchor.x, anchor.y);
+      }
+      return;
+    }
+    if (touches.length !== 1 || !touchDragging) return;
+    const dx = touches[0].clientX - touchLastX;
+    const dy = touches[0].clientY - touchLastY;
+    touchLastX = touches[0].clientX;
+    touchLastY = touches[0].clientY;
+    panImageBy(dx, dy);
+  }, { passive:false });
+
+  frame.addEventListener("touchend", (e) => {
+    const touches = e.touches;
+    if (touches.length >= 2) {
+      const [first, second] = [touches[0], touches[1]];
+      touchDragging = false;
+      touchPinchDistance = getPointerDistance(first, second) || 1;
+      touchPinchStartScale = scale;
+      return;
+    }
+    if (touches.length === 1) {
+      touchDragging = true;
+      touchLastX = touches[0].clientX;
+      touchLastY = touches[0].clientY;
+      touchPinchDistance = 0;
+      touchPinchStartScale = scale;
+      return;
+    }
+    touchDragging = false;
+    touchPinchDistance = 0;
+    touchPinchStartScale = scale;
+  }, { passive:false });
+
+  frame.addEventListener("touchcancel", () => {
+    touchDragging = false;
+    touchPinchDistance = 0;
+    touchPinchStartScale = scale;
+  }, { passive:false });
+}
 
 ["dragenter","dragover"].forEach(ev => dropZone.addEventListener(ev, (e) => {
   e.preventDefault(); e.stopPropagation();
@@ -919,8 +1082,8 @@ frame.addEventListener("wheel", (e) => {
 
 /* ========= Output sizes ========= */
 function getTargetPixels(){
-  const dpi = parseInt(dpiSelect.value, 10) || 300;
-  const v = sizeSelect.value;
+  const dpi = DEFAULT_PASSPORT_DPI;
+  const v = DEFAULT_PASSPORT_SIZE;
   if(v === "2x2"){
     return { wPx: 2*dpi, hPx: 2*dpi, label: "2x2in" };
   }
@@ -1024,16 +1187,16 @@ downloadSingle.addEventListener("click", async () => {
   if (format === 'png') {
     out.toBlob((blob) => {
       if(!blob) return alert("Export failed.");
-      downloadBlob(blob, `passport-${label}-${dpiSelect.value}dpi.png`);
+      downloadBlob(blob, `passport-${label}-${DEFAULT_PASSPORT_DPI}dpi.png`);
     }, "image/png", 1);
   } else { // pdf
-    canvasToPDF(out, `passport-${label}-${dpiSelect.value}dpi.pdf`, wPx, hPx);
+    canvasToPDF(out, `passport-${label}-${DEFAULT_PASSPORT_DPI}dpi.pdf`, wPx, hPx);
   }
 });
 
 /* ========= A4 print sheet (multi upload => 6 photos per row) ========= */
 function getSheetCanvas(){
-  const dpi = parseInt(dpiSelect.value, 10) || 300;
+  const dpi = DEFAULT_PASSPORT_DPI;
   const sheetWidthInches = 210 / 25.4;
   const sheetHeightInches = 297 / 25.4;
   const portraitW = Math.round(sheetWidthInches * dpi);
@@ -1120,11 +1283,8 @@ downloadSheet.addEventListener("click", () => {
   }
 });
 
-sizeSelect.addEventListener("change", updateSizePill);
-
 /* Init */
 setEnabled(false);
-customBgWrap.style.display = "none";
 updateSizePill();
 resizeCanvasToFrame();
 resizeOrigCanvas();
