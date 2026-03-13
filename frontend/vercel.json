@@ -1,0 +1,184 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/img-to-pasportSizeImg",
+      "destination": "/passport-photo/",
+      "permanent": true
+    },
+    {
+      "source": "/img-to-pasportSizeImg/",
+      "destination": "/passport-photo/",
+      "permanent": true
+    },
+    {
+      "source": "/img-to-pasportSizeImg/index.html",
+      "destination": "/passport-photo/",
+      "permanent": true
+    },
+    {
+      "source": "/passport-photo",
+      "destination": "/passport-photo/",
+      "permanent": true
+    },
+    {
+      "source": "/jpg-to-pdf.html",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/jpg-to-pdf",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/jpg-to-pdf/",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/png-to-pdf.html",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/png-to-pdf",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/png-to-pdf/",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/image-to-pdf.html",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/img-to-pdf.html",
+      "destination": "/image-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/photo-to-pdf.html",
+      "destination": "/photo-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/multiple-images-to-pdf.html",
+      "destination": "/multiple-images-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/compress-pdf.html",
+      "destination": "/compress-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/compress-document.html",
+      "destination": "/compress-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/merge-pdf.html",
+      "destination": "/merge-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/split-pdf.html",
+      "destination": "/split-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/doc-to-pdf.html",
+      "destination": "/doc-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-word.html",
+      "destination": "/pdf-to-word/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-qrcode.html",
+      "destination": "/pdf-to-qrcode/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-powerpoint.html",
+      "destination": "/pdf-to-powerpoint/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-powerpoint",
+      "destination": "/pdf-to-powerpoint/",
+      "permanent": true
+    },
+    {
+      "source": "/powerpoint-to-pdf.html",
+      "destination": "/powerpoint-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/powerpoint-to-pdf",
+      "destination": "/powerpoint-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-scanner.html",
+      "destination": "/pdf-to-qrcode/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-scanner",
+      "destination": "/pdf-to-qrcode/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-to-scanner/",
+      "destination": "/pdf-to-qrcode/",
+      "permanent": true
+    },
+    {
+      "source": "/jpg-to-png.html",
+      "destination": "/jpg-to-png/",
+      "permanent": true
+    },
+    {
+      "source": "/png-to-jpg.html",
+      "destination": "/png-to-jpg/",
+      "permanent": true
+    },
+    {
+      "source": "/img-to-paspot_img.html",
+      "destination": "/passport-photo/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-maker.html",
+      "destination": "/pdf-maker/",
+      "permanent": true
+    }
+  ]
+}

@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html lang="en-IN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="description" content="Convert PDF to PowerPoint online. Use server mode for direct conversion or browser mode to create PPTX slides from PDF pages." />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#2563eb" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Makepdfs.in" />
+<meta property="og:title" content="PDF to PowerPoint Converter Online | Makepdfs.in" />
+<meta property="og:description" content="Convert PDF pages into PPTX slides quickly with server mode and browser fallback." />
+<meta property="og:image" content="/favicon.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PDF to PowerPoint Converter Online | Makepdfs.in" />
+<meta name="twitter:description" content="Convert PDF pages into PPTX slides quickly with server mode and browser fallback." />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="canonical" href="/pdf-to-powerpoint/" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDF to PowerPoint Converter","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"/pdf-to-powerpoint/","description":"Convert PDFs to PPTX presentations in browser or server mode."}
+</script>
+<title>PDF to PowerPoint Converter Online | Makepdfs.in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.min.js'"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js" onerror="this.onerror=null;this.src='https://unpkg.com/pptxgenjs@3.12.0/dist/pptxgen.bundle.js'"></script>
+<style>
+:root{--bg:#f6f8fb;--card:#ffffff;--card2:#f7faff;--border:#e6eaf3;--text:#0f172a;--muted:#64748b;--accent:#2563eb;--accent2:#06b6d4;--shadow:0 14px 30px rgba(15,23,42,.08);--max:1180px}
+html[data-theme="dark"]{--bg:#0b1220;--card:#101a2f;--card2:#0f1930;--border:#1e2a44;--text:#e8eefc;--muted:#a7b3cc;--accent:#60a5fa;--accent2:#22d3ee;--shadow:0 18px 34px rgba(0,0,0,.35)}
+html[data-theme="ocean"]{--bg:#f2fbff;--card:#ffffff;--card2:#f1fbff;--border:#d8eef7;--text:#06283d;--muted:#4b6b7c;--accent:#0891b2;--accent2:#2563eb}
+html[data-theme="purple"]{--bg:#faf7ff;--card:#ffffff;--card2:#fbf8ff;--border:#eadcff;--text:#1b1230;--muted:#6b5b8a;--accent:#7c3aed;--accent2:#ec4899}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(900px 520px at 12% -12%, color-mix(in srgb,var(--accent) 18%, transparent), transparent 55%),radial-gradient(760px 420px at 90% -10%, color-mix(in srgb,var(--accent2) 14%, transparent), transparent 55%),linear-gradient(180deg,var(--bg), color-mix(in srgb,var(--bg) 72%, #fff))}body.isBusy{overflow:hidden}
+.shell{width:min(94%,var(--max));margin:0 auto}.siteHeader,.card{border:1px solid var(--border);border-radius:22px;background:color-mix(in srgb,var(--card) 92%, transparent);box-shadow:var(--shadow)}.siteHeader{margin:18px auto 0}.headerBar{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:800}.brandIcon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--border);background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));color:var(--accent)}
+.nav{display:flex;gap:8px;padding:8px;border-radius:999px;border:1px solid var(--border);background:var(--card);overflow:auto}.nav a{text-decoration:none;color:var(--muted);font-weight:800;font-size:14px;padding:10px 14px;border-radius:999px;white-space:nowrap}.nav a:hover,.nav a[aria-current="page"]{background:color-mix(in srgb,var(--accent) 12%, transparent);color:var(--accent)}
+.control{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:14px;padding:11px 12px;font-weight:700;width:100%}
+main{padding:24px 0 48px}.grid{display:grid;gap:18px}.card{padding:24px}.badge{display:inline-flex;padding:8px 12px;border-radius:999px;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%, transparent);border:1px solid color-mix(in srgb,var(--accent) 20%, transparent);font-size:12px;font-weight:800}h1{margin:12px 0 8px;font-size:clamp(28px,4vw,42px);letter-spacing:-.03em}.sub,.note,.meta{color:var(--muted);line-height:1.7}
+.drop{margin-top:18px;min-height:220px;border:1.5px dashed color-mix(in srgb,var(--accent) 35%, transparent);border-radius:20px;background:linear-gradient(180deg,var(--card),var(--card2));display:grid;place-items:center;text-align:center;padding:18px;cursor:pointer;transition:.2s ease}.drop.dragging{transform:translateY(-2px);background:color-mix(in srgb,var(--accent) 8%, var(--card))}.dropIcon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;margin:0 auto 10px;border:1px solid var(--border);background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));color:var(--accent)}
+.btnRow,.actions,.stats{display:flex;gap:10px;flex-wrap:wrap}.btn{border:none;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer}.btnPrimary{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}.btnSoft{color:var(--accent);background:color-mix(in srgb,var(--accent) 10%, var(--card));border:1px solid color-mix(in srgb,var(--accent) 22%, transparent)}.btnDanger{color:#dc2626;background:color-mix(in srgb,#dc2626 10%, var(--card));border:1px solid color-mix(in srgb,#dc2626 20%, transparent)}.btn:disabled{opacity:.55;cursor:not-allowed}
+.panelGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}.field{border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,var(--card),var(--card2));padding:14px}.label{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:10px}.help{margin-top:8px;font-size:12px;color:var(--muted)}.fileBox,.statusBox{margin-top:16px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,var(--card),var(--card2));padding:14px}.fileName{font-weight:800}.statusBox strong{display:block;margin-bottom:6px;color:var(--text)}
+.progress{margin-top:14px;height:10px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%, transparent);overflow:hidden}.bar{width:0;height:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));transition:width .2s ease}.stats{margin-top:10px}.stat{padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:700}
+.loadingOverlay{position:fixed;inset:0;z-index:999;display:grid;place-items:center;background:rgba(2,6,23,.48);backdrop-filter:blur(6px);padding:18px}.loadingOverlay[hidden]{display:none !important}.loadingCard{width:min(94vw,520px);border:1px solid color-mix(in srgb,var(--accent) 28%, var(--border));border-radius:22px;background:color-mix(in srgb,var(--card) 96%, transparent);box-shadow:0 24px 50px rgba(15,23,42,.28);padding:22px}.loadingSpinner{width:46px;height:46px;border-radius:999px;border:4px solid color-mix(in srgb,var(--muted) 26%, transparent);border-top-color:var(--accent);border-right-color:var(--accent2);animation:spin .8s linear infinite}.loadingTitle{margin-top:14px;font-size:20px;font-weight:800;letter-spacing:-.02em}.loadingMeta{margin-top:8px;color:var(--muted);line-height:1.6}.loadingTrack{margin-top:16px;height:11px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%, transparent);overflow:hidden}.loadingFill{height:100%;width:0;background:linear-gradient(135deg,var(--accent),var(--accent2));transition:width .2s ease}.loadingPercent{margin-top:10px;font-weight:800;color:var(--accent)}@keyframes spin{to{transform:rotate(360deg)}}
+footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted);text-align:center}
+@media (max-width:860px){.panelGrid{grid-template-columns:1fr}.nav{width:100%}}
+</style>
+</head>
+<body>
+<header class="siteHeader shell"><div class="headerBar"><a class="brand" href="/"><span class="brandIcon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 3h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/><path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span>Makepdfs.in</span></a><nav class="nav" aria-label="Primary"><a href="/image-to-pdf/">Image to PDF</a><a href="/doc-to-pdf/">DOCX to PDF</a><a href="/pdf-to-word/">PDF to Word</a><a href="/pdf-to-powerpoint/" aria-current="page">PDF to PowerPoint</a></nav></div></header>
+<main class="shell grid">
+  <section class="card">
+    <span class="badge">PPTX output</span>
+    <h1>PDF to PowerPoint</h1>
+    <p class="sub">Create PPTX from PDF using server mode or browser fallback. Browser mode converts each page into a high-quality slide image.</p>
+    <label class="drop" id="dropZone" for="fileInput"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><span class="btn btnSoft" role="button">Choose PDF</span><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
+    <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
+    <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
+    <div class="panelGrid">
+      <div class="field"><label class="label" for="modeSelect">Mode</label><select id="modeSelect" class="control"><option value="exact" selected>Exact (server first, local fallback)</option><option value="server">Server only</option><option value="local">Browser only</option></select><div class="help">Server endpoint: <code>/convert/pdf-to-pptx</code></div></div>
+      <div class="field"><label class="label" for="scaleSelect">Render scale</label><select id="scaleSelect" class="control"><option value="1.5">Fast</option><option value="2" selected>Balanced</option><option value="2.4">High detail</option></select><div class="help">Higher scale gives sharper slides but takes longer.</div></div>
+      <div class="field"><label class="label" for="qualitySelect">Slide image quality</label><select id="qualitySelect" class="control"><option value="0.8">80%</option><option value="0.9" selected>90%</option><option value="0.95">95%</option></select><div class="help">Only used in browser mode.</div></div>
+    </div>
+    <div class="stats"><div class="stat">Server mode gives best direct conversion</div><div class="stat">Browser mode works without backend</div><div class="stat">Each PDF page becomes one PPT slide</div></div>
+  </section>
+
+  <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Convert to PPTX</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText">Choose a PDF to start.</div><div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta"></div></div></section>
+</main>
+<footer class="shell">Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.</footer>
+<div class="loadingOverlay" id="loadingOverlay" hidden aria-live="polite" aria-busy="true">
+  <div class="loadingCard">
+    <div class="loadingSpinner" aria-hidden="true"></div>
+    <div class="loadingTitle" id="overlayTitle">Preparing conversion...</div>
+    <div class="loadingMeta" id="overlayMeta">Please wait while your file is being processed.</div>
+    <div class="loadingTrack"><div class="loadingFill" id="overlayProgressBar"></div></div>
+    <div class="loadingPercent" id="overlayPercent">0%</div>
+  </div>
+</div>
+<script src="/frontend-config.js"></script>
+<script>
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const clearBtn = document.getElementById("clearBtn");
+const convertBtn = document.getElementById("convertBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const fileBox = document.getElementById("fileBox");
+const fileName = document.getElementById("fileName");
+const fileMeta = document.getElementById("fileMeta");
+const modeSelect = document.getElementById("modeSelect");
+const scaleSelect = document.getElementById("scaleSelect");
+const qualitySelect = document.getElementById("qualitySelect");
+const statusText = document.getElementById("statusText");
+const resultMeta = document.getElementById("resultMeta");
+const progressBar = document.getElementById("progressBar");
+const loadingOverlay = document.getElementById("loadingOverlay");
+const overlayTitle = document.getElementById("overlayTitle");
+const overlayMeta = document.getElementById("overlayMeta");
+const overlayProgressBar = document.getElementById("overlayProgressBar");
+const overlayPercent = document.getElementById("overlayPercent");
+
+const IS_LOCAL_HOST = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+const safeStorageGet = (key) => {
+  try { return window.localStorage ? window.localStorage.getItem(key) : null; } catch (_) { return null; }
+};
+const USER_DEFINED_PDF_TO_PPTX_ENDPOINT = (window.PDF_TO_PPTX_ENDPOINT || safeStorageGet("pdf_to_pptx_endpoint") || "").trim();
+const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
+  .trim()
+  .replace(/\/+$/, "");
+const SAME_ORIGIN_PDF_TO_PPTX_ENDPOINT = `${window.location.origin}/convert/pdf-to-pptx`;
+const LOCAL_SERVICE_PDF_TO_PPTX_ENDPOINT = "http://127.0.0.1:8080/convert/pdf-to-pptx";
+
+let currentFile = null;
+let busy = false;
+let cancelRequested = false;
+let activeAbortController = null;
+let latestStatusMessage = "Choose a PDF to start.";
+let latestStatusMeta = "";
+let latestProgressValue = 0;
+
+function joinUrl(base, path) {
+  if (!base) return "";
+  return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
+}
+
+function configurePdfWorker() {
+  if (typeof pdfjsLib !== "undefined" && pdfjsLib.GlobalWorkerOptions) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js";
+  }
+}
+
+configurePdfWorker();
+
+function getPdfToPptxEndpoints() {
+  const endpoints = [];
+  const push = (value) => {
+    if (!value) return;
+    const normalized = String(value).trim();
+    if (!normalized) return;
+    if (!endpoints.includes(normalized)) endpoints.push(normalized);
+  };
+
+  if (USER_DEFINED_PDF_TO_PPTX_ENDPOINT) push(USER_DEFINED_PDF_TO_PPTX_ENDPOINT);
+  if (USER_DEFINED_API_BASE) push(joinUrl(USER_DEFINED_API_BASE, "/convert/pdf-to-pptx"));
+
+  if (IS_LOCAL_HOST) {
+    if (window.location.port === "8080") {
+      push(SAME_ORIGIN_PDF_TO_PPTX_ENDPOINT);
+    } else {
+      push(LOCAL_SERVICE_PDF_TO_PPTX_ENDPOINT);
+    }
+  } else {
+    push(SAME_ORIGIN_PDF_TO_PPTX_ENDPOINT);
+  }
+
+  return endpoints;
+}
+
+const PDF_TO_PPTX_ENDPOINTS = getPdfToPptxEndpoints();
+const USE_SERVER_MODE_AVAILABLE = PDF_TO_PPTX_ENDPOINTS.length > 0;
+
+function formatBytes(bytes) {
+  const units = ["B", "KB", "MB", "GB"];
+  let value = bytes;
+  let index = 0;
+  while (value >= 1024 && index < units.length - 1) {
+    value /= 1024;
+    index += 1;
+  }
+  return `${value.toFixed(index === 0 ? 0 : 1)} ${units[index]}`;
+}
+
+function setStatus(message, meta = "") {
+  latestStatusMessage = String(message || "");
+  latestStatusMeta = String(meta || "");
+  statusText.textContent = message;
+  resultMeta.textContent = meta;
+  if (busy) syncOverlay();
+}
+
+function setProgress(value) {
+  latestProgressValue = Math.max(0, Math.min(100, Number(value) || 0));
+  progressBar.style.width = `${latestProgressValue}%`;
+  if (busy) syncOverlay();
+}
+
+function syncOverlay() {
+  const pct = Math.round(latestProgressValue);
+  overlayTitle.textContent = latestStatusMessage || "Processing...";
+  overlayMeta.textContent = latestStatusMeta || "Please wait while your file is being processed.";
+  overlayProgressBar.style.width = `${pct}%`;
+  overlayPercent.textContent = `${pct}%`;
+}
+
+function setOverlayVisible(visible) {
+  const show = Boolean(visible);
+  loadingOverlay.hidden = !show;
+  document.body.classList.toggle("isBusy", show);
+  if (show) syncOverlay();
+}
+
+function getMissingDeps() {
+  const missing = [];
+  if (typeof pdfjsLib === "undefined") missing.push("pdf.js");
+  if (typeof PptxGenJS === "undefined") missing.push("PptxGenJS");
+  return missing;
+}
+
+function refreshActionState() {
+  convertBtn.disabled = !currentFile || busy;
+  clearBtn.disabled = busy;
+  cancelBtn.disabled = !busy;
+}
+
+function clearFile() {
+  currentFile = null;
+  fileInput.value = "";
+  fileBox.hidden = true;
+  setOverlayVisible(false);
+  setProgress(0);
+  setStatus("Choose a PDF to start.");
+  refreshActionState();
+}
+
+function setFile(file) {
+  if (!file) {
+    clearFile();
+    return;
+  }
+  if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+    alert("Please choose a PDF file.");
+    clearFile();
+    return;
+  }
+  if (file.size > 50 * 1024 * 1024) {
+    alert("This tool supports files up to 50 MB.");
+    clearFile();
+    return;
+  }
+
+  currentFile = file;
+  fileBox.hidden = false;
+  fileName.textContent = file.name;
+  fileMeta.textContent = `Original size: ${formatBytes(file.size)}`;
+  setProgress(0);
+  setStatus("Ready to convert.");
+  refreshActionState();
+}
+
+function triggerBlobDownload(blob, outputName) {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = outputName;
+  anchor.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+async function convertWithServer(file, outputName) {
+  if (!PDF_TO_PPTX_ENDPOINTS.length) {
+    throw new Error("Server endpoint not configured.");
+  }
+
+  let lastError = null;
+  for (const endpoint of PDF_TO_PPTX_ENDPOINTS) {
+    if (cancelRequested) throw new Error("CANCELLED");
+
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    const controller = new AbortController();
+    activeAbortController = controller;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        throw new Error(`(${response.status}) ${errorText}`.trim());
+      }
+
+      const blob = await response.blob();
+      const pptxBlob = blob.type === "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ? blob
+        : new Blob([await blob.arrayBuffer()], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" });
+
+      triggerBlobDownload(pptxBlob, `${outputName}.pptx`);
+      return;
+    } catch (error) {
+      if (error && error.name === "AbortError") {
+        throw new Error("CANCELLED");
+      }
+      lastError = new Error(`[${endpoint}] ${error?.message || error}`);
+    } finally {
+      if (activeAbortController === controller) {
+        activeAbortController = null;
+      }
+    }
+  }
+
+  throw new Error(`Server conversion failed on all endpoints. ${lastError?.message || ""}`.trim());
+}
+
+async function convertInBrowser(file, outputName) {
+  const buffer = await file.arrayBuffer();
+  const loadingTask = pdfjsLib.getDocument({ data: buffer, disableWorker: true });
+  const pdf = await loadingTask.promise;
+
+  const pptx = new PptxGenJS();
+  pptx.layout = "LAYOUT_WIDE";
+  pptx.author = "Makepdfs.in";
+  pptx.subject = "PDF to PowerPoint";
+  pptx.title = outputName;
+
+  const scale = Number(scaleSelect.value) || 2;
+  const quality = Number(qualitySelect.value) || 0.9;
+  const slideWidth = 13.333;
+  const slideHeight = 7.5;
+
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    if (cancelRequested) throw new Error("CANCELLED");
+
+    setStatus(`Rendering page ${pageNumber} of ${pdf.numPages}...`);
+    setProgress(((pageNumber - 1) / pdf.numPages) * 100);
+
+    const page = await pdf.getPage(pageNumber);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.floor(viewport.width));
+    canvas.height = Math.max(1, Math.floor(viewport.height));
+    const context = canvas.getContext("2d", { alpha: false });
+    await page.render({ canvasContext: context, viewport }).promise;
+
+    const dataUrl = canvas.toDataURL("image/jpeg", quality);
+    const pageAspect = canvas.width / canvas.height;
+    const slideAspect = slideWidth / slideHeight;
+
+    let drawW = slideWidth;
+    let drawH = slideHeight;
+    let drawX = 0;
+    let drawY = 0;
+
+    if (pageAspect > slideAspect) {
+      drawW = slideWidth;
+      drawH = drawW / pageAspect;
+      drawY = (slideHeight - drawH) / 2;
+    } else {
+      drawH = slideHeight;
+      drawW = drawH * pageAspect;
+      drawX = (slideWidth - drawW) / 2;
+    }
+
+    const slide = pptx.addSlide();
+    slide.background = { color: "FFFFFF" };
+    slide.addImage({ data: dataUrl, x: drawX, y: drawY, w: drawW, h: drawH });
+  }
+
+  setStatus("Writing PPTX file...");
+  setProgress(98);
+  await pptx.writeFile({ fileName: `${outputName}.pptx` });
+}
+
+async function convertPdfToPptx() {
+  if (!currentFile || busy) return;
+
+  const missing = getMissingDeps();
+  if (missing.length) {
+    setStatus("Required libraries failed to load.", `Missing: ${missing.join(", ")}. Refresh and check internet.`);
+    return;
+  }
+
+  busy = true;
+  cancelRequested = false;
+  setOverlayVisible(true);
+  setProgress(0);
+  setStatus("Preparing conversion...");
+  refreshActionState();
+
+  const outputName = (currentFile.name || "presentation").replace(/\.pdf$/i, "") || "presentation";
+  const mode = modeSelect.value;
+
+  try {
+    if (mode === "server") {
+      if (!USE_SERVER_MODE_AVAILABLE) {
+        throw new Error("Server mode not available. Set CONVERTER_API_BASE or run backend on 127.0.0.1:8080.");
+      }
+      setStatus("Uploading PDF to server...");
+      setProgress(22);
+      await convertWithServer(currentFile, outputName);
+      setProgress(100);
+      setStatus("Conversion complete.", "PPTX downloaded using server mode.");
+      return;
+    }
+
+    if (mode === "exact") {
+      if (USE_SERVER_MODE_AVAILABLE) {
+        try {
+          setStatus("Trying server conversion first...");
+          setProgress(20);
+          await convertWithServer(currentFile, outputName);
+          setProgress(100);
+          setStatus("Conversion complete.", "PPTX downloaded using server mode.");
+          return;
+        } catch (error) {
+          if (String(error?.message || "").includes("CANCELLED")) throw error;
+          setStatus("Server unavailable. Switching to browser mode...");
+        }
+      }
+    }
+
+    setStatus("Running browser conversion...");
+    await convertInBrowser(currentFile, outputName);
+    setProgress(100);
+    setStatus("Conversion complete.", "PPTX downloaded using browser mode (page-to-slide).");
+  } catch (error) {
+    if (String(error?.message || "").includes("CANCELLED")) {
+      setStatus("Conversion cancelled.");
+    } else {
+      const message = String(error?.message || error || "Unknown error");
+      setStatus("Conversion failed.", message);
+      const lower = message.toLowerCase();
+      if (lower.includes("(404)")) {
+        resultMeta.textContent = `Backend route /convert/pdf-to-pptx nahi mili. Backend ko latest code ke saath restart karo. Tried: ${PDF_TO_PPTX_ENDPOINTS.join(" , ")}`;
+      } else if (lower.includes("origin not allowed by cors")) {
+        resultMeta.textContent = "CORS blocked. Backend me CORS_ORIGIN ko frontend domain par set karo.";
+      } else if (
+        lower.includes("server mode not available") ||
+        lower.includes("server conversion failed") ||
+        lower.includes("failed to fetch") ||
+        lower.includes("networkerror")
+      ) {
+        resultMeta.textContent = `Backend start karo (http://127.0.0.1:8080) ya CONVERTER_API_BASE set karo. Tried: ${PDF_TO_PPTX_ENDPOINTS.join(" , ")}`;
+      }
+    }
+  } finally {
+    busy = false;
+    cancelRequested = false;
+    activeAbortController = null;
+    setOverlayVisible(false);
+    refreshActionState();
+  }
+}
+
+fileInput.addEventListener("change", () => setFile(fileInput.files?.[0] || null));
+clearBtn.addEventListener("click", clearFile);
+convertBtn.addEventListener("click", convertPdfToPptx);
+cancelBtn.addEventListener("click", () => {
+  cancelRequested = true;
+  if (activeAbortController) {
+    activeAbortController.abort();
+  }
+  setStatus("Cancelling after current step...");
+});
+
+["dragenter", "dragover"].forEach((eventName) => {
+  dropZone.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    dropZone.classList.add("dragging");
+  });
+});
+
+["dragleave", "drop"].forEach((eventName) => {
+  dropZone.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    dropZone.classList.remove("dragging");
+    if (eventName === "drop" && event.dataTransfer?.files?.length) {
+      setFile(event.dataTransfer.files[0]);
+    }
+  });
+});
+
+modeSelect.addEventListener("change", () => {
+  if (!busy && currentFile) {
+    setStatus("Ready to convert.");
+  }
+});
+
+const startupMissing = getMissingDeps();
+if (startupMissing.length) {
+  setStatus("Required libraries failed to load.", `Missing: ${startupMissing.join(", ")}. Refresh and check internet.`);
+}
+
+if (!USE_SERVER_MODE_AVAILABLE) {
+  setStatus("Server mode not configured.", "Browser mode is still available. Set CONVERTER_API_BASE for server conversion.");
+}
+
+refreshActionState();
+</script>
+<script src="../footer-enhance.js"></script>
+</body>
+</html>

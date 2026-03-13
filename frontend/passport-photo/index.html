@@ -1,0 +1,1148 @@
+﻿<!DOCTYPE html>
+<html lang="en-IN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="keywords" content="heic to pdf, tiff to pdf, bmp to pdf, gif to pdf, psd to pdf, ai to pdf, eps to pdf, svg to pdf, pages to pdf, key to pdf, numbers to pdf, text to pdf, csv to pdf, xml to pdf, json to pdf, md to pdf, markdown to pdf, pdf to png, pdf to tiff, pdf to bmp, pdf to gif, pdf to html, pdf to txt, pdf to rtf, pdf to csv, pdf to xml, pdf to json, pdf to svg, pdf to pages, pdf to key, pdf to numbers, unlock pdf, remove password pdf, protect pdf, encrypt pdf, password protect pdf, rotate pdf, rearrange pdf, reorder pdf pages, delete pages from pdf, extract pages from pdf, add page numbers to pdf, watermark pdf, add watermark to pdf, redact pdf, ocr pdf, searchable pdf, flatten pdf, pdf form filler, fill pdf form, create fillable pdf, pdf to audiobook, pdf to speech, read pdf aloud, resize pdf, pdf page size, a4 to pdf, letter to pdf, pdf optimizer, repair pdf, fix corrupted pdf, compare pdf, pdf difference, pdf to cad, dwg to pdf, pdf to dwg, pdf to dxf, ebook to pdf, epub to pdf, mobi to pdf, azw to pdf, pdf to epub, pdf to mobi, pdf to kindle, comic to pdf, cbz to pdf, cbr to pdf, pdf to cbz, pdf to cbr, invoice to pdf, receipt to pdf, scan to pdf, document to pdf, photo to pdf, picture to pdf, multiple images to pdf, batch convert to pdf, pdf printer, print to pdf, save as pdf, export as pdf, pdf converter online, free pdf converter, pdf maker online, create pdf online, convert to pdf online, pdf editor online, free pdf editor, online pdf tool, pdf utility, pdf toolkit, pdf creator software, desktop pdf converter, offline pdf maker" />
+<meta name="author" content="Makepdfs.in" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta name="description" content="Create passport size photo layouts online and download ready-to-print photo sheets in seconds." />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#2563eb" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Makepdfs.in" />
+<meta property="og:title" content="Passport Size Photo Maker Online | Makepdfs.in" />
+<meta property="og:description" content="Create passport size photo layouts online and download ready-to-print photo sheets in seconds." />
+<meta property="og:image" content="/favicon.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Passport Size Photo Maker Online | Makepdfs.in" />
+<meta name="twitter:description" content="Create passport size photo layouts online and download ready-to-print photo sheets in seconds." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Passport Size Photo Maker","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"https://makepdfs.in/passport-photo/","description":"Create passport-size photo sheets online."}
+</script>
+<title>Passport Size Photo Maker Online | Makepdfs.in</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#ffffff; --card2:#f7faff; --b:#e6eaf3;
+    --t:#0f172a; --m:#64748b; --a:#7c3aed; --a2:#ec4899;
+    --s1:0 14px 30px rgba(15,23,42,.08);
+    --s2:0 22px 55px rgba(124,58,237,.14);
+    --radius:18px;
+    --max:1400px;
+    --font-base: clamp(0.875rem, 2vw, 1rem);
+    --font-h1: clamp(1.5rem, 5vw, 2.2rem);
+  }
+  html[data-theme="dark"]{
+    --bg:#0b1220; --card:#101a2f; --card2:#0f1930; --b:#1e2a44;
+    --t:#e8eefc; --m:#a7b3cc; --a:#60a5fa; --a2:#22d3ee;
+    --s1:0 16px 34px rgba(0,0,0,.35);
+    --s2:0 22px 60px rgba(34,211,238,.12);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+    color:var(--t);
+    background:
+      radial-gradient(900px 520px at 12% -12%, color-mix(in srgb,var(--a) 18%, transparent), transparent 55%),
+      radial-gradient(760px 420px at 90% -10%, color-mix(in srgb,var(--a2) 14%, transparent), transparent 55%),
+      linear-gradient(180deg,var(--bg), color-mix(in srgb,var(--bg) 75%, #fff));
+    min-height:100vh;
+    font-size: var(--font-base);
+  }
+
+  /* Responsive containers */
+  .siteHeader{
+    width:min(95%, var(--max));
+    margin:18px auto 0;
+    border:1px solid var(--b);
+    border-radius:var(--radius);
+    background:color-mix(in srgb,var(--card) 88%, transparent);
+    backdrop-filter:blur(12px);
+    box-shadow:var(--s1);
+    transition:.25s ease;
+  }
+  .siteHeader:hover{box-shadow:var(--s2); transform:translateY(-1px)}
+  .headerBar{
+    min-height:74px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 18px;
+    flex-wrap: wrap;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; font-weight:800; color:var(--t);
+    white-space:nowrap;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+  }
+  .brandIcon{
+    width:42px;height:42px;border-radius:14px;
+    display:grid;place-items:center;
+    background:linear-gradient(135deg, color-mix(in srgb,var(--a) 16%, transparent), color-mix(in srgb,var(--a2) 12%, transparent));
+    border:1px solid var(--b);
+    box-shadow:0 10px 18px rgba(124,58,237,0.10);
+  }
+  .brandIcon svg{width:22px;height:22px}
+  .brandText{font-size:inherit}
+
+  .nav{
+    display:flex; gap:8px; padding:8px;
+    border-radius:999px; border:1px solid var(--b);
+    background:var(--card);
+    max-width:100%; overflow:auto;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{
+    text-decoration:none; color:var(--m);
+    font-weight:800; font-size:0.9rem;
+    padding:10px 14px; border-radius:999px;
+    transition:.15s; white-space:nowrap; flex:0 0 auto;
+  }
+  .nav a:hover{background:color-mix(in srgb, var(--a) 10%, transparent); color:var(--t)}
+  .nav a.active{
+    background:color-mix(in srgb,var(--a) 12%, transparent);
+    color:var(--a);
+    border:1px solid color-mix(in srgb, var(--a) 25%, transparent);
+  }
+
+  main{width:min(95%, var(--max)); margin:24px auto 60px;}
+
+  .card{
+    border-radius:22px; border:1px solid var(--b);
+    background:var(--card); box-shadow:var(--s1);
+    padding:22px; margin-bottom:18px;
+  }
+  .badge{
+    display:inline-block;
+    padding:8px 12px; border-radius:999px;
+    font-weight:900; font-size:0.8rem; color:var(--a);
+    background:color-mix(in srgb,var(--a) 12%, transparent);
+    border:1px solid color-mix(in srgb,var(--a) 22%, transparent);
+    margin-bottom:10px;
+  }
+  h1{margin:10px 0 6px; font-size:var(--font-h1); letter-spacing:-.5px}
+  .sub{margin:0 0 14px; color:var(--m); line-height:1.7}
+
+  .uploadBox{
+    border:1.5px dashed color-mix(in srgb,var(--a) 38%, transparent);
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border-radius:18px;
+    padding:18px;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    gap:10px;
+    cursor:pointer;
+    transition:.2s;
+    min-height:200px;
+  }
+  .uploadBox.dragging{transform:scale(1.01); background:color-mix(in srgb,var(--a) 10%, var(--card))}
+  .uploadIcon{
+    width:58px;height:58px;border-radius:18px;
+    display:grid;place-items:center;
+    background:linear-gradient(135deg, color-mix(in srgb,var(--a) 16%, transparent), color-mix(in srgb,var(--a2) 12%, transparent));
+    border:1px solid var(--b);
+    color:var(--a);
+  }
+  .uploadIcon svg{width:24px;height:24px}
+  .uploadBox strong{font-size:1.1rem}
+  .uploadBox span{font-size:0.9rem; color:var(--m)}
+  input[type="file"]{display:none}
+
+  .btnRow{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:8px}
+  .btn{
+    border:none; cursor:pointer; font-weight:900;
+    border-radius:999px; padding:12px 16px; font-size:0.9rem;
+    transition:.15s;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    user-select:none;
+    flex: 0 1 auto;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .btnPrimary{
+    color:#fff; background:linear-gradient(135deg,var(--a),var(--a2));
+    box-shadow:0 12px 26px rgba(124,58,237,.22);
+  }
+  .btnSoft{
+    background:color-mix(in srgb,var(--a) 10%, var(--card));
+    border:1px solid color-mix(in srgb,var(--a) 22%, transparent);
+    color:var(--a);
+  }
+  .btnDanger{
+    background:color-mix(in srgb,#ef4444 10%, var(--card));
+    border:1px solid color-mix(in srgb,#ef4444 22%, transparent);
+    color:#ef4444;
+  }
+  .btn:disabled{opacity:.6; cursor:not-allowed}
+
+  .previewSection{
+    margin-top:14px;
+    border:1px solid var(--b);
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border-radius:18px;
+    padding:14px;
+  }
+  .previewGrid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .previewCard{
+    border:1px solid var(--b);
+    background:var(--card);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:var(--s1);
+    width: 100%;
+  }
+  .previewTop{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding:12px 12px;
+    border-bottom:1px solid var(--b);
+    background:color-mix(in srgb,var(--card) 92%, transparent);
+    flex-wrap: wrap;
+  }
+  .previewTitle{font-weight:900; font-size:0.85rem; color:var(--m)}
+  .pill{
+    font-size:0.8rem; font-weight:900;
+    padding:6px 10px; border-radius:999px;
+    border:1px solid var(--b); background:var(--card);
+    color:var(--m);
+    max-width:60%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .canvasWrap{
+    padding:14px;
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    display:grid;
+    place-items:center;
+    min-height:300px;
+  }
+  .origFrame{
+    width:100%;
+    max-width:520px;
+    aspect-ratio: 4 / 3;
+    border-radius:14px;
+    border:1px solid var(--b);
+    background:#fff;
+    overflow:hidden;
+    position:relative;
+  }
+  .origCanvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block;
+  }
+
+  .frame{
+    width:100%;
+    max-width:360px;
+    aspect-ratio: 7 / 9;
+    border-radius:12px;
+    border:1px solid var(--b);
+    background:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 16px 40px rgba(15,23,42,.08);
+    touch-action:none;
+    user-select:none;
+  }
+  .frameCanvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block;
+  }
+
+  .guide{
+    pointer-events:none;
+    position:absolute; inset:0;
+    border:2px solid rgba(255,255,255,.78);
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,.08);
+  }
+  .guide .safe{
+    position:absolute; left:12%; right:12%; top:7%; bottom:8%;
+    border:2px dashed rgba(0,0,0,.26); border-radius:12px;
+  }
+  .guide .headBand{
+    position:absolute; left:12%; right:12%; top:10%; height:75%;
+    border:1px dashed rgba(124,58,237,.55); border-radius:12px;
+    background: linear-gradient(to bottom, rgba(124,58,237,.06), rgba(124,58,237,0));
+  }
+  .guide .eyeLine{
+    position:absolute; left:12%; right:12%; top:43%;
+    border-top:1px dashed rgba(0,0,0,.22);
+  }
+  .guide .label{
+    position:absolute; left:10px; bottom:10px;
+    font-size:0.7rem; font-weight:900; color:rgba(2,6,23,.65);
+    background:rgba(255,255,255,.75);
+    border:1px solid rgba(0,0,0,.08);
+    padding:6px 8px; border-radius:999px;
+  }
+
+  .controls{
+    margin-top:14px;
+    border:1px solid var(--b);
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border-radius:18px;
+    padding:14px;
+    display:grid;
+    gap:12px;
+  }
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .field{display:grid; gap:6px}
+  .label{font-size:0.85rem; font-weight:900; color:var(--m)}
+  .select, .range, .color{
+    width:100%; padding:10px 12px;
+    border-radius:12px; border:1px solid var(--b);
+    background:var(--card); color:var(--t); font-weight:700;
+    font-size:0.9rem;
+  }
+  .range{padding:0; height:44px}
+  .hint{font-size:0.8rem; color:var(--m); line-height:1.6}
+
+  footer{
+    margin-top:18px;
+    color:var(--m);
+    font-size:0.8rem;
+    text-align:center;
+    padding:14px 0 0;
+    border-top:1px solid var(--b);
+  }
+
+  /* Responsive breakpoints */
+  @media (max-width: 1024px){
+    .previewGrid{gap:12px;}
+  }
+
+  @media (max-width: 980px){
+    .previewGrid{grid-template-columns:1fr;}
+    .canvasWrap{min-height:280px;}
+    .headerBar{flex-direction:column; align-items:flex-start;}
+    .nav{width:100%; border-radius:16px; padding:6px; justify-content:flex-start;}
+    .row2{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 768px){
+    .card{padding:16px;}
+    .badge{font-size:0.7rem; padding:6px 10px;}
+    .sub{font-size:0.9rem;}
+    .btn{padding:10px 14px;}
+  }
+
+  @media (max-width: 480px){
+    .brandIcon{width:36px; height:36px;}
+    .headerBar{padding:8px;}
+    .nav a{padding:8px 12px; font-size:0.8rem;}
+    .uploadIcon{width:48px; height:48px; font-size:20px;}
+    .uploadBox{padding:12px; min-height:160px;}
+    .previewTop{flex-direction:column; align-items:flex-start;}
+    .pill{max-width:100%;}
+    .canvasWrap{padding:8px; min-height:220px;}
+    .frame{max-width:280px;}
+    .btnRow .btn{flex:1 1 100%;}
+    .btnRow{gap:8px;}
+    .controls{padding:12px;}
+    .select, .range, .color{padding:8px;}
+  }
+
+  .origFrame, .frame {
+    margin: 0 auto;
+  }
+</style>
+</head>
+
+<body>
+
+<header class="siteHeader">
+  <div class="headerBar">
+    <a class="brand" href="/">
+      <span class="brandIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M8 3h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brandText">Makepdfs.in</span>
+    </a>
+
+    <nav class="nav">
+      <a href="/image-to-pdf/">Img to PDF</a>
+      <a href="/merge-pdf/">Merge PDF</a>
+      <a href="/split-pdf/">Split PDF</a>
+      <a class="active" href="/passport-photo/">Passport Photo</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <span class="badge">India passport default - 35x45 mm - 300 DPI - single photo or A4 print sheet</span>
+    <h1>Image to Passport Size Photo</h1>
+    <p class="sub">Upload an image, preview the passport crop, adjust the framing, then download a single photo or an A4 print sheet.</p>
+
+    <!-- Upload box -->
+    <label class="uploadBox" id="dropZone" for="imgInput">
+      <div class="uploadIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <strong>Click to upload or drag & drop</strong>
+      <span>JPG / PNG / WebP (max 20MB each, multiple supported)</span>
+      <div class="btnRow">
+        <span class="btn btnSoft" role="button">Choose Image</span>
+        <button class="btn btnSoft" type="button" id="clearBtn">Clear</button>
+      </div>
+    </label>
+    <input id="imgInput" type="file" accept="image/*" multiple />
+
+    <!-- Previews -->
+    <div class="previewSection">
+      <div class="previewGrid">
+        <!-- Original Preview -->
+        <div class="previewCard">
+          <div class="previewTop">
+            <div class="previewTitle">Original Preview</div>
+            <div class="pill" id="statusPill">No image</div>
+          </div>
+          <div class="canvasWrap">
+            <div class="origFrame">
+              <canvas class="origCanvas" id="origCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Converted Passport Preview (Editor) -->
+        <div class="previewCard">
+          <div class="previewTop">
+            <div class="previewTitle">Converted passport photo - drag to move - wheel or pinch to zoom</div>
+            <div class="pill" id="sizePill">35x45 mm</div>
+          </div>
+          <div class="canvasWrap">
+            <div class="frame" id="frame">
+              <canvas class="frameCanvas" id="previewCanvas"></canvas>
+
+              <div class="guide">
+                <div class="safe"></div>
+                <div class="headBand"></div>
+                <div class="eyeLine"></div>
+                <div class="label">India guide: head inside band</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btnRow" style="padding:0 14px 14px">
+            <button class="btn btnSoft" type="button" id="zoomOutBtn">Zoom Out</button>
+            <button class="btn btnSoft" type="button" id="zoomInBtn">Zoom In</button>
+            <button class="btn btnSoft" type="button" id="centerBtn">Center</button>
+            <button class="btn btnDanger" type="button" id="resetBtn">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="row2">
+        <div class="field">
+          <div class="label">Passport Size</div>
+          <select class="select" id="sizeSelect">
+            <option value="35x45" selected>35x45 mm (India default)</option>
+            <option value="2x2">2x2 inch (USA)</option>
+            <option value="4x6">4x6 cm</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <div class="label">DPI (Print quality)</div>
+          <select class="select" id="dpiSelect">
+            <option value="300" selected>300 (Best for print)</option>
+            <option value="200">200</option>
+            <option value="150">150</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <div class="label">Background</div>
+          <select class="select" id="bgSelect">
+            <option value="#ffffff" selected>White</option>
+            <option value="#1e40af">Blue</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <div class="field" id="customBgWrap" style="display:none">
+          <div class="label">Custom Color</div>
+          <input class="color" id="bgColor" type="color" value="#ffffff" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">Zoom</div>
+        <input class="range" id="zoomRange" type="range" min="0.4" max="3.5" step="0.01" value="1" />
+      </div>
+
+      <!-- Format selector -->
+      <div class="row2">
+        <div class="field">
+          <div class="label">Download Format</div>
+          <select class="select" id="formatSelect">
+            <option value="png" selected>PNG</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </div>
+        <div class="field">
+          <!-- empty for spacing -->
+        </div>
+      </div>
+
+      <!-- Copies dropdown with 6,8,12,36 -->
+      <div class="row2">
+        <div class="field">
+          <div class="label">Copies in A4 Sheet (for print)</div>
+          <select class="select" id="copiesSelect">
+            <option value="6" selected>6 copies</option>
+            <option value="8">8 copies</option>
+            <option value="12">12 copies</option>
+            <option value="36">36 copies</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <div class="label">Download</div>
+          <div class="btnRow" style="justify-content:flex-start; margin-top:0">
+            <button class="btn btnPrimary" type="button" id="downloadSingle" disabled>Single Photo</button>
+            <button class="btn btnPrimary" type="button" id="downloadSheet" disabled>A4 Print Sheet</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint">
+        Single Photo = one passport image at the selected size. <br>
+        A4 Print Sheet = for multiple uploaded photos, sheet uses 6 photos per row automatically.
+      </div>
+    </div>
+
+    <footer>&copy; <span id="year"></span> Makepdfs.in</footer>
+  </div>
+</main>
+
+<script>
+/* ========= Theme sync ========= */
+(function(){
+  const savedTheme = (() => {
+    try { return window.localStorage ? window.localStorage.getItem("theme") : null; } catch (_) { return null; }
+  })() || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+})();
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ========= Elements ========= */
+const imgInput = document.getElementById("imgInput");
+const dropZone = document.getElementById("dropZone");
+const clearBtn = document.getElementById("clearBtn");
+
+const sizeSelect = document.getElementById("sizeSelect");
+const bgSelect = document.getElementById("bgSelect");
+const bgColor = document.getElementById("bgColor");
+const customBgWrap = document.getElementById("customBgWrap");
+const zoomRange = document.getElementById("zoomRange");
+const copiesSelect = document.getElementById("copiesSelect");
+const dpiSelect = document.getElementById("dpiSelect");
+const formatSelect = document.getElementById("formatSelect"); // new
+
+const statusPill = document.getElementById("statusPill");
+const sizePill = document.getElementById("sizePill");
+
+const frame = document.getElementById("frame");
+const canvas = document.getElementById("previewCanvas");
+const ctx = canvas.getContext("2d", { willReadFrequently:true });
+
+const origCanvas = document.getElementById("origCanvas");
+const octx = origCanvas.getContext("2d", { willReadFrequently:true });
+
+const zoomOutBtn = document.getElementById("zoomOutBtn");
+const zoomInBtn = document.getElementById("zoomInBtn");
+const centerBtn = document.getElementById("centerBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const downloadSingle = document.getElementById("downloadSingle");
+const downloadSheet = document.getElementById("downloadSheet");
+
+/* ========= State ========= */
+let img = null;
+let imgW = 0, imgH = 0;
+let offsetX = 0, offsetY = 0;
+let scale = 1;
+let dragging = false;
+let lastX = 0, lastY = 0;
+let pointerId = null;
+let sourceImages = [];
+const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
+
+function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+function getBg(){
+  if(bgSelect.value === "custom") return bgColor.value;
+  return bgSelect.value;
+}
+
+function setEnabled(ok){
+  downloadSingle.disabled = !ok;
+  downloadSheet.disabled = !ok;
+  const multiMode = ok && sourceImages.length > 1;
+  copiesSelect.disabled = multiMode;
+  copiesSelect.title = multiMode ? "Multiple upload mode: selected photos are arranged with up to 6 per row." : "";
+  if (!ok) {
+    statusPill.textContent = "No image";
+    return;
+  }
+  const total = sourceImages.length || 1;
+  statusPill.textContent = total === 1 ? "1 image loaded" : `${total} images loaded`;
+}
+
+function updateSizePill(){
+  const v = sizeSelect.value;
+  sizePill.textContent = (v==="2x2") ? "2x2 in" : (v==="4x6") ? "4x6 cm" : "35x45 mm";
+}
+
+/* ========= Resize canvases ========= */
+function resizeCanvasToFrame(){
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = Math.floor(rect.width * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
+  canvas.style.width = rect.width + "px";
+  canvas.style.height = rect.height + "px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  draw();
+}
+function resizeOrigCanvas(){
+  const rect = origCanvas.parentElement.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  origCanvas.width = Math.floor(rect.width * dpr);
+  origCanvas.height = Math.floor(rect.height * dpr);
+  origCanvas.style.width = rect.width + "px";
+  origCanvas.style.height = rect.height + "px";
+  octx.setTransform(dpr,0,0,dpr,0,0);
+  drawOriginalPreview();
+}
+
+window.addEventListener("resize", () => {
+  resizeCanvasToFrame();
+  resizeOrigCanvas();
+});
+
+/* ========= Image load ========= */
+function loadImageFromFile(file){
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const im = new Image();
+    im.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(im);
+    };
+    im.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error(`Image load failed: ${file.name}`));
+    };
+    im.src = url;
+  });
+}
+
+function setActiveImage(index = 0){
+  const item = sourceImages[index];
+  if (!item || !item.image) return;
+  img = item.image;
+  imgW = img.naturalWidth;
+  imgH = img.naturalHeight;
+  fitCover();
+  draw();
+  drawOriginalPreview();
+}
+
+async function loadFiles(fileList){
+  const files = Array.from(fileList || []);
+  if (!files.length) return;
+
+  const valid = [];
+  let skipped = 0;
+  for (const file of files) {
+    if (!String(file.type || "").startsWith("image/")) {
+      skipped += 1;
+      continue;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      skipped += 1;
+      continue;
+    }
+    valid.push(file);
+  }
+
+  if (!valid.length) {
+    alert("Please select image files (max 20MB each).");
+    return;
+  }
+
+  try {
+    const loaded = await Promise.all(
+      valid.map(async (file) => ({ name: file.name, image: await loadImageFromFile(file) }))
+    );
+    sourceImages = loaded;
+    setActiveImage(0);
+    setEnabled(true);
+    if (skipped > 0) {
+      alert(`${skipped} file(s) skipped. Only images up to 20MB are allowed.`);
+    }
+  } catch (error) {
+    alert(String(error?.message || "Image load failed."));
+  }
+}
+
+function fitCover(){
+  if(!img || !imgW || !imgH) return;
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const fw = rect.width;
+  const fh = rect.height;
+
+  const s = Math.max(fw / imgW, fh / imgH);
+  scale = s;
+  zoomRange.value = String(clamp(s, parseFloat(zoomRange.min), parseFloat(zoomRange.max)));
+
+  offsetX = (fw - imgW * scale) / 2;
+  offsetY = (fh - imgH * scale) / 2;
+}
+
+function resetAll(){
+  sourceImages = [];
+  img = null;
+  imgW = imgH = 0;
+  offsetX = offsetY = 0;
+  scale = 1;
+  zoomRange.value = "1";
+  setEnabled(false);
+  draw();
+  drawOriginalPreview();
+}
+
+/* ========= Drawing (passport preview) ========= */
+function draw(){
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const fw = rect.width;
+  const fh = rect.height;
+
+  ctx.clearRect(0,0,fw,fh);
+  ctx.fillStyle = getBg();
+  ctx.fillRect(0,0,fw,fh);
+
+  if(!img) return;
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, offsetX, offsetY, imgW * scale, imgH * scale);
+}
+
+/* ========= Drawing (original preview) ========= */
+function drawOriginalPreview(){
+  const rect = origCanvas.parentElement.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const w = rect.width;
+  const h = rect.height;
+
+  octx.clearRect(0,0,w,h);
+  octx.fillStyle = "#fff";
+  octx.fillRect(0,0,w,h);
+
+  if(!img) return;
+
+  const s = Math.min(w / imgW, h / imgH);
+  const dw = imgW * s;
+  const dh = imgH * s;
+  const dx = (w - dw) / 2;
+  const dy = (h - dh) / 2;
+
+  octx.imageSmoothingEnabled = true;
+  octx.imageSmoothingQuality = "high";
+  octx.drawImage(img, dx, dy, dw, dh);
+}
+
+function keepInBounds(){
+  if(!img) return;
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const fw = rect.width;
+  const fh = rect.height;
+
+  const iw = imgW * scale;
+  const ih = imgH * scale;
+
+  if(iw < fw || ih < fh){
+    const s = Math.max(fw / imgW, fh / imgH);
+    scale = s;
+  }
+
+  const minX = fw - iw;
+  const minY = fh - ih;
+
+  offsetX = clamp(offsetX, minX, 0);
+  offsetY = clamp(offsetY, minY, 0);
+}
+
+function setZoom(newScale, anchorX, anchorY){
+  if(!img) return;
+
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return;
+  const fw = rect.width;
+  const fh = rect.height;
+
+  const minS = parseFloat(zoomRange.min);
+  const maxS = parseFloat(zoomRange.max);
+  const s = clamp(newScale, minS, maxS);
+
+  const ax = (anchorX ?? fw/2);
+  const ay = (anchorY ?? fh/2);
+
+  const ix = (ax - offsetX) / scale;
+  const iy = (ay - offsetY) / scale;
+
+  scale = s;
+  zoomRange.value = String(scale);
+
+  offsetX = ax - ix * scale;
+  offsetY = ay - iy * scale;
+
+  keepInBounds();
+  draw();
+}
+
+/* ========= Events ========= */
+imgInput.addEventListener("change", async () => {
+  const files = imgInput.files;
+  if(!files?.length) return;
+  await loadFiles(files);
+});
+
+clearBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  imgInput.value = "";
+  resetAll();
+});
+
+bgSelect.addEventListener("change", () => {
+  customBgWrap.style.display = (bgSelect.value === "custom") ? "block" : "none";
+  draw();
+});
+bgColor.addEventListener("input", draw);
+
+zoomRange.addEventListener("input", () => {
+  if(!img) return;
+  setZoom(parseFloat(zoomRange.value));
+});
+
+zoomInBtn.addEventListener("click", () => setZoom(scale * 1.08));
+zoomOutBtn.addEventListener("click", () => setZoom(scale / 1.08));
+centerBtn.addEventListener("click", () => { if(img){ fitCover(); keepInBounds(); draw(); }});
+resetBtn.addEventListener("click", () => { if(img){ fitCover(); keepInBounds(); draw(); }});
+
+frame.addEventListener("pointerdown", (e) => {
+  if(!img) return;
+  dragging = true;
+  pointerId = e.pointerId;
+  frame.setPointerCapture(pointerId);
+  lastX = e.clientX;
+  lastY = e.clientY;
+});
+frame.addEventListener("pointermove", (e) => {
+  if(!dragging || !img) return;
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  offsetX += dx;
+  offsetY += dy;
+  keepInBounds();
+  draw();
+});
+frame.addEventListener("pointerup", () => { dragging = false; pointerId = null; });
+frame.addEventListener("pointercancel", () => { dragging = false; pointerId = null; });
+
+frame.addEventListener("wheel", (e) => {
+  if(!img) return;
+  e.preventDefault();
+  const delta = Math.sign(e.deltaY);
+  const factor = delta > 0 ? 0.92 : 1.08;
+  const r = frame.getBoundingClientRect();
+  const ax = e.clientX - r.left;
+  const ay = e.clientY - r.top;
+  setZoom(scale * factor, ax, ay);
+}, { passive:false });
+
+["dragenter","dragover"].forEach(ev => dropZone.addEventListener(ev, (e) => {
+  e.preventDefault(); e.stopPropagation();
+  dropZone.classList.add("dragging");
+}));
+["dragleave","drop"].forEach(ev => dropZone.addEventListener(ev, (e) => {
+  e.preventDefault(); e.stopPropagation();
+  dropZone.classList.remove("dragging");
+  if(ev === "drop" && e.dataTransfer?.files?.length){
+    loadFiles(e.dataTransfer.files);
+  }
+}));
+
+/* ========= Output sizes ========= */
+function getTargetPixels(){
+  const dpi = parseInt(dpiSelect.value, 10) || 300;
+  const v = sizeSelect.value;
+  if(v === "2x2"){
+    return { wPx: 2*dpi, hPx: 2*dpi, label: "2x2in" };
+  }
+  if(v === "4x6"){
+    const wIn = 40/25.4;
+    const hIn = 60/25.4;
+    return { wPx: Math.round(wIn*dpi), hPx: Math.round(hIn*dpi), label: "4x6cm" };
+  }
+  const wIn = 35/25.4;
+  const hIn = 45/25.4;
+  return { wPx: Math.round(wIn*dpi), hPx: Math.round(hIn*dpi), label: "35x45mm" };
+}
+
+function renderOutputCanvas(wPx, hPx){
+  const rect = frame.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return document.createElement("canvas");
+  const fw = rect.width;
+  const fh = rect.height;
+
+  const out = document.createElement("canvas");
+  out.width = wPx;
+  out.height = hPx;
+  const octx2 = out.getContext("2d");
+
+  octx2.fillStyle = getBg();
+  octx2.fillRect(0,0,wPx,hPx);
+
+  if(!img) return out;
+
+  const sx = wPx / fw;
+  const sy = hPx / fh;
+
+  octx2.imageSmoothingEnabled = true;
+  octx2.imageSmoothingQuality = "high";
+
+  octx2.drawImage(
+    img,
+    offsetX * sx,
+    offsetY * sy,
+    imgW * scale * sx,
+    imgH * scale * sy
+  );
+
+  return out;
+}
+
+function renderOutputCanvasAuto(wPx, hPx, image){
+  const out = document.createElement("canvas");
+  out.width = wPx;
+  out.height = hPx;
+  const outCtx = out.getContext("2d");
+  outCtx.fillStyle = getBg();
+  outCtx.fillRect(0,0,wPx,hPx);
+  if(!image) return out;
+
+  const iw = image.naturalWidth || image.width || 1;
+  const ih = image.naturalHeight || image.height || 1;
+  const fit = Math.max(wPx / iw, hPx / ih);
+  const dw = iw * fit;
+  const dh = ih * fit;
+  const dx = (wPx - dw) / 2;
+  const dy = (hPx - dh) / 2;
+
+  outCtx.imageSmoothingEnabled = true;
+  outCtx.imageSmoothingQuality = "high";
+  outCtx.drawImage(image, dx, dy, dw, dh);
+  return out;
+}
+
+function downloadBlob(blob, name){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/* ========= PDF generation helper ========= */
+function canvasToPDF(canvas, fileName, pageWidth, pageHeight){
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({
+    orientation: pageWidth > pageHeight ? 'landscape' : 'portrait',
+    unit: 'px',
+    format: [pageWidth, pageHeight]
+  });
+  const imgData = canvas.toDataURL('image/png', 1.0);
+  pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight, undefined, 'FAST');
+  pdf.save(fileName);
+}
+
+/* ========= Download Single ========= */
+downloadSingle.addEventListener("click", async () => {
+  if(!img) return;
+  const { wPx, hPx, label } = getTargetPixels();
+  const out = renderOutputCanvas(wPx, hPx);
+  const format = formatSelect.value;
+
+  if (format === 'png') {
+    out.toBlob((blob) => {
+      if(!blob) return alert("Export failed.");
+      downloadBlob(blob, `passport-${label}-${dpiSelect.value}dpi.png`);
+    }, "image/png", 1);
+  } else { // pdf
+    canvasToPDF(out, `passport-${label}-${dpiSelect.value}dpi.pdf`, wPx, hPx);
+  }
+});
+
+/* ========= A4 print sheet (multi upload => 6 photos per row) ========= */
+function getSheetCanvas(){
+  const dpi = parseInt(dpiSelect.value, 10) || 300;
+  const sheetWidthInches = 210 / 25.4;
+  const sheetHeightInches = 297 / 25.4;
+  const portraitW = Math.round(sheetWidthInches * dpi);
+  const portraitH = Math.round(sheetHeightInches * dpi);
+
+  const { wPx, hPx, label } = getTargetPixels();
+  const uploadedImages = sourceImages.map((item) => item.image).filter(Boolean);
+  const usingMultiple = uploadedImages.length > 1;
+  const copies = usingMultiple ? uploadedImages.length : (parseInt(copiesSelect.value, 10) || 6);
+  const colsWanted = usingMultiple ? Math.min(6, copies) : Math.min(copies, 6);
+
+  function buildLayout(sheetW, sheetH, forcedCols){
+    const margin = Math.round(0.2 * dpi);
+    const gap = Math.round(0.12 * dpi);
+    const usableW = sheetW - 2 * margin;
+    const usableH = sheetH - 2 * margin;
+    const cols = Math.max(1, Math.min(forcedCols, copies));
+    const rows = Math.ceil(copies / cols);
+
+    const scaleW = (usableW - (cols - 1) * gap) / (cols * wPx);
+    const scaleH = (usableH - (rows - 1) * gap) / (rows * hPx);
+    const tileScale = Math.max(0.01, Math.min(1, scaleW, scaleH));
+    const drawW = Math.max(1, Math.floor(wPx * tileScale));
+    const drawH = Math.max(1, Math.floor(hPx * tileScale));
+
+    const gridW = cols * drawW + (cols - 1) * gap;
+    const gridH = rows * drawH + (rows - 1) * gap;
+    const startX = margin + Math.max(0, Math.floor((usableW - gridW) / 2));
+    const startY = margin;
+
+    return { sheetW, sheetH, cols, rows, gap, drawW, drawH, startX, startY, tileArea: drawW * drawH };
+  }
+
+  let layout = buildLayout(portraitW, portraitH, colsWanted);
+  if (usingMultiple) {
+    const landscape = buildLayout(portraitH, portraitW, colsWanted);
+    if (landscape.tileArea > layout.tileArea) {
+      layout = landscape;
+    }
+  }
+
+  const sheet = document.createElement("canvas");
+  sheet.width = layout.sheetW;
+  sheet.height = layout.sheetH;
+  const sctx = sheet.getContext("2d");
+  sctx.fillStyle = "#ffffff";
+  sctx.fillRect(0, 0, layout.sheetW, layout.sheetH);
+
+  if (usingMultiple) {
+    for (let index = 0; index < copies; index += 1) {
+      const r = Math.floor(index / layout.cols);
+      const c = index % layout.cols;
+      const x = layout.startX + c * (layout.drawW + layout.gap);
+      const y = layout.startY + r * (layout.drawH + layout.gap);
+      const tile = renderOutputCanvasAuto(layout.drawW, layout.drawH, uploadedImages[index]);
+      sctx.drawImage(tile, x, y);
+    }
+  } else {
+    const photo = renderOutputCanvas(layout.drawW, layout.drawH);
+    for (let index = 0; index < copies; index += 1) {
+      const r = Math.floor(index / layout.cols);
+      const c = index % layout.cols;
+      const x = layout.startX + c * (layout.drawW + layout.gap);
+      const y = layout.startY + r * (layout.drawH + layout.gap);
+      sctx.drawImage(photo, x, y);
+    }
+  }
+
+  return { sheet, label, dpi, width: layout.sheetW, height: layout.sheetH };
+}
+
+downloadSheet.addEventListener("click", () => {
+  if(!img) return;
+  const { sheet, label, dpi, width, height } = getSheetCanvas();
+  const format = formatSelect.value;
+
+  if (format === 'png') {
+    sheet.toBlob((blob) => {
+      if(!blob) return alert("Export failed.");
+      downloadBlob(blob, `passport-sheet-A4-${label}-${dpi}dpi.png`);
+    }, "image/png", 1);
+  } else { // pdf
+    canvasToPDF(sheet, `passport-sheet-A4-${label}-${dpi}dpi.pdf`, width, height);
+  }
+});
+
+sizeSelect.addEventListener("change", updateSizePill);
+
+/* Init */
+setEnabled(false);
+customBgWrap.style.display = "none";
+updateSizePill();
+resizeCanvasToFrame();
+resizeOrigCanvas();
+
+if (window.ResizeObserver) {
+  const ro = new ResizeObserver(() => {
+    resizeCanvasToFrame();
+    resizeOrigCanvas();
+  });
+  ro.observe(frame);
+  ro.observe(origCanvas.parentElement);
+}
+</script>
+
+
+<script src="../footer-enhance.js"></script>
+</body>
+</html>
+
+
+

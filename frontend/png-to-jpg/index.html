@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en-IN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="keywords" content="heic to pdf, tiff to pdf, bmp to pdf, gif to pdf, psd to pdf, ai to pdf, eps to pdf, svg to pdf, pages to pdf, key to pdf, numbers to pdf, text to pdf, csv to pdf, xml to pdf, json to pdf, md to pdf, markdown to pdf, pdf to png, pdf to tiff, pdf to bmp, pdf to gif, pdf to html, pdf to txt, pdf to rtf, pdf to csv, pdf to xml, pdf to json, pdf to svg, pdf to pages, pdf to key, pdf to numbers, unlock pdf, remove password pdf, protect pdf, encrypt pdf, password protect pdf, rotate pdf, rearrange pdf, reorder pdf pages, delete pages from pdf, extract pages from pdf, add page numbers to pdf, watermark pdf, add watermark to pdf, redact pdf, ocr pdf, searchable pdf, flatten pdf, pdf form filler, fill pdf form, create fillable pdf, pdf to audiobook, pdf to speech, read pdf aloud, resize pdf, pdf page size, a4 to pdf, letter to pdf, pdf optimizer, repair pdf, fix corrupted pdf, compare pdf, pdf difference, pdf to cad, dwg to pdf, pdf to dwg, pdf to dxf, ebook to pdf, epub to pdf, mobi to pdf, azw to pdf, pdf to epub, pdf to mobi, pdf to kindle, comic to pdf, cbz to pdf, cbr to pdf, pdf to cbz, pdf to cbr, invoice to pdf, receipt to pdf, scan to pdf, document to pdf, photo to pdf, picture to pdf, multiple images to pdf, batch convert to pdf, pdf printer, print to pdf, save as pdf, export as pdf, pdf converter online, free pdf converter, pdf maker online, create pdf online, convert to pdf online, pdf editor online, free pdf editor, online pdf tool, pdf utility, pdf toolkit, pdf creator software, desktop pdf converter, offline pdf maker" />
+<meta name="author" content="Makepdfs.in" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta name="description" content="Convert PNG to JPG online quickly with a simple browser-based image converter." />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#2563eb" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Makepdfs.in" />
+<meta property="og:title" content="PNG to JPG Converter Online | Makepdfs.in" />
+<meta property="og:description" content="Convert PNG to JPG online quickly with a simple browser-based image converter." />
+<meta property="og:image" content="/favicon.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PNG to JPG Converter Online | Makepdfs.in" />
+<meta name="twitter:description" content="Convert PNG to JPG online quickly with a simple browser-based image converter." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PNG to JPG Converter","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"/png-to-jpg.html","description":"Convert PNG images to JPG online."}
+</script>
+<title>PNG to JPG Converter Online | Makepdfs.in</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+/* =====================
+   THEME TOKENS
+===================== */
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --card2:#f7faff;
+  --border:#e6eaf3;
+  --text:#0f172a;
+  --muted:#64748b;
+
+  --accent:#2563eb;
+  --accent2:#06b6d4;
+
+  --shadow:0 14px 30px rgba(15,23,42,0.08);
+  --shadow2:0 22px 55px rgba(37,99,235,0.14);
+
+  --radius:18px;
+  --radius2:16px;
+
+  --max:1320px;
+}
+
+html[data-theme="dark"]{
+  --bg:#0b1220;
+  --card:#101a2f;
+  --card2:#0f1930;
+  --border:#1e2a44;
+  --text:#e8eefc;
+  --muted:#a7b3cc;
+  --accent:#60a5fa;
+  --accent2:#22d3ee;
+  --shadow:0 16px 34px rgba(0,0,0,0.35);
+  --shadow2:0 22px 60px rgba(34,211,238,0.12);
+}
+
+html[data-theme="ocean"]{
+  --bg:#f2fbff;
+  --card:#ffffff;
+  --card2:#f1fbff;
+  --border:#d8eef7;
+  --text:#06283d;
+  --muted:#4b6b7c;
+  --accent:#0891b2;
+  --accent2:#2563eb;
+}
+
+html[data-theme="purple"]{
+  --bg:#faf7ff;
+  --card:#ffffff;
+  --card2:#fbf8ff;
+  --border:#eadcff;
+  --text:#1b1230;
+  --muted:#6b5b8a;
+  --accent:#7c3aed;
+  --accent2:#ec4899;
+}
+
+/* =====================
+   BASE + FLEXBOX FIX
+===================== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+  color:var(--text);
+  background:
+    radial-gradient(900px 520px at 12% -12%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%),
+    radial-gradient(760px 420px at 90% -10%, color-mix(in srgb, var(--accent2) 14%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 70%, #fff));
+  display: flex;
+  flex-direction: column;
+}
+
+.container{
+  width:min(var(--max), 90%);
+  margin:0 auto;
+}
+
+a{color:inherit}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{
+  outline:3px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset:2px;
+}
+
+/* =====================
+   HEADER
+===================== */
+.siteHeader{
+  width:90%;
+  margin:18px auto 0;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:color-mix(in srgb, var(--card) 88%, transparent);
+  backdrop-filter:blur(12px);
+  box-shadow:var(--shadow);
+  transition:.25s ease;
+}
+.siteHeader:hover{box-shadow:var(--shadow2); transform:translateY(-2px)}
+
+.headerBar{
+  height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  font-weight:800;
+}
+.brandIcon{
+  width:42px; height:42px;
+  border-radius:14px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));
+  border:1px solid var(--border);
+  box-shadow:0 10px 18px rgba(37,99,235,0.10);
+  color:var(--accent);
+}
+.brandText{font-size:18px; letter-spacing:-.2px}
+
+.nav{
+  display:flex;
+  gap:8px;
+  padding:8px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--card);
+}
+.nav a{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:800;
+  font-size:14px;
+  padding:10px 14px;
+  border-radius:999px;
+  transition:.15s ease;
+}
+.nav a:hover{background:color-mix(in srgb, var(--accent) 10%, transparent); color:var(--text)}
+.nav a.active{
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+/* =====================
+   BUTTONS
+===================== */
+.btn{
+  border:none;
+  cursor:pointer;
+  font-weight:900;
+  border-radius:999px;
+  padding:10px 14px;
+  transition:.15s ease;
+}
+.btnPrimary{
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow:0 14px 26px rgba(37,99,235,0.20);
+}
+.btnPrimary:hover{transform:translateY(-1px); filter:saturate(1.1)}
+.btnSoft{
+  background:color-mix(in srgb, var(--accent) 10%, var(--card));
+  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  color:var(--accent);
+}
+.btnSoft:hover{transform:translateY(-1px)}
+
+/* =====================
+   MAIN CONTENT
+===================== */
+main{
+  flex: 1 0 auto;
+  padding:26px 0 70px;
+}
+
+.card{
+  border-radius:22px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  padding:26px;
+  margin-bottom:20px;
+}
+
+.badge{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:12px;
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+h1{
+  margin:12px 0 6px;
+  font-size:clamp(22px, 2.5vw, 34px);
+  letter-spacing:-.6px;
+}
+.sub{color:var(--muted); line-height:1.6; margin-bottom:16px;}
+
+/* Upload area */
+.drop{
+  border:1.5px dashed color-mix(in srgb, var(--accent) 38%, transparent);
+  background:linear-gradient(180deg, var(--card), var(--card2));
+  border-radius:18px;
+  min-height:200px;
+  padding:18px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  gap:10px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.drop.dragging{
+  background:color-mix(in srgb, var(--accent) 10%, var(--card));
+  transform:scale(1.01);
+}
+.drop strong{font-size:16px;}
+.drop span{font-size:14px; color:var(--muted);}
+
+input[type="file"]{display:none;}
+
+/* File status indicator */
+.file-status {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  min-height: 20px;
+  text-align: center;
+}
+
+/* Quality slider */
+.quality-control{
+  margin-top:16px;
+  text-align:left;
+}
+.quality-control label{
+  display:block;
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:6px;
+  color:var(--text);
+}
+/* Track */
+.quality-control input[type=range] {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* Thumb for WebKit browsers */
+.quality-control input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  margin-top: -7px;
+}
+/* Thumb for Firefox */
+.quality-control input[type=range]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+/* Track for Firefox */
+.quality-control input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 10px;
+}
+.quality-value{
+  font-weight:800;
+  color:var(--accent);
+  margin-left:8px;
+}
+
+/* =====================
+   FOOTER (with larger text)
+===================== */
+footer{
+  flex-shrink: 0;
+  border-top:1px solid var(--border);
+  padding:22px 0 10px;
+}
+
+.footerGrid{
+  display:grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.footerTitle{
+  font-weight:900;
+  margin:0 0 10px;
+  font-size:1.1rem;
+}
+
+.footerText{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+  font-size:15px;
+}
+
+.footerLinks{
+  display:grid;
+  gap:8px;
+}
+.footerLinks a{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:700;
+  font-size:15px;
+}
+.footerLinks a:hover{color:var(--accent)}
+
+.socialRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.socialBtn{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:0 10px 20px rgba(15,23,42,0.06);
+  color:var(--text);
+  transition:.18s ease;
+}
+.socialBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow2);
+  color:var(--accent);
+}
+.socialBtn svg{width:20px;height:20px}
+
+.copy{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:14px;
+  text-align:center;
+}
+
+/* Responsive */
+@media (max-width: 720px){
+  .siteHeader, .container{ width:92%; }
+  .headerBar{
+    flex-direction:column;
+    align-items:flex-start;
+    padding:12px 14px;
+    height:auto;
+  }
+  .nav{
+    width:100%;
+    border-radius:16px;
+    padding:6px;
+  }
+  .nav a{ font-size:13px; padding:9px 12px; }
+  .card{ padding:18px; }
+  h1{ font-size:22px; }
+  .sub{ font-size:14px; }
+  .drop{ min-height:180px; }
+  .footerGrid{ grid-template-columns:1fr; }
+}
+@media (max-width: 420px){
+  .badge{ font-size:11px; }
+  .drop strong{ font-size:15px; }
+  .drop span{ font-size:13px; }
+  .btn{ width:100%; }
+  .drop .btnRow{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="siteHeader">
+  <div class="headerBar">
+    <a class="brand" href="/">
+      <span class="brandIcon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M8 3h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brandText">Makepdfs.in</span>
+    </a>
+
+    <nav class="nav">
+      <a href="/image-to-pdf/">Img to PDF</a>
+      <a href="/jpg-to-png/">JPG to PNG</a>
+      <a class="active" href="#">PNG to JPG</a>
+      <a href="/merge-pdf/">Merge PDF</a>
+      <a href="/split-pdf/">Split PDF</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="card">
+    <span class="badge">PNG to JPG · REDUCE SIZE</span>
+    <h1>PNG to JPG Converter</h1>
+    <p class="sub">Convert PNG images into JPG to reduce file size. Adjust quality to balance size and clarity.</p>
+
+    <label class="drop" id="dropZone">
+      <strong>Click to upload PNG</strong>
+      <span>PNG only — max 20MB</span>
+      <input type="file" id="fileInput" accept=".png,image/png" hidden>
+
+      <div class="btnRow" style="display:flex;gap:10px; margin-top:8px;">
+        <button type="button" class="btn btnSoft" onclick="openFileDialog(event)">Choose Image</button>
+        <button type="button" class="btn btnSoft" onclick="clearImage()">Clear</button>
+      </div>
+    </label>
+
+    <!-- File status indicator -->
+    <div id="fileStatus" class="file-status"></div>
+
+    <!-- Quality slider -->
+    <div class="quality-control">
+      <label>JPG Quality: <span id="qualityValue" class="quality-value">92%</span></label>
+      <input type="range" id="qualitySlider" min="10" max="100" value="92" step="1">
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="btn btnPrimary" style="width:100%;" id="downloadBtn" disabled>Download JPG</button>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container footerGrid">
+    <div>
+      <p class="footerTitle">Makepdfs.in</p>
+      <p class="footerText">
+        Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.
+      </p>
+
+      <div class="socialRow" aria-label="Social links">
+        <a class="socialBtn" href="https://www.instagram.com/aman_kumar4257/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a class="socialBtn" href="https://www.facebook.com/profile.php?id=100048454962492" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v3H8v3h3v6h3v-6h3l1-3h-4V9c0-.6.4-1 1-1Z" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="socialBtn" href="https://www.linkedin.com/in/aman-kumar-760024371" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M6.5 10V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M6.5 6.8h.01" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M10.5 18v-4.3c0-1.7 1-2.8 2.5-2.8s2.5 1.1 2.5 2.8V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M14.5 12.1c.3-.8 1.1-1.2 2-1.2 1.6 0 2.5 1.1 2.5 2.8V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+          </svg>
+        </a>
+
+        <a class="socialBtn" href="mailto:amankumar48979@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="m4 8 8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="footerTitle">Company</p>
+      <div class="footerLinks">
+        <a href="/about.html">About</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container copy">&copy; <span id="year"></span> Makepdfs.in. All rights reserved.</div>
+</footer>
+
+<script>
+/* =====================
+   YEAR
+===================== */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* =====================
+   PNG to JPG Converter
+===================== */
+const fileInput = document.getElementById('fileInput');
+const dropZone = document.getElementById('dropZone');
+const downloadBtn = document.getElementById('downloadBtn');
+const qualitySlider = document.getElementById('qualitySlider');
+const qualityValue = document.getElementById('qualityValue');
+const fileStatus = document.getElementById('fileStatus');
+
+let originalImage = null;
+let fileName = '';
+
+// Update quality display
+qualitySlider.addEventListener('input', () => {
+  qualityValue.textContent = qualitySlider.value + '%';
+});
+
+// ---------- process image ----------
+function processImage(file) {
+  if (!file || !file.type.startsWith('image/png')) {
+    alert('Please select a valid PNG file.');
+    fileInput.value = '';
+    return;
+  }
+  if (file.size > 20 * 1024 * 1024) {
+    alert('File too large. Maximum 20MB.');
+    fileInput.value = '';
+    return;
+  }
+
+  fileName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
+  fileStatus.textContent = `✅ Selected: ${file.name}`;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      originalImage = img;
+      downloadBtn.disabled = false;
+      fileInput.value = ''; // allow re-upload of same file
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function openFileDialog(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  fileInput.click();
+}
+
+// ---------- clear ----------
+function clearImage() {
+  fileInput.value = '';
+  originalImage = null;
+  downloadBtn.disabled = true;
+  fileStatus.textContent = '';
+}
+
+// ---------- download JPG ----------
+function downloadJPG() {
+  if (!originalImage) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = originalImage.width;
+  canvas.height = originalImage.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(originalImage, 0, 0);
+
+  const quality = qualitySlider.value / 100;
+  const dataURL = canvas.toDataURL('image/jpeg', quality);
+
+  const link = document.createElement('a');
+  link.download = fileName;
+  link.href = dataURL;
+  link.click();
+}
+
+// ---------- event listeners ----------
+fileInput.addEventListener('change', (e) => {
+  const file = e.target.files?.[0];
+  if (file) processImage(file);
+  else clearImage();
+});
+
+['dragenter','dragover'].forEach(ev => {
+  dropZone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.add('dragging');
+  });
+});
+['dragleave','drop'].forEach(ev => {
+  dropZone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.remove('dragging');
+    if (ev === 'drop' && e.dataTransfer?.files?.length) {
+      const file = e.dataTransfer.files[0];
+      processImage(file);
+    }
+  });
+});
+
+downloadBtn.addEventListener('click', downloadJPG);
+window.clearImage = clearImage;
+</script>
+
+
+<script src="../footer-enhance.js"></script>
+</body>
+</html>
+
+

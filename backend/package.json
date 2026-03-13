@@ -1,0 +1,16 @@
+{
+  "name": "libreoffice-docx-pdf-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Exact DOCX to PDF conversion service using LibreOffice headless",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.19.0",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en-IN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="keywords" content="heic to pdf, tiff to pdf, bmp to pdf, gif to pdf, psd to pdf, ai to pdf, eps to pdf, svg to pdf, pages to pdf, key to pdf, numbers to pdf, text to pdf, csv to pdf, xml to pdf, json to pdf, md to pdf, markdown to pdf, pdf to png, pdf to tiff, pdf to bmp, pdf to gif, pdf to html, pdf to txt, pdf to rtf, pdf to csv, pdf to xml, pdf to json, pdf to svg, pdf to pages, pdf to key, pdf to numbers, unlock pdf, remove password pdf, protect pdf, encrypt pdf, password protect pdf, rotate pdf, rearrange pdf, reorder pdf pages, delete pages from pdf, extract pages from pdf, add page numbers to pdf, watermark pdf, add watermark to pdf, redact pdf, ocr pdf, searchable pdf, flatten pdf, pdf form filler, fill pdf form, create fillable pdf, pdf to audiobook, pdf to speech, read pdf aloud, resize pdf, pdf page size, a4 to pdf, letter to pdf, pdf optimizer, repair pdf, fix corrupted pdf, compare pdf, pdf difference, pdf to cad, dwg to pdf, pdf to dwg, pdf to dxf, ebook to pdf, epub to pdf, mobi to pdf, azw to pdf, pdf to epub, pdf to mobi, pdf to kindle, comic to pdf, cbz to pdf, cbr to pdf, pdf to cbz, pdf to cbr, invoice to pdf, receipt to pdf, scan to pdf, document to pdf, photo to pdf, picture to pdf, multiple images to pdf, batch convert to pdf, pdf printer, print to pdf, save as pdf, export as pdf, pdf converter online, free pdf converter, pdf maker online, create pdf online, convert to pdf online, pdf editor online, free pdf editor, online pdf tool, pdf utility, pdf toolkit, pdf creator software, desktop pdf converter, offline pdf maker" />
+<meta name="author" content="Makepdfs.in" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta name="description" content="Free PDF converter online for image to PDF, photo to PDF, picture to PDF, multiple images to PDF, document to PDF, merge PDF, split PDF, compress PDF, PDF to Word, and PDF to QR Code tools. Fast, mobile friendly, and easy to use." />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#2563eb" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Makepdfs.in" />
+<meta property="og:title" content="Free PDF Converter Online | Image to PDF, Merge, Split, Compress | Makepdfs.in" />
+<meta property="og:description" content="Free PDF converter online for image to PDF, photo to PDF, picture to PDF, multiple images to PDF, document to PDF, merge PDF, split PDF, compress PDF, PDF to Word, and PDF to QR Code tools. Fast, mobile friendly, and easy to use." />
+<meta property="og:image" content="/favicon.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Free PDF Converter Online | Image to PDF, Merge, Split, Compress | Makepdfs.in" />
+<meta name="twitter:description" content="Free PDF converter online for image to PDF, photo to PDF, picture to PDF, multiple images to PDF, document to PDF, merge PDF, split PDF, compress PDF, PDF to Word, and PDF to QR Code tools. Fast, mobile friendly, and easy to use." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Makepdfs.in","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"/","description":"Online PDF and image tools including image to PDF, merge PDF, split PDF, compress PDF, doc to PDF, PDF to Word, and PDF to QR Code.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<title>Free PDF Converter Online | Image to PDF, Merge, Split, Compress | Makepdfs.in</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+/* =====================
+   THEME TOKENS
+===================== */
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --card2:#f7faff;
+  --border:#e6eaf3;
+  --text:#0f172a;
+  --muted:#64748b;
+
+  --accent:#2563eb;
+  --accent2:#06b6d4;
+
+  --shadow:0 14px 30px rgba(15,23,42,0.08);
+  --shadow2:0 22px 55px rgba(37,99,235,0.14);
+
+  --radius:18px;
+  --radius2:16px;
+
+  /* ? thoda bada max, taaki 4 cards fit ho jaye */
+  --max:1320px;
+}
+
+html[data-theme="dark"]{
+  --bg:#0b1220;
+  --card:#101a2f;
+  --card2:#0f1930;
+  --border:#1e2a44;
+  --text:#e8eefc;
+  --muted:#a7b3cc;
+  --accent:#60a5fa;
+  --accent2:#22d3ee;
+  --shadow:0 16px 34px rgba(0,0,0,0.35);
+  --shadow2:0 22px 60px rgba(34,211,238,0.12);
+}
+
+html[data-theme="ocean"]{
+  --bg:#f2fbff;
+  --card:#ffffff;
+  --card2:#f1fbff;
+  --border:#d8eef7;
+  --text:#06283d;
+  --muted:#4b6b7c;
+  --accent:#0891b2;
+  --accent2:#2563eb;
+}
+
+html[data-theme="purple"]{
+  --bg:#faf7ff;
+  --card:#ffffff;
+  --card2:#fbf8ff;
+  --border:#eadcff;
+  --text:#1b1230;
+  --muted:#6b5b8a;
+  --accent:#7c3aed;
+  --accent2:#ec4899;
+}
+
+/* =====================
+   BASE
+===================== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+  color:var(--text);
+  background:
+    radial-gradient(900px 520px at 12% -12%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%),
+    radial-gradient(760px 420px at 90% -10%, color-mix(in srgb, var(--accent2) 14%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 70%, #fff));
+}
+
+/* ? main area width header ke barabar */
+.container{
+  width:min(var(--max), 90%);
+  margin:0 auto;
+}
+
+a{color:inherit}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{
+  outline:3px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset:2px;
+}
+
+/* =====================
+   HEADER
+===================== */
+.siteHeader{
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  border:1px solid var(--border);
+  border-radius:0 0 var(--radius) var(--radius);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  transition:.25s ease;
+  z-index:100;
+}
+.siteHeader:hover{box-shadow:var(--shadow2)}
+
+.headerBar{
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  font-weight:800;
+  min-width:0;
+  flex:1 1 auto;
+}
+.brandIcon{
+  width:42px; height:42px;
+  border-radius:14px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));
+  border:1px solid var(--border);
+  box-shadow:0 10px 18px rgba(37,99,235,0.10);
+  color:var(--accent);
+}
+.brandText{font-size:18px; letter-spacing:-.2px}
+
+.nav{
+  display:flex;
+  gap:8px;
+  padding:8px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--card);
+}
+.nav a{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:800;
+  font-size:14px;
+  padding:10px 14px;
+  border-radius:999px;
+  transition:.15s ease;
+}
+.nav a:hover{background:color-mix(in srgb, var(--accent) 10%, transparent); color:var(--text)}
+.nav a.active{
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-left:auto;
+  flex:0 0 auto;
+}
+
+.themePicker{
+  position:relative;
+}
+.themeTrigger{
+  min-width:120px;
+  height:42px;
+  padding:0 12px;
+  border-radius:14px;
+  border:1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  font-weight:800;
+  cursor:pointer;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, transparent), var(--card));
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  box-shadow:0 10px 22px rgba(15,23,42,0.08);
+}
+.themeTrigger:hover{
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+.themeValue{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.themeDot{
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+}
+.themeCaret{
+  width:16px;
+  height:16px;
+  transition:transform .18s ease;
+}
+.themePicker.open .themeCaret{transform:rotate(180deg)}
+
+.themeMenu{
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  width:168px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:0 18px 34px rgba(15,23,42,0.18);
+  padding:8px;
+  display:grid;
+  gap:4px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-6px);
+  transition:opacity .16s ease, transform .16s ease;
+  z-index:35;
+}
+.themePicker.open .themeMenu{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.themeOption{
+  border:none;
+  border-radius:10px;
+  background:transparent;
+  color:var(--text);
+  text-align:left;
+  font-weight:700;
+  font-size:13px;
+  padding:10px 10px;
+  cursor:pointer;
+}
+.themeOption:hover{
+  background:color-mix(in srgb, var(--accent) 11%, transparent);
+}
+.themeOption.active{
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+  color:#fff;
+}
+
+.btn{
+  border:none;
+  cursor:pointer;
+  font-weight:900;
+  border-radius:999px;
+  padding:10px 14px;
+  transition:.15s ease;
+}
+.btnPrimary{
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow:0 14px 26px rgba(37,99,235,0.20);
+}
+.btnPrimary:hover{transform:translateY(-1px); filter:saturate(1.1)}
+.btnSoft{
+  background:color-mix(in srgb, var(--accent) 10%, var(--card));
+  border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  color:var(--accent);
+}
+.btnSoft:hover{transform:translateY(-1px)}
+
+/* =====================
+   SECTIONS
+===================== */
+main{padding:100px 0 70px}
+
+/* Welcome / Info box */
+.hero{
+  margin-top:18px;
+  padding:22px 22px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+}
+.heroLeft{max-width:70ch}
+.badge{
+  display:inline-flex;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:12px;
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 10%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.hero h1{
+  margin:12px 0 6px;
+  font-size:clamp(22px, 2.5vw, 34px);
+  letter-spacing:-.6px;
+}
+.hero p{margin:0; color:var(--muted); line-height:1.7}
+/* All tools */
+.sectionTitle{
+  margin:24px 0 12px;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:-.3px;
+}
+
+/* ? 1 row me 4 cards */
+.toolsGrid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:16px;
+  margin-bottom:26px;
+}
+
+/* =====================
+   TOOL CARD
+===================== */
+.toolCard{
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  transition:.22s ease;
+  display:flex;
+  flex-direction:column;
+}
+.toolCard:hover{transform:translateY(-6px); box-shadow:var(--shadow2)}
+
+.toolImg{
+  height:160px;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+  position:relative;
+}
+
+.toolImg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;   /* image pura area fill karegi */
+  object-position:center;
+  display:block;
+}
+
+.toolBody{
+  padding:14px 14px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.toolBody h3{
+  margin:0;
+  font-size:15px;
+  color:var(--text);
+  letter-spacing:-.2px;
+}
+.toolBody p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.6;
+  font-size:13px;
+}
+
+.toolActions{padding:0 14px 14px}
+
+.openBtn{
+  width:100%;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+  transition:.2s ease;
+}
+.toolCard:hover .openBtn{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+@media (hover: none){
+  .openBtn{opacity:1; transform:none; pointer-events:auto;}
+}
+
+/* Footer */
+footer{
+  margin-top:8px;
+  border-top:1px solid var(--border);
+  padding:22px 0 10px;
+}
+
+.footerGrid{
+  display:grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.footerTitle{font-weight:900; margin:0 0 10px}
+.footerText{margin:0; color:var(--muted); line-height:1.7; font-size:13px}
+
+.footerLinks{display:grid; gap:8px}
+.footerLinks a{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:700;
+  font-size:13px;
+}
+.footerLinks a:hover{color:var(--accent)}
+
+.socialRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.socialBtn{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:0 10px 20px rgba(15,23,42,0.06);
+  color:var(--text);
+  transition:.18s ease;
+}
+.socialBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow2);
+  color:var(--accent);
+}
+.socialBtn svg{width:20px;height:20px}
+
+.copy{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* Responsive */
+@media (max-width: 1100px){
+  .toolsGrid{grid-template-columns:repeat(3, 1fr)}
+  .hero{flex-direction:column; align-items:flex-start}
+  .heroRight{justify-items:start}
+}
+@media (max-width: 900px){
+  .toolsGrid{grid-template-columns:repeat(2, 1fr)}
+  .container{width:min(var(--max), 94%)}
+  .siteHeader{width:94%}
+  .footerGrid{grid-template-columns:1fr}
+}
+@media (max-width: 640px){
+  .toolsGrid{grid-template-columns:1fr}
+  .nav{display:none}
+  .container{width:min(var(--max), 96%)}
+  .siteHeader{width:96%}
+  .headerBar{
+    min-height:68px;
+    padding:10px 12px;
+    gap:8px;
+  }
+  .brand{
+    gap:8px;
+  }
+  .brandIcon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+  }
+  .brandText{
+    font-size:15px;
+    letter-spacing:-.3px;
+  }
+  .themeTrigger{
+    min-width:104px;
+    height:40px;
+    padding:0 10px;
+    font-size:13px;
+  }
+}
+
+/* SEO content */
+.seoBlock{margin-top:22px;padding:22px;border:1px solid var(--border, var(--b));border-radius:22px;background:var(--card);box-shadow:var(--shadow, var(--s1));}
+.seoBlock h2{margin:0 0 10px;font-size:clamp(22px,2.2vw,30px)}
+.seoBlock p{margin:0 0 12px;color:var(--muted, var(--m));line-height:1.75}
+.seoGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}
+.seoMini{padding:16px;border-radius:18px;background:linear-gradient(180deg,var(--card2, #f7faff),var(--card));border:1px solid var(--border, var(--b));}
+.seoMini h3{margin:0 0 8px;font-size:18px}
+.seoMini ul{margin:0;padding-left:18px;color:var(--muted, var(--m));line-height:1.8}
+@media (max-width:780px){.seoGrid{grid-template-columns:1fr}}
+
+
+.seoHub{margin-top:24px;padding:22px;border-radius:22px;background:var(--card);border:1px solid var(--border, var(--b));box-shadow:var(--shadow, var(--s1));}
+.seoHub h2,.seoHub h3{margin:0 0 10px;color:var(--text, var(--t));}
+.seoHub p{margin:0 0 12px;color:var(--muted, var(--m));line-height:1.8}
+.seoCols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+.seoCard{padding:16px;border-radius:18px;background:linear-gradient(180deg,var(--card2,#f7faff),var(--card));border:1px solid var(--border, var(--b));}
+.seoCard ul{margin:0;padding-left:18px;color:var(--muted, var(--m));line-height:1.8}
+.seoLinkBtn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:14px;text-decoration:none;font-weight:700;background:linear-gradient(135deg,var(--accent,#2563eb),var(--accent2,#06b6d4));color:#fff;box-shadow:var(--shadow2, var(--s2));margin-top:8px}
+@media (max-width:900px){.seoCols{grid-template-columns:1fr}}
+
+
+.cleanRoutes{margin-top:24px;padding:24px;border-radius:22px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
+.cleanRoutes h2{margin:0 0 10px}.routeGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}.routeGrid a{display:block;padding:14px 16px;border-radius:16px;text-decoration:none;color:var(--text);background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);font-weight:700}.routeGrid a span{display:block;margin-top:6px;font-weight:500;color:var(--muted);font-size:13px}@media (max-width:980px){.routeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:640px){.routeGrid{grid-template-columns:1fr}}
+
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"/#website","url":"/","name":"Makepdfs.in","potentialAction":{"@type":"SearchAction","target":"/seo-keywords.html?q={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"ItemList","name":"PDF Tools","itemListElement":[{"@type":"ListItem","position":1,"name":"Image to PDF","url":"/image-to-pdf/"},{"@type":"ListItem","position":2,"name":"Merge PDF","url":"/merge-pdf/"},{"@type":"ListItem","position":3,"name":"Split PDF","url":"/split-pdf/"},{"@type":"ListItem","position":4,"name":"Compress PDF","url":"/compress-pdf/"},{"@type":"ListItem","position":5,"name":"Document to PDF","url":"/doc-to-pdf/"},{"@type":"ListItem","position":6,"name":"PDF to Word","url":"/pdf-to-word/"},{"@type":"ListItem","position":7,"name":"PDF to QR Code","url":"/pdf-to-qrcode/"}]}]}</script>
+</head>
+
+<body>
+
+<header class="siteHeader">
+  <div class="headerBar">
+    <a class="brand" href="/">
+      <span class="brandIcon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M8 3h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brandText">Makepdfs.in</span>
+    </a>
+
+    <nav class="nav">
+      <a class="active" href="/image-to-pdf/">Img to PDF</a>
+      <a href="/merge-pdf/">Merge PDF</a>
+      <a href="/split-pdf/">Split PDF</a>
+    </nav>
+
+    <div class="actions">
+      <div class="themePicker" id="themePicker">
+        <button type="button" id="themeTrigger" class="themeTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="themeValue">
+            <span class="themeDot" aria-hidden="true"></span>
+            <span id="themeLabel">Light</span>
+          </span>
+          <svg class="themeCaret" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="themeMenu" id="themeMenu" role="listbox" aria-label="Theme">
+          <button type="button" class="themeOption" data-theme="light" role="option">Light</button>
+          <button type="button" class="themeOption" data-theme="dark" role="option">Dark</button>
+          <button type="button" class="themeOption" data-theme="ocean" role="option">Ocean</button>
+          <button type="button" class="themeOption" data-theme="purple" role="option">Purple</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- 1) Welcome / Info Box -->
+  <section class="hero">
+    <div class="heroLeft">
+      <span class="badge">Working tools - easy to use - free</span>
+      <h1>Free PDF Converter Online for Images, Documents and PDF Files</h1>
+      <p>
+        Fast, simple and modern tools for image to PDF, document to PDF, merge PDF, split PDF, compress PDF, PDF to Word, and PDF to QR Code conversion. No signup required and works on mobile too.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3) Tools -->
+  <h2 class="sectionTitle">All Tools</h2>
+
+  <section class="toolsGrid">
+    <!-- CARD 1 -->
+    <a class="toolCard" href="image-to-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/img-pdf.jpg" alt="Image to PDF" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Image to PDF</h3>
+        <p>Convert PNG/JPG images into a single PDF in seconds.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 2 -->
+    <a class="toolCard" href="merge-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/merge-pdf.jpg" alt="Merge PDF" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDFs into one file with perfect order.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 3 -->
+    <a class="toolCard" href="split-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/split-pdf.jpg" alt="Split PDF" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Split PDF</h3>
+        <p>Split a PDF into pages or extract a specific page range.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 4 -->
+    <a class="toolCard" href="compress-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/compress-pdf.jpg" alt="Compress Document" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Compress Document</h3>
+        <p>Reduce document size while keeping good quality.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 5 (Word to PDF) -->
+    <a class="toolCard" href="doc-to-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/word-pdf.jpg" alt="Doc to PDF" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Document to PDF</h3>
+        <p>Convert DOCX files into PDF quickly and easily.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 6 (PDF to Word) -->
+    <a class="toolCard" href="pdf-to-word/">
+      <div class="toolImg">
+        <img src="image/optimized/pdf-word.jpg" alt="PDF to Word" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>PDF to Word</h3>
+        <p>Convert PDF into editable Word format quickly and easily.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- CARD 7 (PDF to QR Code) -->
+    <a class="toolCard" href="pdf-to-qrcode/">
+      <div class="toolImg">
+        <img src="image/optimized/pdf-QRCode.jpg" alt="PDF to QR Code" width="640" height="427" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='image/pdf-QRCode.png'">
+      </div>
+      <div class="toolBody">
+        <h3>PDF to QR Code</h3>
+        <p>Upload PDF and generate a QR code that opens the original PDF link directly.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- ? CARD 8 (6th position request) -->
+    <a class="toolCard" href="pdf-to-powerpoint/">
+      <div class="toolImg">
+        <img src="image/optimized/pdf-ppt.png" alt="PDF to PowerPoint" width="640" height="427" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='image/pdf-ppt.png'">
+      </div>
+      <div class="toolBody">
+        <h3>PDF to PowerPoint</h3>
+        <p>Convert PDF pages into PPTX slides with server mode and browser fallback.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- ? CARD 8 (7th position) -->
+    <a class="toolCard" href="powerpoint-to-pdf/">
+      <div class="toolImg">
+        <img src="image/optimized/ppt-pdf.png" alt="PowerPoint to PDF" width="640" height="427" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='image/ppt-pdf.png'">
+      </div>
+      <div class="toolBody">
+        <h3>PowerPoint to PDF</h3>
+        <p>Convert PPT/PPTX presentations into high-quality PDFs.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- ? CARD 9 (8th position) -->
+    <!-- <a class="toolCard" href="pdf-to-excel.html">
+      <div class="toolImg">
+        <img src="image/pdf-exe.png" alt="PDF to Excel">
+      </div>
+      <div class="toolBody">
+        <h3>PDF to Excel</h3>
+        <p>Extract tables from PDF into editable Excel sheets.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a> -->
+
+    <!-- ? CARD 10 (9th position) -->
+    <!-- <a class="toolCard" href="excel-to-pdf.html">
+      <div class="toolImg">
+        <img src="image/exe-pdf.png" alt="Excel to PDF">
+      </div>
+      <div class="toolBody">
+        <h3>Excel to PDF</h3>
+        <p>Convert Excel sheets into clean, shareable PDFs.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a> -->
+
+    <!-- ? CARD 11 (10th position) -->
+    <a class="toolCard" href="passport-photo/">
+      <div class="toolImg">
+        <img src="image/optimized/passport-photo.jpg" alt="Image to Passport Photo" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>Passport Photo Maker</h3>
+        <p>Create passport-size photo from any image instantly.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- ? CARD 12 (11th position) -->
+    <a class="toolCard" href="jpg-to-png/">
+      <div class="toolImg">
+        <img src="image/optimized/jpg-png.jpg" alt="JPG to PNG" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>JPG to PNG</h3>
+        <p>Convert JPG images into PNG format quickly and easily.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+
+    <!-- ? CARD 13 (12th position) -->
+    <a class="toolCard" href="png-to-jpg/">
+      <div class="toolImg">
+        <img src="image/optimized/png-jpg.jpg" alt="PNG to JPG" width="640" height="427" loading="lazy" decoding="async">
+      </div>
+      <div class="toolBody">
+        <h3>PNG to JPG</h3>
+        <p>Convert PNG images into JPG to reduce file size.</p>
+      </div>
+      <div class="toolActions">
+        <span class="btn btnPrimary openBtn">Open Tool</span>
+      </div>
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footerGrid">
+      <div>
+        <p class="footerTitle">Makepdfs.in</p>
+        <p class="footerText">
+          Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.
+        </p>
+
+        <div class="socialRow" aria-label="Social links">
+          <a class="socialBtn" href="https://www.instagram.com/aman_kumar4257/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </a>
+
+          <a class="socialBtn" href="https://www.facebook.com/profile.php?id=100048454962492" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v3H8v3h3v6h3v-6h3l1-3h-4V9c0-.6.4-1 1-1Z" fill="currentColor"/>
+            </svg>
+          </a>
+
+          <a class="socialBtn" href="https://www.linkedin.com/in/aman-kumar-760024371" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6.5 10V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M6.5 6.8h.01" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+              <path d="M10.5 18v-4.3c0-1.7 1-2.8 2.5-2.8s2.5 1.1 2.5 2.8V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M14.5 12.1c.3-.8 1.1-1.2 2-1.2 1.6 0 2.5 1.1 2.5 2.8V18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+            </svg>
+          </a>
+
+          <a class="socialBtn" href="mailto:amankumar48979@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="m4 8 8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footerTitle">Company</p>
+        <div class="footerLinks">
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy">&copy; <span id="year"></span> Makepdfs.in. All rights reserved.</div>
+  
+
+</footer>
+
+</main>
+
+<script>
+/* =====================
+   THEME
+===================== */
+const root = document.documentElement;
+const themePicker = document.getElementById("themePicker");
+const themeTrigger = document.getElementById("themeTrigger");
+const themeLabel = document.getElementById("themeLabel");
+const themeOptions = Array.from(document.querySelectorAll(".themeOption"));
+const availableThemes = ["light", "dark", "ocean", "purple"];
+const safeStorageGet = (key) => {
+  try { return window.localStorage ? window.localStorage.getItem(key) : null; } catch (_) { return null; }
+};
+const safeStorageSet = (key, value) => {
+  try { if (window.localStorage) window.localStorage.setItem(key, value); } catch (_) {}
+};
+
+const setTheme = (themeName) => {
+  const t = availableThemes.includes(themeName) ? themeName : "light";
+  root.setAttribute("data-theme", t);
+  safeStorageSet("theme", t);
+  themeLabel.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  themeOptions.forEach((option) => {
+    option.classList.toggle("active", option.dataset.theme === t);
+    option.setAttribute("aria-selected", option.dataset.theme === t ? "true" : "false");
+  });
+};
+
+setTheme(safeStorageGet("theme") || "light");
+
+themeTrigger.addEventListener("click", () => {
+  const opening = !themePicker.classList.contains("open");
+  themePicker.classList.toggle("open", opening);
+  themeTrigger.setAttribute("aria-expanded", opening ? "true" : "false");
+});
+
+themeOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    setTheme(option.dataset.theme || "light");
+    themePicker.classList.remove("open");
+    themeTrigger.setAttribute("aria-expanded", "false");
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if(!themePicker.contains(event.target)){
+    themePicker.classList.remove("open");
+    themeTrigger.setAttribute("aria-expanded", "false");
+  }
+});
+
+/* =====================
+   YEAR
+===================== */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+</script>
+
+
+<script src="footer-enhance.js"></script>
+</body>
+</html>
