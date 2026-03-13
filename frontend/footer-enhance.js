@@ -186,7 +186,7 @@
   const footerMarkup = `
     <div class="footerGrid">
       <div>
-        <p class="footerTitle">Makepdfs.in</p>
+        <p class="footerTitle">Makepdf.in</p>
         <p class="footerText">Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.</p>
         <div class="socialRow" aria-label="Social links">
           <a class="socialBtn" href="https://www.instagram.com/aman_kumar4257/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
@@ -213,7 +213,7 @@
         </div>
       </div>
     </div>
-    <div class="copy">&copy; <span class="js-year"></span> Makepdfs.in. All rights reserved.</div>
+    <div class="copy">&copy; <span class="js-year"></span> Makepdf.in. All rights reserved.</div>
   `;
 
   let footer = document.querySelector("footer");
@@ -238,7 +238,7 @@
   }
 
   if (!footer.querySelector(".copy")) {
-    footer.insertAdjacentHTML("beforeend", `<div class="copy">&copy; <span class="js-year"></span> Makepdfs.in. All rights reserved.</div>`);
+    footer.insertAdjacentHTML("beforeend", `<div class="copy">&copy; <span class="js-year"></span> Makepdf.in. All rights reserved.</div>`);
   }
 
   replaceSocialIcons(footer);

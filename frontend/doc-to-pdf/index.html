@@ -4,23 +4,23 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="keywords" content="heic to pdf, tiff to pdf, bmp to pdf, gif to pdf, psd to pdf, ai to pdf, eps to pdf, svg to pdf, pages to pdf, key to pdf, numbers to pdf, text to pdf, csv to pdf, xml to pdf, json to pdf, md to pdf, markdown to pdf, pdf to png, pdf to tiff, pdf to bmp, pdf to gif, pdf to html, pdf to txt, pdf to rtf, pdf to csv, pdf to xml, pdf to json, pdf to svg, pdf to pages, pdf to key, pdf to numbers, unlock pdf, remove password pdf, protect pdf, encrypt pdf, password protect pdf, rotate pdf, rearrange pdf, reorder pdf pages, delete pages from pdf, extract pages from pdf, add page numbers to pdf, watermark pdf, add watermark to pdf, redact pdf, ocr pdf, searchable pdf, flatten pdf, pdf form filler, fill pdf form, create fillable pdf, pdf to audiobook, pdf to speech, read pdf aloud, resize pdf, pdf page size, a4 to pdf, letter to pdf, pdf optimizer, repair pdf, fix corrupted pdf, compare pdf, pdf difference, pdf to cad, dwg to pdf, pdf to dwg, pdf to dxf, ebook to pdf, epub to pdf, mobi to pdf, azw to pdf, pdf to epub, pdf to mobi, pdf to kindle, comic to pdf, cbz to pdf, cbr to pdf, pdf to cbz, pdf to cbr, invoice to pdf, receipt to pdf, scan to pdf, document to pdf, photo to pdf, picture to pdf, multiple images to pdf, batch convert to pdf, pdf printer, print to pdf, save as pdf, export as pdf, pdf converter online, free pdf converter, pdf maker online, create pdf online, convert to pdf online, pdf editor online, free pdf editor, online pdf tool, pdf utility, pdf toolkit, pdf creator software, desktop pdf converter, offline pdf maker" />
-<meta name="author" content="Makepdfs.in" />
+<meta name="author" content="Makepdf.in" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="description" content="Convert DOCX files to PDF online with formatting support in your browser." />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#2563eb" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Makepdfs.in" />
-<meta property="og:title" content="Document to PDF Converter Online | Word to PDF | Makepdfs.in" />
+<meta property="og:site_name" content="Makepdf.in" />
+<meta property="og:title" content="Document to PDF Converter Online | Word to PDF | Makepdf.in" />
 <meta property="og:description" content="Convert DOCX to PDF online with preserved formatting directly in your browser." />
 <meta property="og:image" content="/favicon.svg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Document to PDF Converter Online | Word to PDF | Makepdfs.in" />
+<meta name="twitter:title" content="Document to PDF Converter Online | Word to PDF | Makepdf.in" />
 <meta name="twitter:description" content="Convert DOCX to PDF online with preserved formatting directly in your browser." />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"DOCX to PDF Converter","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"/doc-to-pdf/","description":"Convert DOCX files to PDF online."}
 </script>
-<title>DOCX to PDF Converter Online | Makepdfs.in</title>
+<title>DOCX to PDF Converter Online | Makepdf.in</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -548,7 +548,7 @@ footer{
           <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </span>
-      <span class="brandText">Makepdfs.in</span>
+      <span class="brandText">Makepdf.in</span>
     </a>
 
     <nav class="nav">
@@ -595,7 +595,7 @@ footer{
 <footer>
   <div class="footerGrid">
     <div>
-      <p class="footerTitle">Makepdfs.in</p>
+      <p class="footerTitle">Makepdf.in</p>
       <p class="footerText">
         Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.
       </p>
@@ -645,7 +645,7 @@ footer{
     </div>
   </div>
 
-  <div class="copy">&copy; <span id="year"></span> Makepdfs.in. All rights reserved.</div>
+  <div class="copy">&copy; <span id="year"></span> Makepdf.in. All rights reserved.</div>
 </footer>
 
 <script src="/frontend-config.js"></script>
@@ -924,15 +924,15 @@ function normalizeExtractedText(input){
 
   // Common mojibake cleanup
   text = text
-    .replace(/’/g, "'")
-    .replace(/“|”/g, '"')
-    .replace(/–|—/g, "-")
-    .replace(/•/g, "-")
+    .replace(/â€™/g, "'")
+    .replace(/â€œ|â€/g, '"')
+    .replace(/â€“|â€”/g, "-")
+    .replace(/â€¢/g, "-")
     .replace(/\uFFFD/g, "")
-    .replace(/�/g, "");
+    .replace(/ï¿½/g, "");
 
   // Convert short garbled tokens (mostly bad bullet glyphs) to bullet
-  text = text.replace(/\b�[^\s]{0,8}\b/g, "-");
+  text = text.replace(/\bï¿½[^\s]{0,8}\b/g, "-");
 
   // Collapse letter-by-letter words: "W h y" => "Why"
   text = text.replace(/\b(?:[A-Za-z]\s){1,}[A-Za-z]\b/g, (m) => m.replace(/\s+/g, ""));
@@ -951,9 +951,9 @@ function normalizeExtractedText(input){
 
   // Keep final text PDF-safe for core fonts
   text = text
-    .replace(/[��]/g, '"')
-    .replace(/[��]/g, "'")
-    .replace(/[��]/g, "-")
+    .replace(/[ï¿½ï¿½]/g, '"')
+    .replace(/[ï¿½ï¿½]/g, "'")
+    .replace(/[ï¿½ï¿½]/g, "-")
     .replace(/\u00A0/g, " ")
     .normalize("NFKD")
     .replace(/[^\x20-\x7E]/g, "");
@@ -1108,7 +1108,7 @@ async function buildReliablePdf(blocks, outputName){
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
       doc.setTextColor(92, 104, 126);
-      doc.text("Generated with Makepdfs.in", margin, y);
+      doc.text("Generated with Makepdf.in", margin, y);
       y += 14;
       doc.setDrawColor(205, 214, 228);
       doc.line(margin, y, pageWidth - margin, y);
