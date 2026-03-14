@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": "npm run build",
-  "outputDirectory": ".",
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend",
   "headers": [
     {
       "source": "/(.*)",

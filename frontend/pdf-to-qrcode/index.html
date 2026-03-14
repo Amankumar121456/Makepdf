@@ -51,19 +51,20 @@ footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted)
     <span class="badge">PDF Link QR</span>
     <h1>PDF to QR Code</h1>
     <p class="sub">This mode uploads your PDF to your backend and creates a QR code of that PDF link. Scanning QR opens the original PDF directly.</p>
-    <p class="note"><strong>Note:</strong> Generated QR code and PDF link expire after 24 hours for better privacy.</p>
-    <label class="drop" id="dropZone" for="fileInput"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><span class="btn btnSoft" role="button">Choose PDF</span><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
+    <p class="note"><strong>Note:</strong> Link expiry is controlled by your backend. The exact expiration time will appear after QR generation.</p>
+    <label class="drop" id="dropZone" for="fileInput" role="button" tabindex="0"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><button class="btn btnSoft" type="button" id="chooseBtn">Choose PDF</button><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
     <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
     <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
   </section>
 
-  <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Generate QR Code</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button><button class="btn btnSoft" type="button" id="copyBtn" disabled>Copy PDF Link</button><button class="btn btnSoft" type="button" id="downloadBtn" disabled>Download QR PNG</button><button class="btn btnSoft" type="button" id="shareBtn" disabled>Share</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText">Choose a PDF to start.</div><div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta"></div></div><div id="resultWrap" class="resultWrap" hidden><div class="qrBox"><img id="qrImage" class="qrImg" alt="PDF QR Code" /></div><div class="linkBox"><div><strong>Short PDF Link</strong></div><div style="margin-top:8px"><a id="pdfLink" href="#" target="_blank" rel="noopener">Open PDF</a></div><div class="small" id="shortCodeText"></div><div style="margin-top:14px"><strong>Direct PDF Link</strong></div><div style="margin-top:8px"><a id="directPdfLink" href="#" target="_blank" rel="noopener">Open direct PDF</a></div><div class="small" id="expiresText"></div></div></div></section>
+  <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Generate QR Code</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button><button class="btn btnSoft" type="button" id="copyBtn" disabled>Copy PDF Link</button><button class="btn btnSoft" type="button" id="downloadBtn" disabled>Download QR PNG</button><button class="btn btnSoft" type="button" id="shareBtn" disabled>Share</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText" aria-live="polite">Choose a PDF to start.</div><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta" aria-live="polite"></div></div><div id="resultWrap" class="resultWrap" hidden><div class="qrBox"><img id="qrImage" class="qrImg" alt="PDF QR Code" /></div><div class="linkBox"><div><strong>Short PDF Link</strong></div><div style="margin-top:8px"><a id="pdfLink" href="#" target="_blank" rel="noopener">Open PDF</a></div><div class="small" id="shortCodeText"></div><div style="margin-top:14px"><strong>Direct PDF Link</strong></div><div style="margin-top:8px"><a id="directPdfLink" href="#" target="_blank" rel="noopener">Open direct PDF</a></div><div class="small" id="expiresText"></div></div></div></section>
 </main>
 <footer class="shell">Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.</footer>
 <script src="../frontend-config.js"></script>
 <script>
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
+const chooseBtn = document.getElementById("chooseBtn");
 const clearBtn = document.getElementById("clearBtn");
 const convertBtn = document.getElementById("convertBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -127,6 +128,25 @@ function joinUrl(base, path) {
   return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
 }
 
+function normalizeOrigin(value) {
+  if (!value) return "";
+  try {
+    return new URL(String(value)).origin;
+  } catch (_) {
+    return "";
+  }
+}
+
+function replaceOrigin(inputUrl, origin) {
+  if (!inputUrl || !origin) return inputUrl;
+  try {
+    const parsed = new URL(String(inputUrl));
+    return `${origin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch (_) {
+    return inputUrl;
+  }
+}
+
 function getShareEndpoints() {
   const endpoints = [];
   const push = (value) => {
@@ -164,7 +184,9 @@ function setStatus(message, meta = "") {
 }
 
 function setProgress(value) {
-  progressBar.style.width = `${Math.max(0, Math.min(100, value))}%`;
+  const nextValue = Math.max(0, Math.min(100, value));
+  progressBar.style.width = `${nextValue}%`;
+  progressBar.parentElement?.setAttribute("aria-valuenow", String(nextValue));
 }
 
 function clearUploadHints() {
@@ -321,8 +343,17 @@ async function uploadPdfAndGetLink(file) {
       });
 
       if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        throw new Error(`(${response.status}) ${errorText}`.trim());
+        let message = "";
+        try {
+          const payload = await response.json();
+          message = String(payload?.error || payload?.message || "").trim();
+        } catch (_) {
+          const errorText = await response.text().catch(() => "");
+          message = String(errorText || "").trim();
+        }
+        if (!message) message = "Request failed.";
+        if (message.length > 240) message = `${message.slice(0, 240)}...`;
+        throw new Error(`(${response.status}) ${message}`.trim());
       }
 
       const payload = await response.json().catch(() => ({}));
@@ -375,9 +406,15 @@ async function generateQrCode() {
     setProgress(65);
     setStatus("Building QR code...");
 
+    const endpointOrigin = normalizeOrigin(endpoint);
+    const preferredOrigin = normalizeOrigin(USER_DEFINED_API_BASE) || endpointOrigin || normalizeOrigin(shortUrl) || normalizeOrigin(directUrl);
+    const baseShortUrl = shortUrl || url;
+    const effectiveShortUrl = preferredOrigin && shortCode ? `${preferredOrigin}/s/${shortCode}` : baseShortUrl;
+    const effectiveDirectUrl = directUrl ? (preferredOrigin ? replaceOrigin(directUrl, preferredOrigin) : directUrl) : "";
+
     const qrLevel = DEFAULT_ECC_LEVEL;
     const qr = new QRious({
-      value: url,
+      value: effectiveShortUrl || baseShortUrl,
       level: qrLevel,
       size: DEFAULT_QR_SIZE,
       foreground: "#111111",
@@ -385,8 +422,8 @@ async function generateQrCode() {
     });
 
     qrDataUrl = await renderQrDataUrl(qr);
-    sharedPdfUrl = shortUrl || url;
-    sharedDirectUrl = directUrl || sharedPdfUrl;
+    sharedPdfUrl = effectiveShortUrl || baseShortUrl;
+    sharedDirectUrl = effectiveDirectUrl || sharedPdfUrl;
     sharedShortCode = shortCode || "";
     sharedExpiresAt = expiresAt;
 
@@ -418,7 +455,7 @@ async function generateQrCode() {
       const message = String(error?.message || error || "Unknown error");
       setStatus("QR generation failed.", message);
       if (message.toLowerCase().includes("share upload failed")) {
-        resultMeta.textContent = `Backend service reachable nahi hai. Backend start karo (http://127.0.0.1:8080) ya CONVERTER_API_BASE set karo. Tried: ${SHARE_ENDPOINTS.join(" , ")}`;
+        resultMeta.textContent = `Backend service is not reachable. Start the backend (http://127.0.0.1:8080) or set CONVERTER_API_BASE. Tried: ${SHARE_ENDPOINTS.join(" , ")}`;
       }
     }
   } finally {
@@ -435,7 +472,20 @@ async function copyPdfLink() {
     await navigator.clipboard.writeText(sharedPdfUrl);
     setStatus("Link copied.", "PDF link copied to clipboard.");
   } catch (_) {
-    setStatus("Clipboard blocked.", "Copy failed on this browser.");
+    try {
+      const temp = document.createElement("textarea");
+      temp.value = sharedPdfUrl;
+      temp.setAttribute("readonly", "true");
+      temp.style.position = "fixed";
+      temp.style.top = "-1000px";
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
+      setStatus("Link copied.", "PDF link copied to clipboard.");
+    } catch (err) {
+      setStatus("Clipboard blocked.", "Copy failed on this browser.");
+    }
   }
 }
 
@@ -470,6 +520,11 @@ async function shareOutput() {
 }
 
 fileInput.addEventListener("change", () => setFile(fileInput.files?.[0] || null));
+chooseBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  if (!busy) fileInput.click();
+});
 clearBtn.addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
@@ -505,6 +560,14 @@ shareBtn.addEventListener("click", shareOutput);
       setFile(event.dataTransfer.files[0]);
     }
   });
+});
+
+dropZone.addEventListener("keydown", (event) => {
+  if (busy) return;
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    fileInput.click();
+  }
 });
 
 const startupMissingDeps = getMissingDeps();

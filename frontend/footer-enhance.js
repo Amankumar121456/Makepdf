@@ -160,15 +160,6 @@
         font-size:24px !important;
         font-weight:900;
         letter-spacing:-0.2px;
-        color:#111111 !important;
-      }
-      a.brand,
-      a.brand:link,
-      a.brand:visited,
-      a.brand:hover,
-      a.brand:active{
-        color:#111111 !important;
-        text-decoration:none !important;
       }
       @media (max-width:900px){
         footer.hdFooter .footerGrid{

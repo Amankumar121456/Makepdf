@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-IN" data-theme="light">
 <head>
 <meta charset="utf-8" />
@@ -410,13 +410,13 @@ footer{
 <main class="container">
 
   <div class="card">
-    <span class="badge">JPG to PNG Â· QUALITY BOOST</span>
+    <span class="badge">JPG to PNG - QUALITY BOOST</span>
     <h1>JPG to PNG Converter</h1>
     <p class="sub">Upload a JPG image, enhance quality (sharpening), and download as PNG.</p>
 
     <label class="drop" id="dropZone">
       <strong>Click to upload JPG</strong>
-      <span>JPG / JPEG only â€” max 20MB</span>
+      <span>JPG / JPEG only - max 20MB</span>
       <input type="file" id="fileInput" accept=".jpg,.jpeg,image/jpeg" hidden>
 
       <div class="btnRow" style="display:flex;gap:10px; margin-top:8px;">
@@ -571,7 +571,7 @@ function processImage(file) {
   }
 
   fileName = file.name.replace(/\.[^/.]+$/, '') + '.png';
-  fileStatus.textContent = `âœ… Selected: ${file.name}`;
+  fileStatus.textContent = `Selected: ${file.name}`;
 
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -639,7 +639,7 @@ fileInput.addEventListener('change', (e) => {
     dropZone.classList.remove('dragging');
     if (ev === 'drop' && e.dataTransfer?.files?.length) {
       const file = e.dataTransfer.files[0];
-      // âœ… à¤¸à¥€à¤§à¥‡ processImage à¤•à¥‹ file à¤­à¥‡à¤œà¥‹ â€“ à¤¬à¤¿à¤¨à¤¾ fileInput.files à¤¸à¥‡à¤Ÿ à¤•à¤¿à¤
+      // Directly process dropped file without touching fileInput.files.
       processImage(file);
     }
   });
@@ -653,5 +653,6 @@ window.clearImage = clearImage;
 <script src="../footer-enhance.js"></script>
 </body>
 </html>
+
 
 

@@ -621,6 +621,7 @@ const barFill     = document.getElementById("barFill");
 
 let file = null;
 let totalPages = 0;
+const MAX_FILE_BYTES = 50 * 1024 * 1024;
 
 chooseBtn.addEventListener("click", () => pdfInput.click());
 clearBtn.addEventListener("click", clearAll);
@@ -651,6 +652,11 @@ function formatBytes(bytes){
 async function handleFile(f){
   if(!f) return;
   if(f.type !== "application/pdf") return alert("Please upload a PDF file only.");
+  if(f.size > MAX_FILE_BYTES){
+    alert("File too large. Maximum 50 MB.");
+    clearAll();
+    return;
+  }
 
   try{
     setLoading(true, "Reading PDF...", "Checking pages...", 15);
@@ -859,4 +865,3 @@ async function split(){
 <script src="../footer-enhance.js"></script>
 </body>
 </html>
-

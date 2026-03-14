@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-IN" data-theme="light">
 <head>
 <meta charset="utf-8" />
@@ -468,13 +468,13 @@ footer{
 <main class="container">
 
   <div class="card">
-    <span class="badge">PNG to JPG Â· REDUCE SIZE</span>
+    <span class="badge">PNG to JPG - REDUCE SIZE</span>
     <h1>PNG to JPG Converter</h1>
     <p class="sub">Convert PNG images into JPG to reduce file size. Adjust quality to balance size and clarity.</p>
 
     <label class="drop" id="dropZone">
       <strong>Click to upload PNG</strong>
-      <span>PNG only â€” max 20MB</span>
+      <span>PNG only - max 20MB</span>
       <input type="file" id="fileInput" accept=".png,image/png" hidden>
 
       <div class="btnRow" style="display:flex;gap:10px; margin-top:8px;">
@@ -594,7 +594,7 @@ function processImage(file) {
   }
 
   fileName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
-  fileStatus.textContent = `âœ… Selected: ${file.name}`;
+  fileStatus.textContent = `Selected: ${file.name}`;
 
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -678,5 +678,6 @@ window.clearImage = clearImage;
 <script src="../footer-enhance.js"></script>
 </body>
 </html>
+
 
 

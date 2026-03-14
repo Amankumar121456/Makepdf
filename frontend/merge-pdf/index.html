@@ -461,6 +461,7 @@ const dropZone = document.getElementById("dropZone");
 const addBtn = document.getElementById("addBtn");
 
 let files = [];
+const MAX_FILE_BYTES = 50 * 1024 * 1024;
 
 addBtn.addEventListener("click", () => pdfInput.click());
 
@@ -474,8 +475,15 @@ function addFiles(newFiles){
   const onlyPdf = newFiles.filter(f => f && f.type === "application/pdf");
   if(!onlyPdf.length) return alert("Please select PDF files only.");
 
+  const oversized = onlyPdf.filter(f => f.size > MAX_FILE_BYTES);
+  if(oversized.length){
+    alert("Some files are larger than 50 MB and were skipped.");
+  }
+  const accepted = onlyPdf.filter(f => f.size <= MAX_FILE_BYTES);
+  if(!accepted.length) return;
+
   const map = new Map(files.map(f => [`${f.name}_${f.size}_${f.lastModified}`, f]));
-  for(const f of onlyPdf){
+  for(const f of accepted){
     map.set(`${f.name}_${f.size}_${f.lastModified}`, f);
   }
   files = Array.from(map.values());
@@ -597,4 +605,3 @@ async function merge() {
 <script src="../footer-enhance.js"></script>
 </body>
 </html>
-
