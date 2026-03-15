@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libreoffice-common \
   libreoffice-java-common \
   default-jre-headless \
+  fonts-crosextra-carlito \
+  fonts-crosextra-caladea \
+  fonts-liberation2 \
   fonts-dejavu-core \
   fonts-liberation \
   fonts-noto-core \
