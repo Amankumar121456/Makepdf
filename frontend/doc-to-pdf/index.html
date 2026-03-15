@@ -674,6 +674,7 @@ const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet
   .replace(/\/+$/, "");
 const MAX_FILE_MB = Number(window.CONVERTER_MAX_FILE_MB || 50);
 const MAX_FILE_BYTES = Math.max(1, Math.floor(MAX_FILE_MB * 1024 * 1024));
+const SERVER_TRY_TIMEOUT_MS = Number(window.SERVER_TRY_TIMEOUT_MS || 8000);
 const SAME_ORIGIN_DOCX_TO_PDF_ENDPOINT = `${window.location.origin}/convert/docx-to-pdf`;
 const LOCAL_SERVICE_DOCX_TO_PDF_ENDPOINT = "http://127.0.0.1:8080/convert/docx-to-pdf";
 
@@ -715,6 +716,17 @@ function getDocxToPdfEndpoints(){
 
 const DOCX_TO_PDF_ENDPOINTS = getDocxToPdfEndpoints();
 const USE_SERVER_EXACT_MODE = DOCX_TO_PDF_ENDPOINTS.length > 0;
+let prewarmDone = false;
+function prewarmBackend() {
+  if (prewarmDone) return;
+  if (!USER_DEFINED_API_BASE) return;
+  prewarmDone = true;
+  const healthUrl = joinUrl(USER_DEFINED_API_BASE, "/health");
+  fetch(healthUrl, { mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
+if (USE_SERVER_EXACT_MODE) {
+  prewarmBackend();
+}
 const ALLOW_BROWSER_FALLBACK = String(
   window.ALLOW_BROWSER_DOCX_PDF_FALLBACK ??
   safeStorageGet("allow_browser_docx_pdf_fallback") ??
@@ -1284,9 +1296,20 @@ async function convertDocxWithServer(file, outputName){
       const formData = new FormData();
       formData.append("file", file, file.name);
 
+      const controller = new AbortController();
+      let timeoutId = null;
+      let timedOut = false;
+      if (SERVER_TRY_TIMEOUT_MS > 0) {
+        timeoutId = setTimeout(() => {
+          timedOut = true;
+          controller.abort();
+        }, SERVER_TRY_TIMEOUT_MS);
+      }
+
       const response = await fetch(endpoint, {
         method: "POST",
-        body: formData
+        body: formData,
+        signal: controller.signal
       });
 
       if(!response.ok){
@@ -1307,7 +1330,13 @@ async function convertDocxWithServer(file, outputName){
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
       return;
     }catch(err){
-      lastError = err;
+      if (err && err.name === "AbortError" && timedOut) {
+        lastError = new Error("SERVER_TIMEOUT");
+      } else {
+        lastError = err;
+      }
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
     }
   }
 
@@ -1324,6 +1353,9 @@ function getFriendlyServerError(error){
     lower.includes("conversion failed on all endpoints")
   ){
     return `Exact converter server not reachable. Set CONVERTER_API_BASE to your backend URL or run local backend on 127.0.0.1:8080. Tried: ${DOCX_TO_PDF_ENDPOINTS.join(" , ")}`;
+  }
+  if (lower.includes("server_timeout")) {
+    return "Server is slow. Switching to browser mode for faster conversion.";
   }
   return raw || "Unknown conversion error.";
 }

@@ -57,8 +57,8 @@ footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted)
     <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
     <div class="panelGrid">
       <div class="field"><label class="label" for="modeSelect">Mode</label><select id="modeSelect" class="control"><option value="exact" selected>Exact (server first, local fallback)</option><option value="server">Server only</option><option value="local">Browser only</option></select><div class="help">Server endpoint: <code>/convert/pdf-to-pptx</code></div></div>
-      <div class="field"><label class="label" for="scaleSelect">Render scale</label><select id="scaleSelect" class="control"><option value="1.5">Fast</option><option value="2" selected>Balanced</option><option value="2.4">High detail</option></select><div class="help">Higher scale gives sharper slides but takes longer.</div></div>
-      <div class="field"><label class="label" for="qualitySelect">Slide image quality</label><select id="qualitySelect" class="control"><option value="0.8">80%</option><option value="0.9" selected>90%</option><option value="0.95">95%</option></select><div class="help">Only used in browser mode.</div></div>
+      <div class="field"><label class="label" for="scaleSelect">Render scale</label><select id="scaleSelect" class="control"><option value="1.5" selected>Fast</option><option value="2">Balanced</option><option value="2.4">High detail</option></select><div class="help">Higher scale gives sharper slides but takes longer.</div></div>
+      <div class="field"><label class="label" for="qualitySelect">Slide image quality</label><select id="qualitySelect" class="control"><option value="0.8" selected>80%</option><option value="0.9">90%</option><option value="0.95">95%</option></select><div class="help">Only used in browser mode.</div></div>
     </div>
     <div class="stats"><div class="stat">Server mode gives best direct conversion</div><div class="stat">Browser mode works without backend</div><div class="stat">Each PDF page becomes one PPT slide</div></div>
   </section>
@@ -105,8 +105,18 @@ const USER_DEFINED_PDF_TO_PPTX_ENDPOINT = (window.PDF_TO_PPTX_ENDPOINT || safeSt
 const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
   .trim()
   .replace(/\/+$/, "");
+const SERVER_TRY_TIMEOUT_MS = Number(window.SERVER_TRY_TIMEOUT_MS || 8000);
 const SAME_ORIGIN_PDF_TO_PPTX_ENDPOINT = `${window.location.origin}/convert/pdf-to-pptx`;
 const LOCAL_SERVICE_PDF_TO_PPTX_ENDPOINT = "http://127.0.0.1:8080/convert/pdf-to-pptx";
+
+let prewarmDone = false;
+function prewarmBackend() {
+  if (prewarmDone) return;
+  if (!USER_DEFINED_API_BASE) return;
+  prewarmDone = true;
+  const healthUrl = joinUrl(USER_DEFINED_API_BASE, "/health");
+  fetch(healthUrl, { mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
 
 let currentFile = null;
 let busy = false;
@@ -156,6 +166,10 @@ function getPdfToPptxEndpoints() {
 
 const PDF_TO_PPTX_ENDPOINTS = getPdfToPptxEndpoints();
 const USE_SERVER_MODE_AVAILABLE = PDF_TO_PPTX_ENDPOINTS.length > 0;
+
+if (USE_SERVER_MODE_AVAILABLE) {
+  prewarmBackend();
+}
 
 function formatBytes(bytes) {
   const units = ["B", "KB", "MB", "GB"];
@@ -242,6 +256,10 @@ function setFile(file) {
   fileMeta.textContent = `Original size: ${formatBytes(file.size)}`;
   setProgress(0);
   setStatus("Ready to convert.");
+  if (modeSelect.value === "exact" && file.size <= 1.5 * 1024 * 1024) {
+    modeSelect.value = "local";
+    setStatus("Auto-selected browser mode for speed.", "You can switch to server mode if you need exact conversion.");
+  }
   refreshActionState();
 }
 
@@ -254,11 +272,12 @@ function triggerBlobDownload(blob, outputName) {
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
-async function convertWithServer(file, outputName) {
+async function convertWithServer(file, outputName, options = {}) {
   if (!PDF_TO_PPTX_ENDPOINTS.length) {
     throw new Error("Server endpoint not configured.");
   }
 
+  const timeoutMs = Math.max(0, Number(options.timeoutMs || 0));
   let lastError = null;
   for (const endpoint of PDF_TO_PPTX_ENDPOINTS) {
     if (cancelRequested) throw new Error("CANCELLED");
@@ -267,9 +286,17 @@ async function convertWithServer(file, outputName) {
     formData.append("file", file, file.name);
 
     const controller = new AbortController();
+    let timeoutId = null;
+    let timedOut = false;
     activeAbortController = controller;
 
     try {
+      if (timeoutMs > 0) {
+        timeoutId = setTimeout(() => {
+          timedOut = true;
+          controller.abort();
+        }, timeoutMs);
+      }
       const response = await fetch(endpoint, {
         method: "POST",
         body: formData,
@@ -290,10 +317,14 @@ async function convertWithServer(file, outputName) {
       return;
     } catch (error) {
       if (error && error.name === "AbortError") {
+        if (timedOut) {
+          throw new Error("SERVER_TIMEOUT");
+        }
         throw new Error("CANCELLED");
       }
       lastError = new Error(`[${endpoint}] ${error?.message || error}`);
     } finally {
+      if (timeoutId) clearTimeout(timeoutId);
       if (activeAbortController === controller) {
         activeAbortController = null;
       }
@@ -303,10 +334,17 @@ async function convertWithServer(file, outputName) {
   throw new Error(`Server conversion failed on all endpoints. ${lastError?.message || ""}`.trim());
 }
 
+async function loadPdfDocument(buffer) {
+  try {
+    return await pdfjsLib.getDocument({ data: buffer }).promise;
+  } catch (error) {
+    return await pdfjsLib.getDocument({ data: buffer, disableWorker: true }).promise;
+  }
+}
+
 async function convertInBrowser(file, outputName) {
   const buffer = await file.arrayBuffer();
-  const loadingTask = pdfjsLib.getDocument({ data: buffer, disableWorker: true });
-  const pdf = await loadingTask.promise;
+  const pdf = await loadPdfDocument(buffer);
 
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE";
@@ -399,13 +437,17 @@ async function convertPdfToPptx() {
         try {
           setStatus("Trying server conversion first...");
           setProgress(20);
-          await convertWithServer(currentFile, outputName);
+          await convertWithServer(currentFile, outputName, { timeoutMs: SERVER_TRY_TIMEOUT_MS });
           setProgress(100);
           setStatus("Conversion complete.", "PPTX downloaded using server mode.");
           return;
         } catch (error) {
           if (String(error?.message || "").includes("CANCELLED")) throw error;
-          setStatus("Server unavailable. Switching to browser mode...");
+          if (String(error?.message || "").includes("SERVER_TIMEOUT")) {
+            setStatus("Server is slow. Switching to browser mode...");
+          } else {
+            setStatus("Server unavailable. Switching to browser mode...");
+          }
         }
       }
     }
@@ -425,6 +467,8 @@ async function convertPdfToPptx() {
         resultMeta.textContent = `Backend route /convert/pdf-to-pptx nahi mili. Backend ko latest code ke saath restart karo. Tried: ${PDF_TO_PPTX_ENDPOINTS.join(" , ")}`;
       } else if (lower.includes("origin not allowed by cors")) {
         resultMeta.textContent = "CORS blocked. Backend me CORS_ORIGIN ko frontend domain par set karo.";
+      } else if (lower.includes("server_timeout")) {
+        resultMeta.textContent = "Server slow hai. Browser mode try karo (Mode = Browser only) ya wait karke retry karo.";
       } else if (
         lower.includes("server mode not available") ||
         lower.includes("server conversion failed") ||
@@ -474,6 +518,9 @@ cancelBtn.addEventListener("click", () => {
 modeSelect.addEventListener("change", () => {
   if (!busy && currentFile) {
     setStatus("Ready to convert.");
+  }
+  if (modeSelect.value !== "local") {
+    prewarmBackend();
   }
 });
 

@@ -99,6 +99,7 @@ const USER_DEFINED_PPT_TO_PDF_ENDPOINT = (window.PPT_TO_PDF_ENDPOINT || safeStor
 const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
   .trim()
   .replace(/\/+$/, "");
+const SERVER_TRY_TIMEOUT_MS = Number(window.SERVER_TRY_TIMEOUT_MS || 12000);
 const SAME_ORIGIN_PPT_TO_PDF_ENDPOINT = `${window.location.origin}/convert/ppt-to-pdf`;
 const LOCAL_SERVICE_PPT_TO_PDF_ENDPOINT = "http://127.0.0.1:8080/convert/ppt-to-pdf";
 
@@ -141,6 +142,19 @@ function getPptToPdfEndpoints() {
 }
 
 const PPT_TO_PDF_ENDPOINTS = getPptToPdfEndpoints();
+
+let prewarmDone = false;
+function prewarmBackend() {
+  if (prewarmDone) return;
+  if (!USER_DEFINED_API_BASE) return;
+  prewarmDone = true;
+  const healthUrl = joinUrl(USER_DEFINED_API_BASE, "/health");
+  fetch(healthUrl, { mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
+
+if (PPT_TO_PDF_ENDPOINTS.length) {
+  prewarmBackend();
+}
 
 function formatBytes(bytes) {
   const units = ["B", "KB", "MB", "GB"];
@@ -225,6 +239,7 @@ function setFile(file) {
   fileMeta.textContent = `Original size: ${formatBytes(file.size)}`;
   setProgress(0);
   setStatus("Ready to convert.");
+  prewarmBackend();
   refreshActionState();
 }
 
@@ -237,12 +252,13 @@ function triggerBlobDownload(blob, outputName) {
   setTimeout(() => URL.revokeObjectURL(url), 1600);
 }
 
-async function convertWithServer(file, outputName) {
+async function convertWithServer(file, outputName, options = {}) {
   if (!PPT_TO_PDF_ENDPOINTS.length) {
     throw new Error("No backend endpoint configured. Set CONVERTER_API_BASE first.");
   }
 
   let lastError = null;
+  const timeoutMs = Math.max(0, Number(options.timeoutMs || 0));
 
   for (let index = 0; index < PPT_TO_PDF_ENDPOINTS.length; index += 1) {
     const endpoint = PPT_TO_PDF_ENDPOINTS[index];
@@ -252,11 +268,19 @@ async function convertWithServer(file, outputName) {
     formData.append("file", file, file.name);
 
     const controller = new AbortController();
+    let timeoutId = null;
+    let timedOut = false;
     activeAbortController = controller;
 
     try {
       setStatus(`Uploading presentation (attempt ${index + 1}/${PPT_TO_PDF_ENDPOINTS.length})...`);
       setProgress(18 + Math.round((index / Math.max(1, PPT_TO_PDF_ENDPOINTS.length)) * 24));
+      if (timeoutMs > 0) {
+        timeoutId = setTimeout(() => {
+          timedOut = true;
+          controller.abort();
+        }, timeoutMs);
+      }
       const response = await fetch(endpoint, {
         method: "POST",
         body: formData,
@@ -278,10 +302,14 @@ async function convertWithServer(file, outputName) {
       return;
     } catch (error) {
       if (error && error.name === "AbortError") {
+        if (timedOut) {
+          throw new Error("SERVER_TIMEOUT");
+        }
         throw new Error("CANCELLED");
       }
       lastError = new Error(`[${endpoint}] ${error?.message || error}`);
     } finally {
+      if (timeoutId) clearTimeout(timeoutId);
       if (activeAbortController === controller) {
         activeAbortController = null;
       }
@@ -303,7 +331,8 @@ async function convertPptToPdf() {
 
   try {
     const outputName = (currentFile.name || "presentation").replace(/\.[^/.]+$/, "") || "presentation";
-    await convertWithServer(currentFile, outputName);
+    const timeoutMs = currentFile.size <= 2 * 1024 * 1024 ? SERVER_TRY_TIMEOUT_MS : 0;
+    await convertWithServer(currentFile, outputName, { timeoutMs });
     if (cancelRequested) throw new Error("CANCELLED");
     setProgress(100);
     setStatus("Conversion complete.", "PDF downloaded successfully.");
@@ -318,6 +347,8 @@ async function convertPptToPdf() {
         resultMeta.textContent = `Backend route /convert/ppt-to-pdf nahi mili. Backend ko latest code ke saath restart karo. Tried: ${PPT_TO_PDF_ENDPOINTS.join(" , ")}`;
       } else if (lower.includes("origin not allowed by cors")) {
         resultMeta.textContent = "CORS blocked. Backend me CORS_ORIGIN ko frontend domain par set karo.";
+      } else if (lower.includes("server_timeout")) {
+        resultMeta.textContent = "Server slow hai. Thodi der wait karke dubara try karo ya backend warm hone do.";
       } else if (lower.includes("failed to fetch") || lower.includes("conversion failed on all endpoints") || lower.includes("networkerror")) {
         resultMeta.textContent = `Backend start karo (http://127.0.0.1:8080) ya CONVERTER_API_BASE set karo. Tried: ${PPT_TO_PDF_ENDPOINTS.join(" , ")}`;
       }

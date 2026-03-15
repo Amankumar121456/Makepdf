@@ -81,7 +81,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted)
     <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
     <div class="panelGrid">
       <div class="field"><label class="label" for="languageSelect">OCR language</label><select id="languageSelect" class="control"><option value="eng" selected>English</option><option value="hin">Hindi</option><option value="eng+hin">English + Hindi</option></select></div>
-      <div class="field"><label class="label" for="ocrScaleSelect">OCR render scale</label><select id="ocrScaleSelect" class="control"><option value="1.5">Fast</option><option value="2" selected>Balanced</option><option value="2.5">High detail</option></select></div>
+      <div class="field"><label class="label" for="ocrScaleSelect">OCR render scale</label><select id="ocrScaleSelect" class="control"><option value="1.5" selected>Fast</option><option value="2">Balanced</option><option value="2.5">High detail</option></select></div>
       <div class="field"><label class="label" for="modeSelect">Mode</label><select id="modeSelect" class="control"><option value="exact" selected>Exact layout (recommended)</option><option value="auto">Editable auto (text + OCR fallback)</option><option value="text">Editable text only</option><option value="ocr">Editable OCR only</option></select></div>
     </div>
     <div class="stats"><div class="stat">Exact layout keeps original page design</div><div class="stat">Editable modes are better for text copy/edit</div><div class="stat">Server mode auto-used when available</div></div>
@@ -119,6 +119,7 @@ const USER_DEFINED_PDF_TO_DOCX_ENDPOINT = (window.PDF_TO_DOCX_ENDPOINT || safeSt
 const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
   .trim()
   .replace(/\/+$/, "");
+const SERVER_TRY_TIMEOUT_MS = Number(window.SERVER_TRY_TIMEOUT_MS || 8000);
 const SAME_ORIGIN_PDF_TO_DOCX_ENDPOINT = `${window.location.origin}/convert/pdf-to-docx`;
 const LOCAL_SERVICE_PDF_TO_DOCX_ENDPOINT = "http://127.0.0.1:8080/convert/pdf-to-docx";
 
@@ -161,6 +162,19 @@ function getPdfToDocxEndpoints() {
 const PDF_TO_DOCX_ENDPOINTS = getPdfToDocxEndpoints();
 const USE_SERVER_EXACT_MODE = PDF_TO_DOCX_ENDPOINTS.length > 0;
 
+let prewarmDone = false;
+function prewarmBackend() {
+  if (prewarmDone) return;
+  if (!USER_DEFINED_API_BASE) return;
+  prewarmDone = true;
+  const healthUrl = joinUrl(USER_DEFINED_API_BASE, "/health");
+  fetch(healthUrl, { mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
+
+if (USE_SERVER_EXACT_MODE) {
+  prewarmBackend();
+}
+
 function modeNeedsOcr(mode) {
   return mode === "ocr" || mode === "auto";
 }
@@ -181,6 +195,14 @@ function configurePdfWorker() {
 }
 
 configurePdfWorker();
+
+async function loadPdfDocument(buffer) {
+  try {
+    return await pdfjsLib.getDocument({ data: buffer }).promise;
+  } catch (error) {
+    return await pdfjsLib.getDocument({ data: buffer, disableWorker: true }).promise;
+  }
+}
 
 let currentFile = null;
 let busy = false;
@@ -553,16 +575,27 @@ async function buildExactLayoutDocxBlob(pdf, renderScale) {
   return Packer.toBlob(doc);
 }
 
-async function convertPdfWithServer(file, outputName) {
+async function convertPdfWithServer(file, outputName, options = {}) {
   let lastError = null;
   for (const endpoint of PDF_TO_DOCX_ENDPOINTS) {
     try {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
+      const controller = new AbortController();
+      let timeoutId = null;
+      let timedOut = false;
+      if (Number(options.timeoutMs || 0) > 0) {
+        timeoutId = setTimeout(() => {
+          timedOut = true;
+          controller.abort();
+        }, Number(options.timeoutMs));
+      }
+
       const response = await fetch(endpoint, {
         method: "POST",
-        body: formData
+        body: formData,
+        signal: controller.signal
       });
 
       if (!response.ok) {
@@ -577,7 +610,12 @@ async function convertPdfWithServer(file, outputName) {
       downloadBlob(docxBlob, `${outputName}.docx`);
       return;
     } catch (error) {
+      if (error && error.name === "AbortError" && timedOut) {
+        throw new Error("SERVER_TIMEOUT");
+      }
       lastError = error;
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
     }
   }
 
@@ -589,20 +627,24 @@ async function convertPdfExact(file, outputName) {
     try {
       setStatus("Trying exact server conversion...");
       setProgress(18);
-      await convertPdfWithServer(file, outputName);
+      await convertPdfWithServer(file, outputName, { timeoutMs: SERVER_TRY_TIMEOUT_MS });
       setProgress(100);
       setStatus("Conversion complete.", "Exact DOCX downloaded via server mode.");
       return;
     } catch (error) {
       console.warn("Server exact conversion unavailable, switching to local exact mode.", error);
-      setStatus("Server mode unavailable. Switching to local exact mode...");
+      if (String(error?.message || "").includes("SERVER_TIMEOUT")) {
+        setStatus("Server is slow. Switching to local exact mode...");
+      } else {
+        setStatus("Server mode unavailable. Switching to local exact mode...");
+      }
     }
   }
 
   setProgress(26);
   const buffer = await file.arrayBuffer();
   setStatus("Loading PDF for local exact mode...");
-  const pdf = await pdfjsLib.getDocument({ data: buffer, disableWorker: true }).promise;
+  const pdf = await loadPdfDocument(buffer);
   setProgress(52);
   const renderScale = Math.max(1.6, Number(ocrScaleSelect.value) || 2);
   setStatus(`Rendering ${pdf.numPages} page(s) for exact layout...`);
@@ -640,7 +682,7 @@ async function convertPdf() {
 
     const buffer = await currentFile.arrayBuffer();
     // Use main-thread parsing for reliability when CDN worker fetch is blocked.
-    const pdf = await pdfjsLib.getDocument({ data: buffer, disableWorker: true }).promise;
+    const pdf = await loadPdfDocument(buffer);
     const pagesData = [];
     const scale = Number(ocrScaleSelect.value);
     const language = languageSelect.value;
@@ -735,6 +777,9 @@ modeSelect.addEventListener("change", () => {
     setStatus("Required libraries failed to load.", `Missing for selected mode: ${missing.join(", ")}.`);
   } else if (currentFile && !busy) {
     setStatus("Ready to convert.");
+  }
+  if (modeSelect.value === "exact") {
+    prewarmBackend();
   }
 });
 cancelBtn.addEventListener("click", () => {
