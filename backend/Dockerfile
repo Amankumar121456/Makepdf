@@ -12,6 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   fonts-crosextra-caladea \
   fonts-liberation2 \
   fonts-dejavu-core \
+  fonts-dejavu-extra \
+  fonts-freefont-ttf \
+  fonts-noto-extra \
+  fonts-noto-cjk \
+  libreoffice-style-colibre \
   fonts-liberation \
   fonts-noto-core \
   ca-certificates \
