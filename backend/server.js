@@ -1158,31 +1158,12 @@ app.post("/share/pdf-to-url", upload.single("file"), async (req, res) => {
       return;
     }
 
-    let shortCode = requestedShortCode;
-    if (shortCode) {
-      const existingId = await resolveShareEntryByShortCode(shortCode);
-      if (existingId) {
-        await safeRm(uploadedFilePath);
-        res.status(409).json({ error: "Requested shortCode is already in use." });
-        return;
-      }
-    } else {
-      for (let attempt = 0; attempt < 12; attempt += 1) {
-        const candidate = generateShortCode();
-        const existingId = await resolveShareEntryByShortCode(candidate);
-        if (!existingId) {
-          shortCode = candidate;
-          break;
-        }
-      }
-      if (!shortCode) {
-        const fallback = randomUUID().replace(/-/g, "").slice(0, 10);
-        const existingId = await resolveShareEntryByShortCode(fallback);
-        if (existingId) {
-          throw new Error("Failed to generate a unique short code. Please try again.");
-        }
-        shortCode = fallback;
-      }
+    const shortCode = requestedShortCode || generateShortCode();
+    const existingId = shortCodeToId.get(shortCode);
+    if (existingId && sharedFiles.has(existingId)) {
+      await safeRm(uploadedFilePath);
+      res.status(409).json({ error: "Requested shortCode is already in use." });
+      return;
     }
 
     const id = randomUUID().replace(/-/g, "");

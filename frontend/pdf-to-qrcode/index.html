@@ -35,7 +35,7 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color
 .nav{display:flex;gap:8px;padding:8px;border-radius:999px;border:1px solid var(--border);background:var(--card);overflow:auto}.nav a{text-decoration:none;color:var(--muted);font-weight:800;font-size:14px;padding:10px 14px;border-radius:999px;white-space:nowrap}.nav a:hover,.nav a[aria-current="page"]{background:color-mix(in srgb,var(--accent) 12%, transparent);color:var(--accent)}
 .control{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:14px;padding:11px 12px;font-weight:700;width:100%}
 main{padding:24px 0 48px}.grid{display:grid;gap:18px}.card{padding:24px}.badge{display:inline-flex;padding:8px 12px;border-radius:999px;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%, transparent);border:1px solid color-mix(in srgb,var(--accent) 20%, transparent);font-size:12px;font-weight:800}h1{margin:12px 0 8px;font-size:clamp(28px,4vw,42px);letter-spacing:-.03em}.sub,.note,.meta{color:var(--muted);line-height:1.7}
-.drop{margin-top:18px;min-height:220px;border:1.5px dashed color-mix(in srgb,var(--accent) 35%, transparent);border-radius:20px;background:linear-gradient(180deg,var(--card),var(--card2));display:grid;place-items:center;text-align:center;padding:18px;cursor:pointer;transition:.2s ease}.drop.dragging{transform:translateY(-2px);background:color-mix(in srgb,var(--accent) 8%, var(--card))}.drop.disabled{opacity:.72;cursor:not-allowed;transform:none}.dropIcon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;margin:0 auto 10px;border:1px solid var(--border);background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));color:var(--accent)}
+.drop{margin-top:18px;min-height:220px;border:1.5px dashed color-mix(in srgb,var(--accent) 35%, transparent);border-radius:20px;background:linear-gradient(180deg,var(--card),var(--card2));display:grid;place-items:center;text-align:center;padding:18px;cursor:pointer;transition:.2s ease}.drop.dragging{transform:translateY(-2px);background:color-mix(in srgb,var(--accent) 8%, var(--card))}.dropIcon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;margin:0 auto 10px;border:1px solid var(--border);background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 16%, transparent), color-mix(in srgb,var(--accent2) 12%, transparent));color:var(--accent)}
 .btnRow,.actions,.stats{display:flex;gap:10px;flex-wrap:wrap}.btn{border:none;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer}.btnPrimary{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}.btnSoft{color:var(--accent);background:color-mix(in srgb,var(--accent) 10%, var(--card));border:1px solid color-mix(in srgb,var(--accent) 22%, transparent)}.btnDanger{color:#dc2626;background:color-mix(in srgb,#dc2626 10%, var(--card));border:1px solid color-mix(in srgb,#dc2626 20%, transparent)}.btn:disabled{opacity:.55;cursor:not-allowed}
 .panelGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}.field{border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,var(--card),var(--card2));padding:14px}.label{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:10px}.help{margin-top:8px;font-size:12px;color:var(--muted)}.fileBox,.statusBox{margin-top:16px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,var(--card),var(--card2));padding:14px}.fileName{font-weight:800}.statusBox strong{display:block;margin-bottom:6px;color:var(--text)}
 .progress{margin-top:14px;height:10px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%, transparent);overflow:hidden}.bar{width:0;height:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));transition:width .2s ease}.stats{margin-top:10px}.stat{padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:700}
@@ -51,20 +51,27 @@ footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted)
     <span class="badge">PDF Link QR</span>
     <h1>PDF to QR Code</h1>
     <p class="sub">This mode uploads your PDF to your backend and creates a QR code of that PDF link. Scanning QR opens the original PDF directly.</p>
-    <p class="note"><strong>Note:</strong> Link expiry is controlled by your backend. The exact expiration time will appear after QR generation.</p>
-    <label class="drop" id="dropZone" for="fileInput" role="button" tabindex="0"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><button class="btn btnSoft" type="button" id="chooseBtn">Choose PDF</button><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
+    <p class="note"><strong>Note:</strong> Generated QR code and PDF link expire after 24 hours for better privacy.</p>
+    <label class="drop" id="dropZone" for="fileInput"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><span class="btn btnSoft" role="button">Choose PDF</span><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
     <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
     <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
+    <div class="panelGrid">
+      <div class="field"><label class="label" for="sizeSelect">QR size</label><select id="sizeSelect" class="control"><option value="256">256 px</option><option value="384" selected>384 px</option><option value="512">512 px</option></select></div>
+      <div class="field"><label class="label" for="eccSelect">Error correction</label><select id="eccSelect" class="control"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">Quartile</option><option value="H">High</option></select><div class="help">If logo is enabled, level auto-upgrades to Q for better scan reliability.</div></div>
+      <div class="field"><label class="label" for="shortCodeInput">Custom short URL (optional)</label><input id="shortCodeInput" class="control" type="text" maxlength="32" placeholder="invoice-2026" autocomplete="off" /><div class="help">Allowed: a-z, 0-9, hyphen. Final URL format: <code>/s/your-code</code>.</div></div>
+      <div class="field"><label class="label" for="logoInput">QR branding logo (optional)</label><input id="logoInput" class="control" type="file" accept="image/*" /><div class="btnRow" style="margin-top:8px"><button class="btn btnSoft" type="button" id="removeLogoBtn">Remove Logo</button></div><div class="help" id="logoMeta">No logo selected.</div></div>
+      <div class="field"><label class="label" for="logoSizeSelect">Logo size</label><select id="logoSizeSelect" class="control"><option value="16" selected>Small (16%)</option><option value="20">Medium (20%)</option><option value="24">Large (24%)</option></select><div class="help">Keep logo small for best scan success.</div></div>
+    </div>
+    <div class="stats"><div class="stat">Scan QR to open uploaded PDF</div><div class="stat">Custom `/s/abc123` short link supported</div><div class="stat">Set CONVERTER_API_BASE for production</div></div>
   </section>
 
-  <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Generate QR Code</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button><button class="btn btnSoft" type="button" id="copyBtn" disabled>Copy PDF Link</button><button class="btn btnSoft" type="button" id="downloadBtn" disabled>Download QR PNG</button><button class="btn btnSoft" type="button" id="shareBtn" disabled>Share</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText" aria-live="polite">Choose a PDF to start.</div><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta" aria-live="polite"></div></div><div id="resultWrap" class="resultWrap" hidden><div class="qrBox"><img id="qrImage" class="qrImg" alt="PDF QR Code" /></div><div class="linkBox"><div><strong>Short PDF Link</strong></div><div style="margin-top:8px"><a id="pdfLink" href="#" target="_blank" rel="noopener">Open PDF</a></div><div class="small" id="shortCodeText"></div><div style="margin-top:14px"><strong>Direct PDF Link</strong></div><div style="margin-top:8px"><a id="directPdfLink" href="#" target="_blank" rel="noopener">Open direct PDF</a></div><div class="small" id="expiresText"></div></div></div></section>
+  <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Generate QR Code</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button><button class="btn btnSoft" type="button" id="copyBtn" disabled>Copy PDF Link</button><button class="btn btnSoft" type="button" id="downloadBtn" disabled>Download QR PNG</button><button class="btn btnSoft" type="button" id="shareBtn" disabled>Share</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText">Choose a PDF to start.</div><div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta"></div></div><div id="resultWrap" class="resultWrap" hidden><div class="qrBox"><img id="qrImage" class="qrImg" alt="PDF QR Code" /></div><div class="linkBox"><div><strong>Short PDF Link</strong></div><div style="margin-top:8px"><a id="pdfLink" href="#" target="_blank" rel="noopener">Open PDF</a></div><div class="small" id="shortCodeText"></div><div style="margin-top:14px"><strong>Direct PDF Link</strong></div><div style="margin-top:8px"><a id="directPdfLink" href="#" target="_blank" rel="noopener">Open direct PDF</a></div><div class="small" id="expiresText"></div></div></div></section>
 </main>
 <footer class="shell">Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.</footer>
-<script src="../frontend-config.js"></script>
+<script src="/frontend-config.js"></script>
 <script>
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
-const chooseBtn = document.getElementById("chooseBtn");
 const clearBtn = document.getElementById("clearBtn");
 const convertBtn = document.getElementById("convertBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -74,6 +81,13 @@ const shareBtn = document.getElementById("shareBtn");
 const fileBox = document.getElementById("fileBox");
 const fileName = document.getElementById("fileName");
 const fileMeta = document.getElementById("fileMeta");
+const sizeSelect = document.getElementById("sizeSelect");
+const eccSelect = document.getElementById("eccSelect");
+const shortCodeInput = document.getElementById("shortCodeInput");
+const logoInput = document.getElementById("logoInput");
+const removeLogoBtn = document.getElementById("removeLogoBtn");
+const logoSizeSelect = document.getElementById("logoSizeSelect");
+const logoMeta = document.getElementById("logoMeta");
 const statusText = document.getElementById("statusText");
 const resultMeta = document.getElementById("resultMeta");
 const progressBar = document.getElementById("progressBar");
@@ -92,8 +106,6 @@ const USER_DEFINED_SHARE_ENDPOINT = (window.PDF_TO_QR_ENDPOINT || safeStorageGet
 const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "").trim().replace(/\/+$/, "");
 const SAME_ORIGIN_SHARE_ENDPOINT = `${window.location.origin}/share/pdf-to-url`;
 const LOCAL_SERVICE_SHARE_ENDPOINT = "http://127.0.0.1:8080/share/pdf-to-url";
-const DEFAULT_QR_SIZE = 384;
-const DEFAULT_ECC_LEVEL = "M";
 
 const availableThemes = ["light", "dark", "ocean", "purple"];
 const savedTheme = safeStorageGet("theme");
@@ -109,8 +121,8 @@ let sharedPdfUrl = "";
 let sharedDirectUrl = "";
 let sharedShortCode = "";
 let sharedExpiresAt = null;
-let uploadAbortController = null;
-let uploadHintTimers = [];
+let logoDataUrl = "";
+let logoFileName = "";
 
 function formatBytes(bytes) {
   const units = ["B", "KB", "MB", "GB"];
@@ -128,23 +140,14 @@ function joinUrl(base, path) {
   return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
 }
 
-function normalizeOrigin(value) {
-  if (!value) return "";
-  try {
-    return new URL(String(value)).origin;
-  } catch (_) {
-    return "";
-  }
-}
-
-function replaceOrigin(inputUrl, origin) {
-  if (!inputUrl || !origin) return inputUrl;
-  try {
-    const parsed = new URL(String(inputUrl));
-    return `${origin}${parsed.pathname}${parsed.search}${parsed.hash}`;
-  } catch (_) {
-    return inputUrl;
-  }
+function normalizeShortCode(input) {
+  return String(input || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 32);
 }
 
 function getShareEndpoints() {
@@ -184,56 +187,7 @@ function setStatus(message, meta = "") {
 }
 
 function setProgress(value) {
-  const nextValue = Math.max(0, Math.min(100, value));
-  progressBar.style.width = `${nextValue}%`;
-  progressBar.parentElement?.setAttribute("aria-valuenow", String(nextValue));
-}
-
-function clearUploadHints() {
-  for (const timer of uploadHintTimers) {
-    window.clearTimeout(timer);
-  }
-  uploadHintTimers = [];
-}
-
-function queueUploadHints(file) {
-  clearUploadHints();
-  const readableSize = file ? formatBytes(file.size) : "";
-  uploadHintTimers.push(window.setTimeout(() => {
-    if (!busy) return;
-    setProgress(24);
-    setStatus(
-      "Uploading PDF...",
-      `${readableSize ? `${readableSize} file upload in progress. ` : ""}First request can take a little longer if backend is waking up.`
-    );
-  }, 3500));
-  uploadHintTimers.push(window.setTimeout(() => {
-    if (!busy) return;
-    setProgress(38);
-    setStatus(
-      "Still uploading PDF...",
-      "Backend is responding slowly right now, but the request is still running."
-    );
-  }, 10000));
-}
-
-function setDropZoneInteractive(enabled) {
-  dropZone.classList.toggle("disabled", !enabled);
-  dropZone.setAttribute("aria-disabled", String(!enabled));
-  fileInput.disabled = !enabled;
-}
-
-function parseExpiry(value) {
-  if (!value && value !== 0) return null;
-  const numericValue = Number(value);
-  if (Number.isFinite(numericValue) && numericValue > 0) {
-    const numericDate = new Date(numericValue);
-    if (!Number.isNaN(numericDate.getTime())) return numericDate;
-  }
-  const textValue = String(value).trim();
-  if (!textValue) return null;
-  const textDate = new Date(textValue);
-  return Number.isNaN(textDate.getTime()) ? null : textDate;
+  progressBar.style.width = `${Math.max(0, Math.min(100, value))}%`;
 }
 
 function resetOutput() {
@@ -256,7 +210,10 @@ function refreshActionState() {
   convertBtn.disabled = !currentFile || busy;
   clearBtn.disabled = busy;
   cancelBtn.disabled = !busy;
-  setDropZoneInteractive(!busy);
+  shortCodeInput.disabled = busy;
+  logoInput.disabled = busy;
+  logoSizeSelect.disabled = busy;
+  removeLogoBtn.disabled = busy || !logoDataUrl;
   const hasOutput = !!sharedPdfUrl && !!qrDataUrl;
   copyBtn.disabled = !hasOutput || busy;
   downloadBtn.disabled = !hasOutput || busy;
@@ -264,12 +221,10 @@ function refreshActionState() {
 }
 
 function clearFile() {
-  if (busy) return;
   currentFile = null;
   fileInput.value = "";
   fileBox.hidden = true;
   cancelRequested = false;
-  clearUploadHints();
   setProgress(0);
   resetOutput();
   setStatus("Choose a PDF to start.");
@@ -277,7 +232,6 @@ function clearFile() {
 }
 
 function setFile(file) {
-  if (busy) return;
   if (!file) {
     clearFile();
     return;
@@ -309,8 +263,115 @@ function getMissingDeps() {
   return missing;
 }
 
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Failed to read image file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function loadImage(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("Logo image could not be loaded."));
+    image.src = dataUrl;
+  });
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+  const r = Math.max(0, Math.min(radius, Math.min(width, height) / 2));
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + width - r, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+  ctx.lineTo(x + width, y + height - r);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+  ctx.lineTo(x + r, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+async function setLogoFile(file) {
+  if (!file) {
+    logoDataUrl = "";
+    logoFileName = "";
+    logoInput.value = "";
+    logoMeta.textContent = "No logo selected.";
+    refreshActionState();
+    return;
+  }
+  if (!String(file.type || "").startsWith("image/")) {
+    alert("Logo must be an image file.");
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Logo image should be under 5 MB.");
+    return;
+  }
+
+  const dataUrl = await readFileAsDataUrl(file);
+  logoDataUrl = dataUrl;
+  logoFileName = file.name || "logo";
+  logoMeta.textContent = `${logoFileName} (${formatBytes(file.size)})`;
+  refreshActionState();
+}
+
+function clearLogo() {
+  logoDataUrl = "";
+  logoFileName = "";
+  logoInput.value = "";
+  logoMeta.textContent = "No logo selected.";
+  refreshActionState();
+}
+
 async function renderQrDataUrl(qr) {
-  return qr.toDataURL("image/png");
+  if (!logoDataUrl) {
+    return qr.toDataURL("image/png");
+  }
+
+  const sourceCanvas = qr.canvas;
+  const size = Number(sourceCanvas?.width || sizeSelect.value || 384);
+  const outputCanvas = document.createElement("canvas");
+  outputCanvas.width = size;
+  outputCanvas.height = size;
+  const ctx = outputCanvas.getContext("2d");
+  if (!ctx) {
+    return qr.toDataURL("image/png");
+  }
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, size, size);
+  ctx.drawImage(sourceCanvas, 0, 0, size, size);
+
+  const logoImage = await loadImage(logoDataUrl);
+  const logoPercent = Math.max(12, Math.min(24, Number(logoSizeSelect.value) || 16));
+  const logoSide = Math.round(size * (logoPercent / 100));
+  const padding = Math.max(6, Math.round(logoSide * 0.2));
+  const badgeSide = logoSide + padding * 2;
+  const bx = Math.round((size - badgeSide) / 2);
+  const by = Math.round((size - badgeSide) / 2);
+  const lx = bx + padding;
+  const ly = by + padding;
+
+  ctx.save();
+  ctx.shadowColor = "rgba(15,23,42,0.22)";
+  ctx.shadowBlur = Math.round(size * 0.02);
+  ctx.shadowOffsetY = Math.max(2, Math.round(size * 0.006));
+  roundRect(ctx, bx, by, badgeSide, badgeSide, Math.max(8, Math.round(size * 0.03)));
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+  ctx.lineWidth = Math.max(1, Math.round(size * 0.004));
+  ctx.strokeStyle = "rgba(15,23,42,0.12)";
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.drawImage(logoImage, lx, ly, logoSide, logoSide);
+  return outputCanvas.toDataURL("image/png");
 }
 
 function triggerDownload(blob, outputName) {
@@ -329,49 +390,44 @@ async function uploadPdfAndGetLink(file) {
     throw new Error("No share endpoint found. Set CONVERTER_API_BASE first.");
   }
 
+  const normalizedShortCode = normalizeShortCode(shortCodeInput.value);
+  if (shortCodeInput.value.trim() && !normalizedShortCode) {
+    throw new Error("Invalid custom short URL. Use 3-32 chars: a-z, 0-9, hyphen.");
+  }
+  if (normalizedShortCode) {
+    shortCodeInput.value = normalizedShortCode;
+  }
+
   for (const endpoint of SHARE_ENDPOINTS) {
     if (cancelRequested) throw new Error("CANCELLED");
     try {
       const formData = new FormData();
       formData.append("file", file, file.name);
-      uploadAbortController = new AbortController();
+      if (normalizedShortCode) {
+        formData.append("shortCode", normalizedShortCode);
+      }
 
       const response = await fetch(endpoint, {
         method: "POST",
-        body: formData,
-        signal: uploadAbortController.signal
+        body: formData
       });
 
       if (!response.ok) {
-        let message = "";
-        try {
-          const payload = await response.json();
-          message = String(payload?.error || payload?.message || "").trim();
-        } catch (_) {
-          const errorText = await response.text().catch(() => "");
-          message = String(errorText || "").trim();
-        }
-        if (!message) message = "Request failed.";
-        if (message.length > 240) message = `${message.slice(0, 240)}...`;
-        throw new Error(`(${response.status}) ${message}`.trim());
+        const errorText = await response.text().catch(() => "");
+        throw new Error(`(${response.status}) ${errorText}`.trim());
       }
 
       const payload = await response.json().catch(() => ({}));
       const shortUrl = String(payload?.shortUrl || payload?.url || "").trim();
       const directUrl = String(payload?.directUrl || "").trim();
-      const shortCode = String(payload?.shortCode || "").trim();
+      const shortCode = String(payload?.shortCode || normalizedShortCode || "").trim();
       const expiresAt = payload?.expiresAt || null;
       if (!shortUrl) {
         throw new Error("Share service did not return a URL.");
       }
       return { url: shortUrl, shortUrl, directUrl, shortCode, expiresAt, endpoint };
     } catch (error) {
-      if (error && error.name === "AbortError") {
-        throw new Error("CANCELLED");
-      }
       lastError = new Error(`[${endpoint}] ${error?.message || error}`);
-    } finally {
-      uploadAbortController = null;
     }
   }
 
@@ -389,41 +445,34 @@ async function generateQrCode() {
 
   busy = true;
   cancelRequested = false;
-  clearUploadHints();
   resetOutput();
   refreshActionState();
 
   try {
-    const workingFile = currentFile;
     setProgress(10);
-    setStatus("Uploading PDF to generate share link...", `${formatBytes(workingFile.size)} selected. Please keep this tab open.`);
-    queueUploadHints(workingFile);
+    setStatus("Uploading PDF to generate share link...");
 
-    const { url, shortUrl, directUrl, shortCode, expiresAt, endpoint } = await uploadPdfAndGetLink(workingFile);
+    const { url, shortUrl, directUrl, shortCode, expiresAt, endpoint } = await uploadPdfAndGetLink(currentFile);
     if (cancelRequested) throw new Error("CANCELLED");
 
-    clearUploadHints();
     setProgress(65);
     setStatus("Building QR code...");
 
-    const endpointOrigin = normalizeOrigin(endpoint);
-    const preferredOrigin = normalizeOrigin(USER_DEFINED_API_BASE) || endpointOrigin || normalizeOrigin(shortUrl) || normalizeOrigin(directUrl);
-    const baseShortUrl = shortUrl || url;
-    const effectiveShortUrl = preferredOrigin && shortCode ? `${preferredOrigin}/s/${shortCode}` : baseShortUrl;
-    const effectiveDirectUrl = directUrl ? (preferredOrigin ? replaceOrigin(directUrl, preferredOrigin) : directUrl) : "";
-
-    const qrLevel = DEFAULT_ECC_LEVEL;
+    const selectedLevel = String(eccSelect.value || "M").toUpperCase();
+    const qrLevel = logoDataUrl && (selectedLevel === "L" || selectedLevel === "M")
+      ? "Q"
+      : selectedLevel;
     const qr = new QRious({
-      value: effectiveShortUrl || baseShortUrl,
+      value: url,
       level: qrLevel,
-      size: DEFAULT_QR_SIZE,
+      size: Number(sizeSelect.value) || 384,
       foreground: "#111111",
       background: "#FFFFFF"
     });
 
     qrDataUrl = await renderQrDataUrl(qr);
-    sharedPdfUrl = effectiveShortUrl || baseShortUrl;
-    sharedDirectUrl = effectiveDirectUrl || sharedPdfUrl;
+    sharedPdfUrl = shortUrl || url;
+    sharedDirectUrl = directUrl || sharedPdfUrl;
     sharedShortCode = shortCode || "";
     sharedExpiresAt = expiresAt;
 
@@ -435,8 +484,10 @@ async function generateQrCode() {
     directPdfLink.textContent = sharedDirectUrl;
 
     if (sharedExpiresAt) {
-      const dt = parseExpiry(sharedExpiresAt);
-      expiresText.textContent = dt ? `Link expires: ${dt.toLocaleString()}` : "";
+      const dt = new Date(Number(sharedExpiresAt));
+      expiresText.textContent = Number.isNaN(dt.getTime())
+        ? ""
+        : `Link expires: ${dt.toLocaleString()}`;
     }
 
     resultWrap.hidden = false;
@@ -444,24 +495,23 @@ async function generateQrCode() {
     const endpointInfo = (() => {
       try { return new URL(endpoint).origin; } catch (_) { return endpoint || ""; }
     })();
-    setStatus("QR generated successfully.", `Scan this QR to open the PDF directly. ${endpointInfo ? `Backend: ${endpointInfo}.` : ""}`.trim());
+    const logoInfo = logoDataUrl ? ` Logo: ${logoFileName || "applied"}.` : "";
+    const levelInfo = qrLevel !== selectedLevel ? ` QR level auto-upgraded to ${qrLevel}.` : "";
+    setStatus("QR generated successfully.", `Scan this QR to open the PDF directly. ${endpointInfo ? `Backend: ${endpointInfo}.` : ""}${levelInfo}${logoInfo}`.trim());
   } catch (error) {
-    clearUploadHints();
     resetOutput();
     if (String(error?.message || "").includes("CANCELLED")) {
-      setStatus("Generation cancelled.", "Upload stopped before QR generation finished.");
-      setProgress(0);
+      setStatus("Generation cancelled.");
     } else {
       const message = String(error?.message || error || "Unknown error");
       setStatus("QR generation failed.", message);
       if (message.toLowerCase().includes("share upload failed")) {
-        resultMeta.textContent = `Backend service is not reachable. Start the backend (http://127.0.0.1:8080) or set CONVERTER_API_BASE. Tried: ${SHARE_ENDPOINTS.join(" , ")}`;
+        resultMeta.textContent = `Backend service reachable nahi hai. Backend start karo (http://127.0.0.1:8080) ya CONVERTER_API_BASE set karo. Tried: ${SHARE_ENDPOINTS.join(" , ")}`;
       }
     }
   } finally {
     busy = false;
     cancelRequested = false;
-    uploadAbortController = null;
     refreshActionState();
   }
 }
@@ -472,20 +522,7 @@ async function copyPdfLink() {
     await navigator.clipboard.writeText(sharedPdfUrl);
     setStatus("Link copied.", "PDF link copied to clipboard.");
   } catch (_) {
-    try {
-      const temp = document.createElement("textarea");
-      temp.value = sharedPdfUrl;
-      temp.setAttribute("readonly", "true");
-      temp.style.position = "fixed";
-      temp.style.top = "-1000px";
-      document.body.appendChild(temp);
-      temp.select();
-      document.execCommand("copy");
-      temp.remove();
-      setStatus("Link copied.", "PDF link copied to clipboard.");
-    } catch (err) {
-      setStatus("Clipboard blocked.", "Copy failed on this browser.");
-    }
+    setStatus("Clipboard blocked.", "Copy failed on this browser.");
   }
 }
 
@@ -520,24 +557,23 @@ async function shareOutput() {
 }
 
 fileInput.addEventListener("change", () => setFile(fileInput.files?.[0] || null));
-chooseBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  if (!busy) fileInput.click();
+shortCodeInput.addEventListener("blur", () => {
+  shortCodeInput.value = normalizeShortCode(shortCodeInput.value);
 });
-clearBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  clearFile();
+logoInput.addEventListener("change", async () => {
+  try {
+    await setLogoFile(logoInput.files?.[0] || null);
+  } catch (error) {
+    clearLogo();
+    setStatus("Logo load failed.", String(error?.message || error || "Unknown logo error."));
+  }
 });
+removeLogoBtn.addEventListener("click", clearLogo);
+clearBtn.addEventListener("click", clearFile);
 convertBtn.addEventListener("click", generateQrCode);
 cancelBtn.addEventListener("click", () => {
-  if (!busy) return;
   cancelRequested = true;
-  if (uploadAbortController) {
-    uploadAbortController.abort();
-  }
-  setStatus("Cancelling upload...", "Stopping the current request.");
+  setStatus("Cancelling after current step...");
 });
 copyBtn.addEventListener("click", copyPdfLink);
 downloadBtn.addEventListener("click", downloadQrPng);
@@ -545,7 +581,6 @@ shareBtn.addEventListener("click", shareOutput);
 
 ["dragenter", "dragover"].forEach((eventName) => {
   dropZone.addEventListener(eventName, (event) => {
-    if (busy) return;
     event.preventDefault();
     dropZone.classList.add("dragging");
   });
@@ -553,21 +588,12 @@ shareBtn.addEventListener("click", shareOutput);
 
 ["dragleave", "drop"].forEach((eventName) => {
   dropZone.addEventListener(eventName, (event) => {
-    if (busy) return;
     event.preventDefault();
     dropZone.classList.remove("dragging");
     if (eventName === "drop" && event.dataTransfer?.files?.length) {
       setFile(event.dataTransfer.files[0]);
     }
   });
-});
-
-dropZone.addEventListener("keydown", (event) => {
-  if (busy) return;
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    fileInput.click();
-  }
 });
 
 const startupMissingDeps = getMissingDeps();
