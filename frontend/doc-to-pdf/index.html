@@ -672,6 +672,8 @@ const USER_DEFINED_DOCX_TO_PDF_ENDPOINT = (window.DOCX_TO_PDF_ENDPOINT || safeSt
 const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
   .trim()
   .replace(/\/+$/, "");
+const MAX_FILE_MB = Number(window.CONVERTER_MAX_FILE_MB || 50);
+const MAX_FILE_BYTES = Math.max(1, Math.floor(MAX_FILE_MB * 1024 * 1024));
 const SAME_ORIGIN_DOCX_TO_PDF_ENDPOINT = `${window.location.origin}/convert/docx-to-pdf`;
 const LOCAL_SERVICE_DOCX_TO_PDF_ENDPOINT = "http://127.0.0.1:8080/convert/docx-to-pdf";
 
@@ -716,7 +718,7 @@ const USE_SERVER_EXACT_MODE = DOCX_TO_PDF_ENDPOINTS.length > 0;
 const ALLOW_BROWSER_FALLBACK = String(
   window.ALLOW_BROWSER_DOCX_PDF_FALLBACK ??
   safeStorageGet("allow_browser_docx_pdf_fallback") ??
-  "0"
+  "1"
 ) === "1";
 const CAN_USE_BROWSER_MODE = () => (
   typeof mammoth !== "undefined" &&
@@ -738,6 +740,10 @@ function isDocxFile(f){
 
 function formatKB(bytes){
   return Math.round(bytes / 1024) + " KB";
+}
+
+function formatMB(bytes){
+  return Math.round((bytes / (1024 * 1024)) * 10) / 10 + " MB";
 }
 
 function formatDuration(ms){
@@ -820,7 +826,13 @@ function addFiles(fileLike){
     return;
   }
 
+  const tooLarge = incoming.filter((f) => f.size > MAX_FILE_BYTES);
+  if (tooLarge.length) {
+    alert(`Some files are too large. Max file size is ${MAX_FILE_MB} MB. Large file(s): ${tooLarge.map((f) => `${f.name} (${formatMB(f.size)})`).join(", ")}`);
+  }
+
   incoming.forEach((f) => {
+    if (f.size > MAX_FILE_BYTES) return;
     const dup = files.some((x) => x.name === f.name && x.size === f.size && x.lastModified === f.lastModified);
     if(!dup) files.push(f);
   });
@@ -980,9 +992,38 @@ function getImageCaption(node){
   return candidates.find((c) => /[A-Za-z]{3,}/.test(c)) || "";
 }
 
+function sanitizeHtml(inputHtml){
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(`<div id="docRoot">${inputHtml || ""}</div>`, "text/html");
+  const root = parsed.getElementById("docRoot");
+  if (!root) return "";
+
+  root.querySelectorAll("script, iframe, object, embed, link, meta").forEach((el) => el.remove());
+  root.querySelectorAll("*").forEach((el) => {
+    Array.from(el.attributes || []).forEach((attr) => {
+      const name = String(attr.name || "").toLowerCase();
+      const value = String(attr.value || "");
+      if (name.startsWith("on")) {
+        el.removeAttribute(attr.name);
+        return;
+      }
+      if ((name === "href" || name === "src") && /^\s*javascript:/i.test(value)) {
+        el.removeAttribute(attr.name);
+        return;
+      }
+      if (name === "src" && /^\s*data:/i.test(value) && !/^data:image\//i.test(value)) {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+
+  return root.innerHTML;
+}
+
 function getImageBlocksFromHtml(html){
   const parser = new DOMParser();
-  const parsed = parser.parseFromString(`<div id="docRoot">${html}</div>`, "text/html");
+  const safeHtml = sanitizeHtml(html);
+  const parsed = parser.parseFromString(`<div id="docRoot">${safeHtml}</div>`, "text/html");
   const root = parsed.getElementById("docRoot");
   const blocks = [];
   if(!root) return blocks;
@@ -1207,7 +1248,8 @@ async function buildPdfFromHtml(html, outputName){
   const container = document.getElementById("htmlContainer");
   if(!container) throw new Error("Render container missing.");
 
-  container.innerHTML = `<div class="docRender">${html}</div>`;
+  const safeHtml = sanitizeHtml(html);
+  container.innerHTML = `<div class="docRender">${safeHtml}</div>`;
 
   await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 40)));
 
