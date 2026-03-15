@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libreoffice-core \
   libreoffice-writer \
   libreoffice-common \
+  libreoffice-java-common \
+  default-jre-headless \
   fonts-dejavu-core \
   fonts-liberation \
   fonts-noto-core \
