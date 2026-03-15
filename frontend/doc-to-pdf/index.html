@@ -4,23 +4,23 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="keywords" content="heic to pdf, tiff to pdf, bmp to pdf, gif to pdf, psd to pdf, ai to pdf, eps to pdf, svg to pdf, pages to pdf, key to pdf, numbers to pdf, text to pdf, csv to pdf, xml to pdf, json to pdf, md to pdf, markdown to pdf, pdf to png, pdf to tiff, pdf to bmp, pdf to gif, pdf to html, pdf to txt, pdf to rtf, pdf to csv, pdf to xml, pdf to json, pdf to svg, pdf to pages, pdf to key, pdf to numbers, unlock pdf, remove password pdf, protect pdf, encrypt pdf, password protect pdf, rotate pdf, rearrange pdf, reorder pdf pages, delete pages from pdf, extract pages from pdf, add page numbers to pdf, watermark pdf, add watermark to pdf, redact pdf, ocr pdf, searchable pdf, flatten pdf, pdf form filler, fill pdf form, create fillable pdf, pdf to audiobook, pdf to speech, read pdf aloud, resize pdf, pdf page size, a4 to pdf, letter to pdf, pdf optimizer, repair pdf, fix corrupted pdf, compare pdf, pdf difference, pdf to cad, dwg to pdf, pdf to dwg, pdf to dxf, ebook to pdf, epub to pdf, mobi to pdf, azw to pdf, pdf to epub, pdf to mobi, pdf to kindle, comic to pdf, cbz to pdf, cbr to pdf, pdf to cbz, pdf to cbr, invoice to pdf, receipt to pdf, scan to pdf, document to pdf, photo to pdf, picture to pdf, multiple images to pdf, batch convert to pdf, pdf printer, print to pdf, save as pdf, export as pdf, pdf converter online, free pdf converter, pdf maker online, create pdf online, convert to pdf online, pdf editor online, free pdf editor, online pdf tool, pdf utility, pdf toolkit, pdf creator software, desktop pdf converter, offline pdf maker" />
-<meta name="author" content="Makepdf.in" />
+<meta name="author" content="Makepdfs.in" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="description" content="Convert DOCX files to PDF online with formatting support in your browser." />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#2563eb" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Makepdf.in" />
-<meta property="og:title" content="Document to PDF Converter Online | Word to PDF | Makepdf.in" />
+<meta property="og:site_name" content="Makepdfs.in" />
+<meta property="og:title" content="Document to PDF Converter Online | Word to PDF | Makepdfs.in" />
 <meta property="og:description" content="Convert DOCX to PDF online with preserved formatting directly in your browser." />
 <meta property="og:image" content="/favicon.svg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Document to PDF Converter Online | Word to PDF | Makepdf.in" />
+<meta name="twitter:title" content="Document to PDF Converter Online | Word to PDF | Makepdfs.in" />
 <meta name="twitter:description" content="Convert DOCX to PDF online with preserved formatting directly in your browser." />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"DOCX to PDF Converter","applicationCategory":"BusinessApplication","operatingSystem":"Any","url":"/doc-to-pdf/","description":"Convert DOCX files to PDF online."}
 </script>
-<title>DOCX to PDF Converter Online | Makepdf.in</title>
+<title>DOCX to PDF Converter Online | Makepdfs.in</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -396,80 +396,28 @@ footer{
 
 /* Loading overlay */
 #loadingOverlay {
+  display: none;
   position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(6, 14, 30, 0.5);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
   z-index: 9999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .2s ease, visibility .2s ease;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  backdrop-filter: blur(4px);
 }
 #loadingOverlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-.overlayCard{
-  width:min(92vw, 560px);
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.28);
-  background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,250,255,0.92));
-  color:#0f172a;
-  box-shadow:0 24px 60px rgba(2,6,23,0.35);
-  padding:18px;
-}
-.overlayTop{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-.overlayBody{
-  min-width:0;
-}
-.overlayTitle{
-  margin:0;
-  font-size:16px;
-  font-weight:900;
-  letter-spacing:.01em;
-}
-.overlayText{
-  margin-top:4px;
-  font-size:14px;
-  color:#334155;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.overlayMeta{
-  margin-top:10px;
-  font-size:12px;
-  color:#64748b;
-}
-.overlayProgress{
-  margin-top:14px;
-  height:10px;
-  border-radius:999px;
-  background:#dbe4f1;
-  overflow:hidden;
-}
-.overlayProgressBar{
-  width:0;
-  height:100%;
-  border-radius:999px;
-  background:linear-gradient(135deg,var(--a),var(--a2));
-  transition:width .28s ease;
+  display: flex;
 }
 .spinner {
-  border:4px solid rgba(37,99,235,0.18);
+  border: 4px solid rgba(255,255,255,0.3);
   border-radius: 50%;
-  border-top:4px solid var(--a);
-  width:42px;
-  height:42px;
-  animation: spin .9s linear infinite;
-  flex:0 0 auto;
+  border-top: 4px solid #fff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -509,13 +457,6 @@ footer{
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .overlayCard{
-    width:min(94vw, 560px);
-    padding:14px;
-    border-radius:16px;
-  }
-  .overlayTitle{font-size:15px}
-  .overlayText{font-size:13px}
 }
 </style>
 <link rel="canonical" href="/doc-to-pdf/" />
@@ -523,19 +464,8 @@ footer{
 <body>
 <!-- Loading indicator -->
 <div id="loadingOverlay">
-  <div class="overlayCard" role="status" aria-live="polite" aria-busy="true">
-    <div class="overlayTop">
-      <div class="spinner" aria-hidden="true"></div>
-      <div class="overlayBody">
-        <p class="overlayTitle" id="overlayTitle">Converting DOCX to PDF</p>
-        <div class="overlayText" id="overlayText">Preparing files...</div>
-      </div>
-    </div>
-    <div class="overlayProgress" aria-hidden="true">
-      <div class="overlayProgressBar" id="overlayProgressBar"></div>
-    </div>
-    <div class="overlayMeta" id="overlayMeta">This can take 10-60 seconds depending on file size.</div>
-  </div>
+  <div class="spinner"></div>
+  <span id="overlayText">Generating PDF... please wait.</span>
 </div>
 
 <header class="siteHeader">
@@ -548,7 +478,7 @@ footer{
           <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </span>
-      <span class="brandText">Makepdf.in</span>
+      <span class="brandText">Makepdfs.in</span>
     </a>
 
     <nav class="nav">
@@ -595,7 +525,7 @@ footer{
 <footer>
   <div class="footerGrid">
     <div>
-      <p class="footerTitle">Makepdf.in</p>
+      <p class="footerTitle">Makepdfs.in</p>
       <p class="footerText">
         Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.
       </p>
@@ -645,10 +575,10 @@ footer{
     </div>
   </div>
 
-  <div class="copy">&copy; <span id="year"></span> Makepdf.in. All rights reserved.</div>
+  <div class="copy">&copy; <span id="year"></span> Makepdfs.in. All rights reserved.</div>
 </footer>
 
-<script src="../frontend-config.js"></script>
+<script src="/frontend-config.js"></script>
 <script>
 /* YEAR */
 document.getElementById("year").textContent = new Date().getFullYear();
@@ -659,22 +589,12 @@ const fileList = document.getElementById("fileList");
 const dropZone = document.getElementById("dropZone");
 const convertBtn = document.getElementById("convertBtn");
 const convertHint = document.getElementById("convertHint");
-const loadingOverlay = document.getElementById("loadingOverlay");
-const overlayTitle = document.getElementById("overlayTitle");
 const overlayText = document.getElementById("overlayText");
-const overlayMeta = document.getElementById("overlayMeta");
-const overlayProgressBar = document.getElementById("overlayProgressBar");
 const IS_LOCAL_HOST = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
-const safeStorageGet = (key) => {
-  try { return window.localStorage ? window.localStorage.getItem(key) : null; } catch (_) { return null; }
-};
-const USER_DEFINED_DOCX_TO_PDF_ENDPOINT = (window.DOCX_TO_PDF_ENDPOINT || safeStorageGet("docx_to_pdf_endpoint") || "").trim();
-const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || safeStorageGet("converter_api_base") || "")
+const USER_DEFINED_DOCX_TO_PDF_ENDPOINT = (window.DOCX_TO_PDF_ENDPOINT || localStorage.getItem("docx_to_pdf_endpoint") || "").trim();
+const USER_DEFINED_API_BASE = String(window.CONVERTER_API_BASE || localStorage.getItem("converter_api_base") || "")
   .trim()
   .replace(/\/+$/, "");
-const MAX_FILE_MB = Number(window.CONVERTER_MAX_FILE_MB || 50);
-const MAX_FILE_BYTES = Math.max(1, Math.floor(MAX_FILE_MB * 1024 * 1024));
-const SERVER_TRY_TIMEOUT_MS = Number(window.SERVER_TRY_TIMEOUT_MS || 8000);
 const SAME_ORIGIN_DOCX_TO_PDF_ENDPOINT = `${window.location.origin}/convert/docx-to-pdf`;
 const LOCAL_SERVICE_DOCX_TO_PDF_ENDPOINT = "http://127.0.0.1:8080/convert/docx-to-pdf";
 
@@ -716,21 +636,10 @@ function getDocxToPdfEndpoints(){
 
 const DOCX_TO_PDF_ENDPOINTS = getDocxToPdfEndpoints();
 const USE_SERVER_EXACT_MODE = DOCX_TO_PDF_ENDPOINTS.length > 0;
-let prewarmDone = false;
-function prewarmBackend() {
-  if (prewarmDone) return;
-  if (!USER_DEFINED_API_BASE) return;
-  prewarmDone = true;
-  const healthUrl = joinUrl(USER_DEFINED_API_BASE, "/health");
-  fetch(healthUrl, { mode: "no-cors", cache: "no-store" }).catch(() => {});
-}
-if (USE_SERVER_EXACT_MODE) {
-  prewarmBackend();
-}
 const ALLOW_BROWSER_FALLBACK = String(
   window.ALLOW_BROWSER_DOCX_PDF_FALLBACK ??
-  safeStorageGet("allow_browser_docx_pdf_fallback") ??
-  "1"
+  localStorage.getItem("allow_browser_docx_pdf_fallback") ??
+  "0"
 ) === "1";
 const CAN_USE_BROWSER_MODE = () => (
   typeof mammoth !== "undefined" &&
@@ -740,8 +649,6 @@ const CAN_USE_BROWSER_MODE = () => (
 
 let files = [];
 let converting = false;
-let overlayStartedAt = 0;
-let overlayTimer = null;
 
 function isDocxFile(f){
   return !!f && (
@@ -752,65 +659,6 @@ function isDocxFile(f){
 
 function formatKB(bytes){
   return Math.round(bytes / 1024) + " KB";
-}
-
-function formatMB(bytes){
-  return Math.round((bytes / (1024 * 1024)) * 10) / 10 + " MB";
-}
-
-function formatDuration(ms){
-  const totalSec = Math.max(0, Math.floor(ms / 1000));
-  const min = Math.floor(totalSec / 60);
-  const sec = totalSec % 60;
-  return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-}
-
-function setOverlayProgress(value){
-  if(!overlayProgressBar) return;
-  const safe = Math.max(0, Math.min(100, Number(value) || 0));
-  overlayProgressBar.style.width = `${safe}%`;
-}
-
-function updateOverlayMeta(totalFiles){
-  if(!overlayMeta || !overlayStartedAt) return;
-  const elapsed = formatDuration(Date.now() - overlayStartedAt);
-  overlayMeta.textContent = `${totalFiles} file(s) in queue. Elapsed: ${elapsed}`;
-}
-
-function showLoadingOverlay(totalFiles){
-  overlayStartedAt = Date.now();
-  if(overlayTitle) overlayTitle.textContent = "Converting DOCX to PDF";
-  if(overlayText) overlayText.textContent = "Preparing files...";
-  setOverlayProgress(2);
-  updateOverlayMeta(totalFiles);
-  if(overlayTimer) clearInterval(overlayTimer);
-  overlayTimer = setInterval(() => updateOverlayMeta(totalFiles), 1000);
-  if(loadingOverlay) loadingOverlay.classList.add("active");
-}
-
-function updateLoadingOverlay({ fileIndex, totalFiles, fileName, phase, phaseProgress }){
-  const idx = Math.max(1, Number(fileIndex) || 1);
-  const total = Math.max(1, Number(totalFiles) || 1);
-  const base = ((idx - 1) / total) * 100;
-  const segment = (Math.max(0, Math.min(100, Number(phaseProgress) || 0)) / total);
-  setOverlayProgress(Math.min(98, base + segment));
-  if(overlayText){
-    const safePhase = phase || "Processing";
-    overlayText.textContent = `${safePhase} ${idx}/${total}: ${fileName || "document.docx"}`;
-  }
-}
-
-function hideLoadingOverlay(){
-  if(overlayTimer){
-    clearInterval(overlayTimer);
-    overlayTimer = null;
-  }
-  overlayStartedAt = 0;
-  setOverlayProgress(0);
-  if(overlayTitle) overlayTitle.textContent = "Converting DOCX to PDF";
-  if(overlayText) overlayText.textContent = "Preparing files...";
-  if(overlayMeta) overlayMeta.textContent = "This can take 10-60 seconds depending on file size.";
-  if(loadingOverlay) loadingOverlay.classList.remove("active");
 }
 
 function refreshConvertState(){
@@ -838,13 +686,7 @@ function addFiles(fileLike){
     return;
   }
 
-  const tooLarge = incoming.filter((f) => f.size > MAX_FILE_BYTES);
-  if (tooLarge.length) {
-    alert(`Some files are too large. Max file size is ${MAX_FILE_MB} MB. Large file(s): ${tooLarge.map((f) => `${f.name} (${formatMB(f.size)})`).join(", ")}`);
-  }
-
   incoming.forEach((f) => {
-    if (f.size > MAX_FILE_BYTES) return;
     const dup = files.some((x) => x.name === f.name && x.size === f.size && x.lastModified === f.lastModified);
     if(!dup) files.push(f);
   });
@@ -948,15 +790,15 @@ function normalizeExtractedText(input){
 
   // Common mojibake cleanup
   text = text
-    .replace(/â€™/g, "'")
-    .replace(/â€œ|â€/g, '"')
-    .replace(/â€“|â€”/g, "-")
-    .replace(/â€¢/g, "-")
+    .replace(/’/g, "'")
+    .replace(/“|”/g, '"')
+    .replace(/–|—/g, "-")
+    .replace(/•/g, "-")
     .replace(/\uFFFD/g, "")
-    .replace(/ï¿½/g, "");
+    .replace(/�/g, "");
 
   // Convert short garbled tokens (mostly bad bullet glyphs) to bullet
-  text = text.replace(/\bï¿½[^\s]{0,8}\b/g, "-");
+  text = text.replace(/\b�[^\s]{0,8}\b/g, "-");
 
   // Collapse letter-by-letter words: "W h y" => "Why"
   text = text.replace(/\b(?:[A-Za-z]\s){1,}[A-Za-z]\b/g, (m) => m.replace(/\s+/g, ""));
@@ -975,9 +817,9 @@ function normalizeExtractedText(input){
 
   // Keep final text PDF-safe for core fonts
   text = text
-    .replace(/[ï¿½ï¿½]/g, '"')
-    .replace(/[ï¿½ï¿½]/g, "'")
-    .replace(/[ï¿½ï¿½]/g, "-")
+    .replace(/[��]/g, '"')
+    .replace(/[��]/g, "'")
+    .replace(/[��]/g, "-")
     .replace(/\u00A0/g, " ")
     .normalize("NFKD")
     .replace(/[^\x20-\x7E]/g, "");
@@ -1004,38 +846,9 @@ function getImageCaption(node){
   return candidates.find((c) => /[A-Za-z]{3,}/.test(c)) || "";
 }
 
-function sanitizeHtml(inputHtml){
-  const parser = new DOMParser();
-  const parsed = parser.parseFromString(`<div id="docRoot">${inputHtml || ""}</div>`, "text/html");
-  const root = parsed.getElementById("docRoot");
-  if (!root) return "";
-
-  root.querySelectorAll("script, iframe, object, embed, link, meta").forEach((el) => el.remove());
-  root.querySelectorAll("*").forEach((el) => {
-    Array.from(el.attributes || []).forEach((attr) => {
-      const name = String(attr.name || "").toLowerCase();
-      const value = String(attr.value || "");
-      if (name.startsWith("on")) {
-        el.removeAttribute(attr.name);
-        return;
-      }
-      if ((name === "href" || name === "src") && /^\s*javascript:/i.test(value)) {
-        el.removeAttribute(attr.name);
-        return;
-      }
-      if (name === "src" && /^\s*data:/i.test(value) && !/^data:image\//i.test(value)) {
-        el.removeAttribute(attr.name);
-      }
-    });
-  });
-
-  return root.innerHTML;
-}
-
 function getImageBlocksFromHtml(html){
   const parser = new DOMParser();
-  const safeHtml = sanitizeHtml(html);
-  const parsed = parser.parseFromString(`<div id="docRoot">${safeHtml}</div>`, "text/html");
+  const parsed = parser.parseFromString(`<div id="docRoot">${html}</div>`, "text/html");
   const root = parsed.getElementById("docRoot");
   const blocks = [];
   if(!root) return blocks;
@@ -1161,7 +974,7 @@ async function buildReliablePdf(blocks, outputName){
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
       doc.setTextColor(92, 104, 126);
-      doc.text("Generated with Makepdf.in", margin, y);
+      doc.text("Generated with Makepdfs.in", margin, y);
       y += 14;
       doc.setDrawColor(205, 214, 228);
       doc.line(margin, y, pageWidth - margin, y);
@@ -1260,8 +1073,7 @@ async function buildPdfFromHtml(html, outputName){
   const container = document.getElementById("htmlContainer");
   if(!container) throw new Error("Render container missing.");
 
-  const safeHtml = sanitizeHtml(html);
-  container.innerHTML = `<div class="docRender">${safeHtml}</div>`;
+  container.innerHTML = `<div class="docRender">${html}</div>`;
 
   await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 40)));
 
@@ -1296,20 +1108,9 @@ async function convertDocxWithServer(file, outputName){
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      const controller = new AbortController();
-      let timeoutId = null;
-      let timedOut = false;
-      if (SERVER_TRY_TIMEOUT_MS > 0) {
-        timeoutId = setTimeout(() => {
-          timedOut = true;
-          controller.abort();
-        }, SERVER_TRY_TIMEOUT_MS);
-      }
-
       const response = await fetch(endpoint, {
         method: "POST",
-        body: formData,
-        signal: controller.signal
+        body: formData
       });
 
       if(!response.ok){
@@ -1330,13 +1131,7 @@ async function convertDocxWithServer(file, outputName){
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
       return;
     }catch(err){
-      if (err && err.name === "AbortError" && timedOut) {
-        lastError = new Error("SERVER_TIMEOUT");
-      } else {
-        lastError = err;
-      }
-    } finally {
-      if (timeoutId) clearTimeout(timeoutId);
+      lastError = err;
     }
   }
 
@@ -1353,9 +1148,6 @@ function getFriendlyServerError(error){
     lower.includes("conversion failed on all endpoints")
   ){
     return `Exact converter server not reachable. Set CONVERTER_API_BASE to your backend URL or run local backend on 127.0.0.1:8080. Tried: ${DOCX_TO_PDF_ENDPOINTS.join(" , ")}`;
-  }
-  if (lower.includes("server_timeout")) {
-    return "Server is slow. Switching to browser mode for faster conversion.";
   }
   return raw || "Unknown conversion error.";
 }
@@ -1390,32 +1182,20 @@ async function convertDoc() {
 
   converting = true;
   refreshConvertState();
-  showLoadingOverlay(files.length);
+  const overlay = document.getElementById("loadingOverlay");
+  if (overlay) overlay.classList.add("active");
 
   const failed = [];
   let usedBrowserFallback = false;
   try {
     for(let i = 0; i < files.length; i += 1){
       const current = files[i];
-      updateLoadingOverlay({
-        fileIndex: i + 1,
-        totalFiles: files.length,
-        fileName: current.name,
-        phase: "Uploading",
-        phaseProgress: 8
-      });
+      if(overlayText) overlayText.textContent = `Converting ${i + 1}/${files.length}: ${current.name}`;
 
       try{
         const outputName = sanitizePdfFileName(current.name);
         if(USE_SERVER_EXACT_MODE){
           try{
-            updateLoadingOverlay({
-              fileIndex: i + 1,
-              totalFiles: files.length,
-              fileName: current.name,
-              phase: "Server converting",
-              phaseProgress: 62
-            });
             await convertDocxWithServer(current, outputName);
           }catch(serverErr){
             if(!ALLOW_BROWSER_FALLBACK){
@@ -1426,32 +1206,11 @@ async function convertDoc() {
             }
             console.warn("Exact server mode unavailable. Falling back to browser mode.", serverErr);
             usedBrowserFallback = true;
-            updateLoadingOverlay({
-              fileIndex: i + 1,
-              totalFiles: files.length,
-              fileName: current.name,
-              phase: "Browser fallback rendering",
-              phaseProgress: 72
-            });
             await convertDocxInBrowser(current, outputName);
           }
         }else{
-          updateLoadingOverlay({
-            fileIndex: i + 1,
-            totalFiles: files.length,
-            fileName: current.name,
-            phase: "Rendering in browser",
-            phaseProgress: 74
-          });
           await convertDocxInBrowser(current, outputName);
         }
-        updateLoadingOverlay({
-          fileIndex: i + 1,
-          totalFiles: files.length,
-          fileName: current.name,
-          phase: "Downloading output",
-          phaseProgress: 99
-        });
       } catch (singleErr) {
         console.error("Single file conversion failed:", singleErr);
         failed.push({
@@ -1466,7 +1225,8 @@ async function convertDoc() {
   } finally {
     converting = false;
     refreshConvertState();
-    hideLoadingOverlay();
+    if(overlayText) overlayText.textContent = "Generating PDF... please wait.";
+    if (overlay) overlay.classList.remove("active");
     document.getElementById("htmlContainer").innerHTML = "";
     if(failed.length){
       const detail = failed.map((x) => `${x.file}: ${x.reason}`).join("\n");
