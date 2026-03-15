@@ -1152,6 +1152,24 @@ function getFriendlyServerError(error){
   return raw || "Unknown conversion error.";
 }
 
+function detectComplexDocxWarning(messages){
+  const list = Array.isArray(messages) ? messages : [];
+  for(const msg of list){
+    const text = String(msg?.message || msg || "").toLowerCase();
+    if(
+      text.includes("text box") ||
+      text.includes("textbox") ||
+      text.includes("column") ||
+      text.includes("columns") ||
+      text.includes("floating") ||
+      text.includes("shape")
+    ){
+      return text;
+    }
+  }
+  return "";
+}
+
 async function convertDocxInBrowser(file, outputName){
   const arrayBuffer = await file.arrayBuffer();
   const options = {
@@ -1161,6 +1179,10 @@ async function convertDocxInBrowser(file, outputName){
   };
 
   const htmlResult = await mammoth.convertToHtml({ arrayBuffer }, options);
+  const complexWarning = detectComplexDocxWarning(htmlResult?.messages);
+  if(complexWarning){
+    throw new Error("This DOCX uses text boxes/columns/shapes that browser conversion cannot preserve. Use Exact server conversion for correct layout.");
+  }
   const html = String(htmlResult?.value || "").trim();
   if(!html){
     throw new Error("No readable content found in DOCX.");
