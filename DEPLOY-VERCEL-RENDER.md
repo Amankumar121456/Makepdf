@@ -12,6 +12,11 @@ Recommended setup for this repo:
 - Render can run the LibreOffice backend using the existing Dockerfile.
 - Render free web services spin down on idle and use an ephemeral filesystem, so QR-share files stored only on local disk can disappear early after restart or redeploy.
 
+## Exact DOCX fidelity (optional)
+
+If you need 1:1 DOCX -> PDF output (shapes, image crops, fonts), use Microsoft
+Word on a Windows host instead of LibreOffice. See `DEPLOY-WINDOWS-WORD.md`.
+
 ## Frontend on Vercel
 
 1. Push the repo to GitHub.
