@@ -717,7 +717,8 @@ function getSofficeBaseArgs(profileDir) {
   // Use isolated profile on non-Windows for safety, and default profile on Windows for reliability.
   if (process.platform !== "win32" && profileDir) {
     const profileUri = pathToFileURL(profileDir).href;
-    args.push(`--env:UserInstallation=${profileUri}`);
+    // LibreOffice expects single-dash -env:UserInstallation (double-dash breaks on some builds).
+    args.push(`-env:UserInstallation=${profileUri}`);
   }
 
   return args;
