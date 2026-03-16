@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libreoffice-core \
+  libreoffice-impress \
   libreoffice-writer \
   libreoffice-common \
   libreoffice-java-common \
