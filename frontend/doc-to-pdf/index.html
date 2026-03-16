@@ -637,9 +637,7 @@ function getDocxToPdfEndpoints(){
 const DOCX_TO_PDF_ENDPOINTS = getDocxToPdfEndpoints();
 const USE_SERVER_EXACT_MODE = DOCX_TO_PDF_ENDPOINTS.length > 0;
 const ALLOW_BROWSER_FALLBACK = String(
-  window.ALLOW_BROWSER_DOCX_PDF_FALLBACK ??
-  localStorage.getItem("allow_browser_docx_pdf_fallback") ??
-  "0"
+  window.ALLOW_BROWSER_DOCX_PDF_FALLBACK ?? "0"
 ) === "1";
 const CAN_USE_BROWSER_MODE = () => (
   typeof mammoth !== "undefined" &&
@@ -662,7 +660,7 @@ function formatKB(bytes){
 }
 
 function refreshConvertState(){
-  if(convertBtn) convertBtn.disabled = converting || files.length === 0;
+  if(convertBtn) convertBtn.disabled = converting || files.length === 0 || !USE_SERVER_EXACT_MODE;
   if(!convertHint) return;
   if(converting){
     convertHint.textContent = "Conversion in progress... please wait.";
@@ -675,8 +673,8 @@ function refreshConvertState(){
     return;
   }
   convertHint.textContent = files.length
-    ? `${files.length} DOCX file(s) ready for conversion. Browser mode may differ from Word layout.`
-    : "Add one or more DOCX files and convert in one click. For exact layout, set CONVERTER_API_BASE or DOCX_TO_PDF_ENDPOINT.";
+    ? "Exact conversion server not available. Set CONVERTER_API_BASE to enable correct layout."
+    : "Add one or more DOCX files. Exact layout requires server (set CONVERTER_API_BASE).";
 }
 
 function addFiles(fileLike){
@@ -1193,6 +1191,10 @@ async function convertDocxInBrowser(file, outputName){
 async function convertDoc() {
   if (!files.length) return alert("Please choose at least one DOCX file first.");
   if (converting) return;
+  if (!USE_SERVER_EXACT_MODE) {
+    alert("Exact conversion server is not available. Set CONVERTER_API_BASE to enable correct layout.");
+    return;
+  }
   if (!USE_SERVER_EXACT_MODE && !ALLOW_BROWSER_FALLBACK) {
     alert("Exact conversion server is not available. Start backend service and try again.");
     return;
