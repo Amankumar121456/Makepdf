@@ -181,6 +181,16 @@
       "source": "/pdf-maker.html",
       "destination": "/pdf-maker/",
       "permanent": true
+    },
+    {
+      "source": "/s/:code",
+      "destination": "https://makepdf-backend.onrender.com/s/:code",
+      "permanent": false
+    },
+    {
+      "source": "/share/files/:id",
+      "destination": "https://makepdf-backend.onrender.com/share/files/:id",
+      "permanent": false
     }
   ]
 }

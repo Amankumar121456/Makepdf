@@ -30,3 +30,5 @@
 /png-to-jpg.html /png-to-jpg/ 301
 /img-to-paspot_img.html /passport-photo/ 301
 /pdf-maker.html /pdf-maker/ 301
+/s/* https://makepdf-backend.onrender.com/s/:splat 302
+/share/files/* https://makepdf-backend.onrender.com/share/files/:splat 302
