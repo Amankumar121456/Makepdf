@@ -55,14 +55,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--muted)
     <label class="drop" id="dropZone" for="fileInput"><div><div class="dropIcon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 16V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 10.5 12 7l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A4 4 0 0 1 18 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><strong>Upload a PDF</strong><p class="note">Single file, up to 50 MB.</p><div class="btnRow"><span class="btn btnSoft" role="button">Choose PDF</span><button class="btn btnSoft" type="button" id="clearBtn">Clear</button></div></div></label>
     <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
     <div class="fileBox" id="fileBox" hidden><div class="fileName" id="fileName">No file selected</div><div class="meta" id="fileMeta"></div></div>
-    <div class="panelGrid">
-      <div class="field"><label class="label" for="sizeSelect">QR size</label><select id="sizeSelect" class="control"><option value="256">256 px</option><option value="384" selected>384 px</option><option value="512">512 px</option></select></div>
-      <div class="field"><label class="label" for="eccSelect">Error correction</label><select id="eccSelect" class="control"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">Quartile</option><option value="H">High</option></select><div class="help">If logo is enabled, level auto-upgrades to Q for better scan reliability.</div></div>
-      <div class="field"><label class="label" for="shortCodeInput">Custom short URL (optional)</label><input id="shortCodeInput" class="control" type="text" maxlength="32" placeholder="invoice-2026" autocomplete="off" /><div class="help">Allowed: a-z, 0-9, hyphen. Final URL format: <code>/s/your-code</code>.</div></div>
-      <div class="field"><label class="label" for="logoInput">QR branding logo (optional)</label><input id="logoInput" class="control" type="file" accept="image/*" /><div class="btnRow" style="margin-top:8px"><button class="btn btnSoft" type="button" id="removeLogoBtn">Remove Logo</button></div><div class="help" id="logoMeta">No logo selected.</div></div>
-      <div class="field"><label class="label" for="logoSizeSelect">Logo size</label><select id="logoSizeSelect" class="control"><option value="16" selected>Small (16%)</option><option value="20">Medium (20%)</option><option value="24">Large (24%)</option></select><div class="help">Keep logo small for best scan success.</div></div>
-    </div>
-    <div class="stats"><div class="stat">Scan QR to open uploaded PDF</div><div class="stat">Custom `/s/abc123` short link supported</div><div class="stat">Set CONVERTER_API_BASE for production</div></div>
+    <div class="stats"><div class="stat">Scan QR to open uploaded PDF</div><div class="stat">Auto short link generated</div><div class="stat">Default QR: 384px, Medium error correction</div><div class="stat">Set CONVERTER_API_BASE for production</div></div>
   </section>
 
   <section class="card"><div class="actions"><button class="btn btnPrimary" type="button" id="convertBtn" disabled>Generate QR Code</button><button class="btn btnDanger" type="button" id="cancelBtn" disabled>Cancel</button><button class="btn btnSoft" type="button" id="copyBtn" disabled>Copy PDF Link</button><button class="btn btnSoft" type="button" id="downloadBtn" disabled>Download QR PNG</button><button class="btn btnSoft" type="button" id="shareBtn" disabled>Share</button></div><div class="statusBox"><strong>Status</strong><div class="meta" id="statusText">Choose a PDF to start.</div><div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div><div class="meta" id="resultMeta"></div></div><div id="resultWrap" class="resultWrap" hidden><div class="qrBox"><img id="qrImage" class="qrImg" alt="PDF QR Code" /></div><div class="linkBox"><div><strong>Short PDF Link</strong></div><div style="margin-top:8px"><a id="pdfLink" href="#" target="_blank" rel="noopener">Open PDF</a></div><div class="small" id="shortCodeText"></div><div style="margin-top:14px"><strong>Direct PDF Link</strong></div><div style="margin-top:8px"><a id="directPdfLink" href="#" target="_blank" rel="noopener">Open direct PDF</a></div><div class="small" id="expiresText"></div></div></div></section>
@@ -81,13 +74,6 @@ const shareBtn = document.getElementById("shareBtn");
 const fileBox = document.getElementById("fileBox");
 const fileName = document.getElementById("fileName");
 const fileMeta = document.getElementById("fileMeta");
-const sizeSelect = document.getElementById("sizeSelect");
-const eccSelect = document.getElementById("eccSelect");
-const shortCodeInput = document.getElementById("shortCodeInput");
-const logoInput = document.getElementById("logoInput");
-const removeLogoBtn = document.getElementById("removeLogoBtn");
-const logoSizeSelect = document.getElementById("logoSizeSelect");
-const logoMeta = document.getElementById("logoMeta");
 const statusText = document.getElementById("statusText");
 const resultMeta = document.getElementById("resultMeta");
 const progressBar = document.getElementById("progressBar");
@@ -97,6 +83,9 @@ const pdfLink = document.getElementById("pdfLink");
 const shortCodeText = document.getElementById("shortCodeText");
 const directPdfLink = document.getElementById("directPdfLink");
 const expiresText = document.getElementById("expiresText");
+
+const DEFAULT_QR_SIZE = 384;
+const DEFAULT_ECC_LEVEL = "M";
 
 const IS_LOCAL_HOST = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
 const safeStorageGet = (key) => {
@@ -121,8 +110,6 @@ let sharedPdfUrl = "";
 let sharedDirectUrl = "";
 let sharedShortCode = "";
 let sharedExpiresAt = null;
-let logoDataUrl = "";
-let logoFileName = "";
 
 function formatBytes(bytes) {
   const units = ["B", "KB", "MB", "GB"];
@@ -138,16 +125,6 @@ function formatBytes(bytes) {
 function joinUrl(base, path) {
   if (!base) return "";
   return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
-}
-
-function normalizeShortCode(input) {
-  return String(input || "")
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9-]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 32);
 }
 
 function getShareEndpoints() {
@@ -210,10 +187,6 @@ function refreshActionState() {
   convertBtn.disabled = !currentFile || busy;
   clearBtn.disabled = busy;
   cancelBtn.disabled = !busy;
-  shortCodeInput.disabled = busy;
-  logoInput.disabled = busy;
-  logoSizeSelect.disabled = busy;
-  removeLogoBtn.disabled = busy || !logoDataUrl;
   const hasOutput = !!sharedPdfUrl && !!qrDataUrl;
   copyBtn.disabled = !hasOutput || busy;
   downloadBtn.disabled = !hasOutput || busy;
@@ -263,117 +236,6 @@ function getMissingDeps() {
   return missing;
 }
 
-function readFileAsDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("Failed to read image file."));
-    reader.readAsDataURL(file);
-  });
-}
-
-function loadImage(dataUrl) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("Logo image could not be loaded."));
-    image.src = dataUrl;
-  });
-}
-
-function roundRect(ctx, x, y, width, height, radius) {
-  const r = Math.max(0, Math.min(radius, Math.min(width, height) / 2));
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + width - r, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
-  ctx.lineTo(x + width, y + height - r);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
-  ctx.lineTo(x + r, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
-async function setLogoFile(file) {
-  if (!file) {
-    logoDataUrl = "";
-    logoFileName = "";
-    logoInput.value = "";
-    logoMeta.textContent = "No logo selected.";
-    refreshActionState();
-    return;
-  }
-  if (!String(file.type || "").startsWith("image/")) {
-    alert("Logo must be an image file.");
-    return;
-  }
-  if (file.size > 5 * 1024 * 1024) {
-    alert("Logo image should be under 5 MB.");
-    return;
-  }
-
-  const dataUrl = await readFileAsDataUrl(file);
-  logoDataUrl = dataUrl;
-  logoFileName = file.name || "logo";
-  logoMeta.textContent = `${logoFileName} (${formatBytes(file.size)})`;
-  refreshActionState();
-}
-
-function clearLogo() {
-  logoDataUrl = "";
-  logoFileName = "";
-  logoInput.value = "";
-  logoMeta.textContent = "No logo selected.";
-  refreshActionState();
-}
-
-async function renderQrDataUrl(qr) {
-  if (!logoDataUrl) {
-    return qr.toDataURL("image/png");
-  }
-
-  const sourceCanvas = qr.canvas;
-  const size = Number(sourceCanvas?.width || sizeSelect.value || 384);
-  const outputCanvas = document.createElement("canvas");
-  outputCanvas.width = size;
-  outputCanvas.height = size;
-  const ctx = outputCanvas.getContext("2d");
-  if (!ctx) {
-    return qr.toDataURL("image/png");
-  }
-
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, size, size);
-  ctx.drawImage(sourceCanvas, 0, 0, size, size);
-
-  const logoImage = await loadImage(logoDataUrl);
-  const logoPercent = Math.max(12, Math.min(24, Number(logoSizeSelect.value) || 16));
-  const logoSide = Math.round(size * (logoPercent / 100));
-  const padding = Math.max(6, Math.round(logoSide * 0.2));
-  const badgeSide = logoSide + padding * 2;
-  const bx = Math.round((size - badgeSide) / 2);
-  const by = Math.round((size - badgeSide) / 2);
-  const lx = bx + padding;
-  const ly = by + padding;
-
-  ctx.save();
-  ctx.shadowColor = "rgba(15,23,42,0.22)";
-  ctx.shadowBlur = Math.round(size * 0.02);
-  ctx.shadowOffsetY = Math.max(2, Math.round(size * 0.006));
-  roundRect(ctx, bx, by, badgeSide, badgeSide, Math.max(8, Math.round(size * 0.03)));
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fill();
-  ctx.lineWidth = Math.max(1, Math.round(size * 0.004));
-  ctx.strokeStyle = "rgba(15,23,42,0.12)";
-  ctx.stroke();
-  ctx.restore();
-
-  ctx.drawImage(logoImage, lx, ly, logoSide, logoSide);
-  return outputCanvas.toDataURL("image/png");
-}
-
 function triggerDownload(blob, outputName) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
@@ -390,22 +252,11 @@ async function uploadPdfAndGetLink(file) {
     throw new Error("No share endpoint found. Set CONVERTER_API_BASE first.");
   }
 
-  const normalizedShortCode = normalizeShortCode(shortCodeInput.value);
-  if (shortCodeInput.value.trim() && !normalizedShortCode) {
-    throw new Error("Invalid custom short URL. Use 3-32 chars: a-z, 0-9, hyphen.");
-  }
-  if (normalizedShortCode) {
-    shortCodeInput.value = normalizedShortCode;
-  }
-
   for (const endpoint of SHARE_ENDPOINTS) {
     if (cancelRequested) throw new Error("CANCELLED");
     try {
       const formData = new FormData();
       formData.append("file", file, file.name);
-      if (normalizedShortCode) {
-        formData.append("shortCode", normalizedShortCode);
-      }
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -420,7 +271,7 @@ async function uploadPdfAndGetLink(file) {
       const payload = await response.json().catch(() => ({}));
       const shortUrl = String(payload?.shortUrl || payload?.url || "").trim();
       const directUrl = String(payload?.directUrl || "").trim();
-      const shortCode = String(payload?.shortCode || normalizedShortCode || "").trim();
+      const shortCode = String(payload?.shortCode || "").trim();
       const expiresAt = payload?.expiresAt || null;
       if (!shortUrl) {
         throw new Error("Share service did not return a URL.");
@@ -458,19 +309,16 @@ async function generateQrCode() {
     setProgress(65);
     setStatus("Building QR code...");
 
-    const selectedLevel = String(eccSelect.value || "M").toUpperCase();
-    const qrLevel = logoDataUrl && (selectedLevel === "L" || selectedLevel === "M")
-      ? "Q"
-      : selectedLevel;
+    const qrLevel = DEFAULT_ECC_LEVEL;
     const qr = new QRious({
       value: url,
       level: qrLevel,
-      size: Number(sizeSelect.value) || 384,
+      size: DEFAULT_QR_SIZE,
       foreground: "#111111",
       background: "#FFFFFF"
     });
 
-    qrDataUrl = await renderQrDataUrl(qr);
+    qrDataUrl = qr.toDataURL("image/png");
     sharedPdfUrl = shortUrl || url;
     sharedDirectUrl = directUrl || sharedPdfUrl;
     sharedShortCode = shortCode || "";
@@ -495,9 +343,7 @@ async function generateQrCode() {
     const endpointInfo = (() => {
       try { return new URL(endpoint).origin; } catch (_) { return endpoint || ""; }
     })();
-    const logoInfo = logoDataUrl ? ` Logo: ${logoFileName || "applied"}.` : "";
-    const levelInfo = qrLevel !== selectedLevel ? ` QR level auto-upgraded to ${qrLevel}.` : "";
-    setStatus("QR generated successfully.", `Scan this QR to open the PDF directly. ${endpointInfo ? `Backend: ${endpointInfo}.` : ""}${levelInfo}${logoInfo}`.trim());
+    setStatus("QR generated successfully.", `Scan this QR to open the PDF directly. ${endpointInfo ? `Backend: ${endpointInfo}.` : ""}`.trim());
   } catch (error) {
     resetOutput();
     if (String(error?.message || "").includes("CANCELLED")) {
@@ -557,18 +403,6 @@ async function shareOutput() {
 }
 
 fileInput.addEventListener("change", () => setFile(fileInput.files?.[0] || null));
-shortCodeInput.addEventListener("blur", () => {
-  shortCodeInput.value = normalizeShortCode(shortCodeInput.value);
-});
-logoInput.addEventListener("change", async () => {
-  try {
-    await setLogoFile(logoInput.files?.[0] || null);
-  } catch (error) {
-    clearLogo();
-    setStatus("Logo load failed.", String(error?.message || error || "Unknown logo error."));
-  }
-});
-removeLogoBtn.addEventListener("click", clearLogo);
 clearBtn.addEventListener("click", clearFile);
 convertBtn.addEventListener("click", generateQrCode);
 cancelBtn.addEventListener("click", () => {
