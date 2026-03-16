@@ -340,10 +340,7 @@ async function generateQrCode() {
 
     resultWrap.hidden = false;
     setProgress(100);
-    const endpointInfo = (() => {
-      try { return new URL(endpoint).origin; } catch (_) { return endpoint || ""; }
-    })();
-    setStatus("QR generated successfully.", `Scan this QR to open the PDF directly. ${endpointInfo ? `Backend: ${endpointInfo}.` : ""}`.trim());
+    setStatus("QR generated successfully.", "Scan this QR to open the PDF directly.");
   } catch (error) {
     resetOutput();
     if (String(error?.message || "").includes("CANCELLED")) {
