@@ -125,6 +125,7 @@ function getPptToPdfEndpoints() {
     if (!endpoints.includes(normalized)) endpoints.push(normalized);
   };
 
+  const hasCustomEndpoint = Boolean(USER_DEFINED_PPT_TO_PDF_ENDPOINT || USER_DEFINED_API_BASE);
   if (USER_DEFINED_PPT_TO_PDF_ENDPOINT) push(USER_DEFINED_PPT_TO_PDF_ENDPOINT);
   if (USER_DEFINED_API_BASE) push(joinUrl(USER_DEFINED_API_BASE, "/convert/ppt-to-pdf"));
 
@@ -135,7 +136,9 @@ function getPptToPdfEndpoints() {
       push(LOCAL_SERVICE_PPT_TO_PDF_ENDPOINT);
     }
   } else {
-    push(SAME_ORIGIN_PPT_TO_PDF_ENDPOINT);
+    if (!hasCustomEndpoint) {
+      push(SAME_ORIGIN_PPT_TO_PDF_ENDPOINT);
+    }
   }
 
   return endpoints;
