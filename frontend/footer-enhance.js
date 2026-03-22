@@ -23,7 +23,7 @@
   const FRONTEND_BASE_PREFIX = detectFrontendBasePrefix();
   const socialIconMap = {
     instagram: "instagram.svg",
-    facebook: "facebook.svg",
+    github: "github.svg",
     linkedin: "linkedin.svg",
     email: "email.svg",
   };
@@ -183,8 +183,8 @@
           <a class="socialBtn" href="https://www.instagram.com/aman_kumar4257/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
             ${getSocialIconMarkup("instagram")}
           </a>
-          <a class="socialBtn" href="https://www.facebook.com/profile.php?id=100048454962492" target="_blank" rel="noopener" aria-label="Facebook">
-            ${getSocialIconMarkup("facebook")}
+          <a class="socialBtn" href="https://github.com/Amankumar121456" target="_blank" rel="noopener" aria-label="GitHub">
+            ${getSocialIconMarkup("github")}
           </a>
           <a class="socialBtn" href="https://www.linkedin.com/in/aman-kumar-760024371" target="_blank" rel="noopener" aria-label="LinkedIn">
             ${getSocialIconMarkup("linkedin")}
