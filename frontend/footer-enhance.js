@@ -27,15 +27,27 @@
     linkedin: "linkedin.svg",
     email: "email.svg",
   };
+  const socialLinkMap = {
+    instagram: "https://www.instagram.com/aman_kumar4257/?hl=en",
+    github: "https://github.com/Amankumar121456",
+    linkedin: "https://www.linkedin.com/in/aman-kumar-760024371",
+    email: "mailto:amankumar48979@gmail.com",
+  };
   const iconBasePath = `${FRONTEND_BASE_PREFIX || ""}/image/icon`;
   const getSocialIconSrc = (network) => `${iconBasePath}/${socialIconMap[network]}`;
   const getSocialIconMarkup = (network) =>
     `<img src="${getSocialIconSrc(network)}" alt="" width="32" height="32" loading="eager" decoding="async" aria-hidden="true">`;
+  const normalizeSocialLabel = (label) => (label === "facebook" ? "github" : label);
 
   const replaceSocialIcons = (scope) => {
     scope.querySelectorAll(".socialBtn[aria-label]").forEach((anchor) => {
-      const label = String(anchor.getAttribute("aria-label") || "").trim().toLowerCase();
+      const rawLabel = String(anchor.getAttribute("aria-label") || "").trim().toLowerCase();
+      const label = normalizeSocialLabel(rawLabel);
       if (!socialIconMap[label]) return;
+      if (label !== rawLabel) {
+        anchor.setAttribute("aria-label", label.charAt(0).toUpperCase() + label.slice(1));
+        if (socialLinkMap[label]) anchor.setAttribute("href", socialLinkMap[label]);
+      }
       anchor.innerHTML = getSocialIconMarkup(label);
     });
   };
@@ -180,16 +192,16 @@
         <p class="footerTitle">Makepdf.in</p>
         <p class="footerText">Browser-based PDF and image tools focused on fast, private workflows that run directly on your device.</p>
         <div class="socialRow" aria-label="Social links">
-          <a class="socialBtn" href="https://www.instagram.com/aman_kumar4257/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+          <a class="socialBtn" href="${socialLinkMap.instagram}" target="_blank" rel="noopener" aria-label="Instagram">
             ${getSocialIconMarkup("instagram")}
           </a>
-          <a class="socialBtn" href="https://github.com/Amankumar121456" target="_blank" rel="noopener" aria-label="GitHub">
+          <a class="socialBtn" href="${socialLinkMap.github}" target="_blank" rel="noopener" aria-label="GitHub">
             ${getSocialIconMarkup("github")}
           </a>
-          <a class="socialBtn" href="https://www.linkedin.com/in/aman-kumar-760024371" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <a class="socialBtn" href="${socialLinkMap.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">
             ${getSocialIconMarkup("linkedin")}
           </a>
-          <a class="socialBtn" href="mailto:amankumar48979@gmail.com" aria-label="Email">
+          <a class="socialBtn" href="${socialLinkMap.email}" aria-label="Email">
             ${getSocialIconMarkup("email")}
           </a>
         </div>
